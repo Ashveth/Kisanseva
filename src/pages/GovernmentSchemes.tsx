@@ -220,8 +220,24 @@ const GovernmentSchemes = () => {
             </button>
           ))}
         </div>
+        {/* State filter pills */}
+        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+          <MapPin className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0 mt-0.5" />
+          {schemeStates.map(st => (
+            <button
+              key={st}
+              onClick={() => setActiveState(st)}
+              className={`px-3 py-1 rounded-full text-[11px] font-display font-bold whitespace-nowrap transition-colors ${
+                activeState === st ? "bg-primary/15 text-primary border border-primary/30" : "bg-muted/60 text-muted-foreground"
+              }`}
+            >
+              {st}
+            </button>
+          ))}
+        </div>
         {/* Category pills */}
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+          <Filter className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0 mt-0.5" />
           {schemeCategories.map(cat => (
             <button
               key={cat}
