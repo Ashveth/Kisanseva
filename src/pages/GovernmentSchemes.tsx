@@ -76,7 +76,7 @@ const GovernmentSchemes = () => {
   const handleBookmark = (id: string) => {
     const next = toggleBookmark(id);
     setBookmarks(next);
-    toast.success(next.includes(id) ? "Scheme saved!" : "Scheme removed");
+    toast.success(next.includes(id) ? t.schemeSaved : t.schemeRemoved);
   };
 
   const activeFiltersCount = [activeCategory !== "All", activeLevel !== "All", activeState !== "All", showBookmarked].filter(Boolean).length;
