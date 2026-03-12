@@ -20,12 +20,12 @@ interface CropRecommendation {
 }
 
 const soilPresets = [
-  { label: "🌾 Alluvial", nitrogen: 80, phosphorus: 60, potassium: 70, ph: 7.0 },
-  { label: "🏜️ Sandy", nitrogen: 30, phosphorus: 20, potassium: 25, ph: 6.0 },
-  { label: "🧱 Clay", nitrogen: 60, phosphorus: 50, potassium: 55, ph: 7.5 },
-  { label: "🌿 Loamy", nitrogen: 70, phosphorus: 55, potassium: 60, ph: 6.8 },
-  { label: "⬛ Black", nitrogen: 50, phosphorus: 40, potassium: 80, ph: 8.0 },
-  { label: "🔴 Red", nitrogen: 35, phosphorus: 30, potassium: 35, ph: 5.5 },
+  { emoji: "🌾", key: "soilAlluvial" as const, nitrogen: 80, phosphorus: 60, potassium: 70, ph: 7.0 },
+  { emoji: "🏜️", key: "soilSandy" as const, nitrogen: 30, phosphorus: 20, potassium: 25, ph: 6.0 },
+  { emoji: "🧱", key: "soilClay" as const, nitrogen: 60, phosphorus: 50, potassium: 55, ph: 7.5 },
+  { emoji: "🌿", key: "soilLoamy" as const, nitrogen: 70, phosphorus: 55, potassium: 60, ph: 6.8 },
+  { emoji: "⬛", key: "soilBlack" as const, nitrogen: 50, phosphorus: 40, potassium: 80, ph: 8.0 },
+  { emoji: "🔴", key: "soilRed" as const, nitrogen: 35, phosphorus: 30, potassium: 35, ph: 5.5 },
 ];
 
 const CropAdvisor = () => {
