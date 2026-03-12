@@ -307,7 +307,7 @@ const FarmDiaryPage = () => {
           </Popover>
           {hasDateFilter && (
             <Button variant="ghost" size="sm" onClick={clearDateFilter} className="text-xs text-muted-foreground hover:text-foreground h-7 px-2">
-              <X className="h-3 w-3 mr-1" /> Clear
+              <X className="h-3 w-3 mr-1" /> {t.clear}
             </Button>
           )}
         </div>
