@@ -395,6 +395,7 @@ export const translations: Record<Language, Translations> = {
     password: "पासवर्ड",
     fullName: "पूरा नाम",
     pleaseWait: "कृपया प्रतीक्षा करें...",
+    phoneNumber: "फ़ोन नंबर (जैसे, 9876543210)",
 
     welcomeBack: "वापस आपका स्वागत है, किसान!",
     joinFarmers: "हज़ारों स्मार्ट किसानों से जुड़ें",
