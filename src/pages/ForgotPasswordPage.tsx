@@ -8,12 +8,12 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
-const phoneToEmail = (phone: string) => `${phone.replace(/\+/g, '')}@phone.farmwise.local`;
-
 const ForgotPasswordPage = () => {
   const [method, setMethod] = useState<"phone" | "email">("phone");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const { t } = useLanguage();
@@ -29,25 +29,33 @@ const ForgotPasswordPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (method === "phone") {
+      if (newPassword !== confirmPassword) {
+        toast.error(t.passwordsDoNotMatch);
+        return;
+      }
+    }
+
     setLoading(true);
     try {
-      const resetEmail = method === "phone" 
-        ? phoneToEmail(formatPhoneNumber(phone)) 
-        : email;
-
-      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
-        redirectTo: `${window.location.origin}/reset-password`,
-      });
-      if (error) throw error;
-
       if (method === "phone") {
-        // Phone users use synthetic emails, so we skip email delivery
-        // Instead, redirect directly to reset page with a token bypass
-        toast.success(t.passwordResetPhoneInfo);
+        const formattedPhone = formatPhoneNumber(phone);
+        const { data, error } = await supabase.functions.invoke("reset-phone-password", {
+          body: { phone: formattedPhone, newPassword },
+        });
+        if (error) throw error;
+        if (data?.error) throw new Error(data.error);
+        toast.success(t.passwordResetSuccess);
+        setSent(true);
       } else {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${window.location.origin}/reset-password`,
+        });
+        if (error) throw error;
         toast.success(t.passwordResetSent);
+        setSent(true);
       }
-      setSent(true);
     } catch (err: any) {
       toast.error(err.message || "Something went wrong");
     } finally {
@@ -98,18 +106,44 @@ const ForgotPasswordPage = () => {
 
             <form onSubmit={handleSubmit} className="glass-card p-6 space-y-4">
               {method === "phone" ? (
-                <div className="relative">
-                  <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    type="tel"
-                    placeholder={t.phoneNumber}
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="pl-10 h-11 bg-card"
-                    required
-                  />
-                  <span className="absolute right-3 top-3 text-xs text-muted-foreground">+91</span>
-                </div>
+                <>
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      type="tel"
+                      placeholder={t.phoneNumber}
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="pl-10 h-11 bg-card"
+                      required
+                    />
+                    <span className="absolute right-3 top-3 text-xs text-muted-foreground">+91</span>
+                  </div>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      type="password"
+                      placeholder={t.newPassword}
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      className="pl-10 h-11 bg-card"
+                      required
+                      minLength={6}
+                    />
+                  </div>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      type="password"
+                      placeholder={t.confirmPassword}
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="pl-10 h-11 bg-card"
+                      required
+                      minLength={6}
+                    />
+                  </div>
+                </>
               ) : (
                 <div className="relative">
                   <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -124,18 +158,6 @@ const ForgotPasswordPage = () => {
                 </div>
               )}
 
-              <div className="relative">
-                <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="password"
-                  placeholder={t.newPassword}
-                  className="pl-10 h-11 bg-card"
-                  id="new-password"
-                  required
-                  minLength={6}
-                />
-              </div>
-
               <Button type="submit" disabled={loading} className="w-full h-11 gradient-hero text-primary-foreground font-display font-bold">
                 {loading ? t.pleaseWait : t.resetPassword}
                 <ArrowRight className="h-4 w-4 ml-2" />
@@ -144,10 +166,13 @@ const ForgotPasswordPage = () => {
           </>
         ) : (
           <div className="glass-card p-6 text-center space-y-4">
-            <div className="text-4xl">✉️</div>
-            <p className="text-sm text-muted-foreground">
-              {method === "phone" ? t.passwordResetPhoneInfo : t.passwordResetSent}
+            <div className="text-4xl">{method === "phone" ? "✅" : "✉️"}</div>
+            <p className="text-sm text-foreground font-medium">
+              {method === "phone" ? t.passwordResetSuccess : t.passwordResetSent}
             </p>
+            <Button onClick={() => navigate("/auth")} variant="outline" className="mt-2">
+              {t.backToLogin}
+            </Button>
           </div>
         )}
 
