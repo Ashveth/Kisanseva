@@ -70,6 +70,7 @@ const Dashboard = () => {
     { path: "/disease-detect", icon: Camera, label: t.scanPlant, desc: t.scanPlantDesc, gradient: "gradient-earth" },
     { path: "/weather", icon: CloudSun, label: t.weather, desc: t.weatherDesc, gradient: "gradient-sky" },
     { path: "/market", icon: TrendingUp, label: t.marketPrices, desc: t.marketPricesDesc, gradient: "gradient-harvest" },
+    { path: "/diary", icon: BookMarked, label: "Farm Diary", desc: "Log daily activities & expenses", gradient: "gradient-earth" },
     { path: "/knowledge", icon: BookOpen, label: t.pestGuide, desc: t.pestGuideDesc, gradient: "gradient-hero" },
     { path: "/chat", icon: MessageCircle, label: t.askAI, desc: t.askAIDesc, gradient: "gradient-earth" },
   ];
