@@ -439,7 +439,7 @@ export const translations: Record<Language, Translations> = {
     soilBlack: "Black",
     soilRed: "Red",
 
-    uploadLeafImage: "Upload or capture a leaf image to detect diseases",
+    plantDiseaseDetection: "Plant Disease Detection",
     captureOrUpload: "Capture or Upload Photo",
     takePhotoLeaf: "Take a photo of the affected leaf",
     tipsTitle: "📌 Tips for best results:",
