@@ -30,14 +30,14 @@ interface DiaryEntry {
   created_at: string;
 }
 
-const ACTIVITY_TYPES = [
-  { value: "planting", label: "🌱 Planting", icon: Sprout, color: "text-primary" },
-  { value: "fertilizing", label: "💧 Fertilizing", icon: Droplets, color: "text-sky" },
-  { value: "harvesting", label: "✂️ Harvesting", icon: Scissors, color: "text-harvest" },
-  { value: "expense", label: "💰 Expense", icon: DollarSign, color: "text-earth" },
-  { value: "irrigation", label: "🚿 Irrigation", icon: Droplets, color: "text-sky" },
-  { value: "pest_control", label: "🛡️ Pest Control", icon: Tag, color: "text-destructive" },
-  { value: "general", label: "📝 General", icon: BookMarked, color: "text-muted-foreground" },
+const ACTIVITY_TYPES_KEYS = [
+  { value: "planting", tKey: "actPlanting" as const, icon: Sprout, color: "text-primary" },
+  { value: "fertilizing", tKey: "actFertilizing" as const, icon: Droplets, color: "text-sky" },
+  { value: "harvesting", tKey: "actHarvesting" as const, icon: Scissors, color: "text-harvest" },
+  { value: "expense", tKey: "actExpense" as const, icon: DollarSign, color: "text-earth" },
+  { value: "irrigation", tKey: "actIrrigation" as const, icon: Droplets, color: "text-sky" },
+  { value: "pest_control", tKey: "actPestControl" as const, icon: Tag, color: "text-destructive" },
+  { value: "general", tKey: "actGeneral" as const, icon: BookMarked, color: "text-muted-foreground" },
 ];
 
 const FarmDiaryPage = () => {
