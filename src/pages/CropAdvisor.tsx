@@ -203,9 +203,9 @@ const CropAdvisor = () => {
             </div>
             <Slider value={ph} onValueChange={(v) => { setPh(v); setActivePreset(null); }} min={3} max={10} step={0.1} />
             <div className="flex justify-between text-[9px] text-muted-foreground px-0.5">
-              <span>🟡 Acidic</span>
-              <span>🟢 Neutral</span>
-              <span>🔵 Alkaline</span>
+              <span>🟡 {t.acidic}</span>
+              <span>🟢 {t.neutral}</span>
+              <span>🔵 {t.alkaline}</span>
             </div>
           </div>
         </div>
