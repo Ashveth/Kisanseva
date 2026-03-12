@@ -210,12 +210,26 @@ const DiseaseDetect = () => {
             {/* Treatment — two compact side-by-side cards on larger screens */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="glass-card p-3 border-t-2 border-t-primary">
-                <p className="text-[10px] font-bold uppercase tracking-wider text-primary mb-1.5">💊 {t.chemicalTreatment}</p>
-                <p className="text-xs text-foreground leading-relaxed">{disease.treatment}</p>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-primary mb-2">💊 {t.chemicalTreatment}</p>
+                <ul className="space-y-1.5">
+                  {disease.treatment.split(/(?<=\.)\s+/).filter(Boolean).map((s, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0" />
+                      <span className="text-xs text-foreground leading-relaxed">{s.trim()}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
               <div className="glass-card p-3 border-t-2 border-t-leaf">
-                <p className="text-[10px] font-bold uppercase tracking-wider text-leaf mb-1.5">🌿 {t.organicAlternative}</p>
-                <p className="text-xs text-foreground leading-relaxed">{disease.organic}</p>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-leaf mb-2">🌿 {t.organicAlternative}</p>
+                <ul className="space-y-1.5">
+                  {disease.organic.split(/(?<=\.)\s+/).filter(Boolean).map((s, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-leaf mt-1.5 flex-shrink-0" />
+                      <span className="text-xs text-foreground leading-relaxed">{s.trim()}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
 
