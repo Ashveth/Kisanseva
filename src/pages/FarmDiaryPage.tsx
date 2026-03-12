@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookMarked, Plus, Calendar, Sprout, Droplets, Scissors, DollarSign, Tag, Trash2, Pencil, X, Loader2, ChevronDown } from "lucide-react";
+import { BookMarked, Plus, Calendar, Sprout, Droplets, Scissors, DollarSign, Tag, Trash2, Pencil, X, Loader2, ChevronDown, Download, FileText, FileSpreadsheet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
