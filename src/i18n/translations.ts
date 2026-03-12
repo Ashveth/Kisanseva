@@ -290,6 +290,19 @@ export interface Translations {
   applyNow: string;
   noSchemesFound: string;
   activeFilters: string;
+  filters: string;
+  catIncomeSupport: string;
+  catCropInsurance: string;
+  catCreditLoans: string;
+  catSoilFertilizer: string;
+  catIrrigation: string;
+  catMarketAccess: string;
+  catOrganicFarming: string;
+  catInfrastructure: string;
+  farmSizePlaceholderScheme: string;
+  statePlaceholder: string;
+  cropsPlaceholder: string;
+  fillAtLeastOne: string;
 }
 
 export const translations: Record<Language, Translations> = {
