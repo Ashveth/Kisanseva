@@ -43,6 +43,17 @@ const categoryIcons: Record<string, React.ReactNode> = {
   "Soil & Fertilizer": <Sprout className="h-3.5 w-3.5" />,
 };
 
+const categoryTranslationMap: Record<string, keyof Translations> = {
+  "Income Support": "catIncomeSupport",
+  "Crop Insurance": "catCropInsurance",
+  "Credit & Loans": "catCreditLoans",
+  "Soil & Fertilizer": "catSoilFertilizer",
+  "Irrigation": "catIrrigation",
+  "Market Access": "catMarketAccess",
+  "Organic Farming": "catOrganicFarming",
+  "Infrastructure": "catInfrastructure",
+};
+
 // ── AI Eligibility Result ──
 interface EligibilityResult {
   scheme: string;
