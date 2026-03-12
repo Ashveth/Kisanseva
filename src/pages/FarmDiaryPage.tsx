@@ -313,7 +313,7 @@ const FarmDiaryPage = () => {
         </div>
         {hasDateFilter && (
           <span className="text-xs text-muted-foreground font-display">
-            Showing {filtered.length} entries • ₹{filteredExpenses.toLocaleString()} expenses • ₹{filteredIncome.toLocaleString()} income
+            {t.showingEntries} {filtered.length} • ₹{filteredExpenses.toLocaleString()} {t.expenses.toLowerCase()} • ₹{filteredIncome.toLocaleString()} {t.income.toLowerCase()}
           </span>
         )}
       </div>
