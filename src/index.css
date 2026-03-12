@@ -109,132 +109,192 @@
   }
 }
 
-/* AI Response Styling — Clean ChatGPT-like */
-.ai-response {
+/* AI Response Styling — Clean & Polished */
+.ai-response,
+.ai-response-content {
   font-size: 0.875rem;
-  line-height: 1.7;
+  line-height: 1.75;
   color: hsl(var(--foreground));
+  word-wrap: break-word;
 }
 
-.ai-response > *:first-child {
+.ai-response > *:first-child,
+.ai-response-content > *:first-child {
   margin-top: 0 !important;
 }
 
-.ai-response h1 {
+/* ── Headings ── */
+.ai-response h1,
+.ai-response-content h1 {
   font-family: var(--font-display);
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 800;
   color: hsl(var(--foreground));
-  margin-top: 1.5rem !important;
-  margin-bottom: 0.5rem !important;
+  margin-top: 0 !important;
+  margin-bottom: 0.25rem !important;
+  line-height: 1.4;
 }
 
-.ai-response h2 {
+.ai-response h2,
+.ai-response-content h2 {
   font-family: var(--font-display);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 700;
-  color: hsl(var(--foreground));
+  color: hsl(var(--primary));
+  background: hsl(var(--primary) / 0.06);
+  border-left: 3px solid hsl(var(--primary));
+  padding: 0.4rem 0.75rem;
+  border-radius: 0 0.375rem 0.375rem 0;
   margin-top: 1.25rem !important;
-  margin-bottom: 0.4rem !important;
+  margin-bottom: 0.5rem !important;
+  letter-spacing: 0.01em;
 }
 
-.ai-response h3 {
+.ai-response h3,
+.ai-response-content h3 {
   font-family: var(--font-display);
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   font-weight: 700;
   color: hsl(var(--foreground));
-  margin-top: 1rem !important;
+  margin-top: 0.9rem !important;
   margin-bottom: 0.3rem !important;
 }
 
-.ai-response p {
-  margin-top: 0.3rem !important;
+/* ── Paragraphs ── */
+.ai-response p,
+.ai-response-content p {
+  margin-top: 0.25rem !important;
   margin-bottom: 0.5rem !important;
-  line-height: 1.7;
+  line-height: 1.75;
 }
 
+/* ── Lists ── */
 .ai-response ul,
-.ai-response ol {
+.ai-response ol,
+.ai-response-content ul,
+.ai-response-content ol {
   margin-top: 0.25rem !important;
   margin-bottom: 0.6rem !important;
   padding-left: 1.25rem !important;
 }
 
-.ai-response li {
-  margin-top: 0.2rem !important;
-  margin-bottom: 0.2rem !important;
-  line-height: 1.65;
+.ai-response li,
+.ai-response-content li {
+  margin-top: 0.15rem !important;
+  margin-bottom: 0.15rem !important;
+  line-height: 1.7;
+  padding-left: 0.15rem;
 }
 
-.ai-response li::marker {
+.ai-response li::marker,
+.ai-response-content li::marker {
   color: hsl(var(--primary));
+  font-weight: 700;
 }
 
-.ai-response strong {
+/* ── Inline styles ── */
+.ai-response strong,
+.ai-response-content strong {
   color: hsl(var(--foreground));
   font-weight: 700;
 }
 
-.ai-response em {
+.ai-response em,
+.ai-response-content em {
   color: hsl(var(--muted-foreground));
+  font-style: italic;
 }
 
-.ai-response table {
+/* ── Tables — Card-like ── */
+.ai-response table,
+.ai-response-content table {
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 0.6rem !important;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 0.5rem !important;
   margin-bottom: 0.75rem !important;
   font-size: 0.8rem;
   border: 1px solid hsl(var(--border));
-  border-radius: 0.5rem;
+  border-radius: 0.625rem;
   overflow: hidden;
+  box-shadow: 0 1px 3px hsl(var(--foreground) / 0.04);
 }
 
-.ai-response thead th {
-  background: hsl(var(--muted));
-  color: hsl(var(--foreground));
+.ai-response thead,
+.ai-response-content thead {
+  background: hsl(var(--primary) / 0.08);
+}
+
+.ai-response thead th,
+.ai-response-content thead th {
+  color: hsl(var(--primary));
   font-weight: 700;
   font-family: var(--font-display);
-  padding: 0.5rem 0.75rem !important;
+  padding: 0.6rem 0.75rem !important;
   text-align: left;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid hsl(var(--primary) / 0.15);
+  white-space: nowrap;
 }
 
-.ai-response tbody td {
-  padding: 0.4rem 0.75rem !important;
+.ai-response tbody td,
+.ai-response-content tbody td {
+  padding: 0.5rem 0.75rem !important;
   border-top: 1px solid hsl(var(--border));
+  vertical-align: top;
 }
 
-.ai-response tbody tr:hover {
-  background: hsl(var(--muted) / 0.5);
+.ai-response tbody tr:first-child td,
+.ai-response-content tbody tr:first-child td {
+  border-top: none;
 }
 
-.ai-response hr {
+.ai-response tbody tr:nth-child(even),
+.ai-response-content tbody tr:nth-child(even) {
+  background: hsl(var(--muted) / 0.3);
+}
+
+.ai-response tbody tr:hover,
+.ai-response-content tbody tr:hover {
+  background: hsl(var(--primary) / 0.04);
+}
+
+/* ── Horizontal Rules — Section dividers ── */
+.ai-response hr,
+.ai-response-content hr {
   border: none;
-  border-top: 1px solid hsl(var(--border));
-  margin: 1rem 0 !important;
+  height: 1px;
+  background: linear-gradient(to right, transparent, hsl(var(--border)), transparent);
+  margin: 1.25rem 0 !important;
 }
 
-.ai-response blockquote {
+/* ── Blockquotes ── */
+.ai-response blockquote,
+.ai-response-content blockquote {
   border-left: 3px solid hsl(var(--primary));
   background: hsl(var(--primary) / 0.04);
   padding: 0.5rem 0.75rem;
   border-radius: 0 0.375rem 0.375rem 0;
   color: hsl(var(--muted-foreground));
-  margin: 0.5rem 0 !important;
+  margin: 0.6rem 0 !important;
+  font-size: 0.85rem;
 }
 
-.ai-response code {
+/* ── Code ── */
+.ai-response code,
+.ai-response-content code {
   background: hsl(var(--muted));
-  padding: 0.15rem 0.35rem;
+  padding: 0.15rem 0.4rem;
   border-radius: 0.25rem;
   font-size: 0.8rem;
   font-family: ui-monospace, monospace;
+  color: hsl(var(--foreground));
 }
 
-.ai-response pre {
+.ai-response pre,
+.ai-response-content pre {
   background: hsl(var(--muted));
   border: 1px solid hsl(var(--border));
   border-radius: 0.5rem;
@@ -243,13 +303,18 @@
   margin: 0.5rem 0 !important;
 }
 
-.ai-response pre code {
+.ai-response pre code,
+.ai-response-content pre code {
   background: none;
   padding: 0;
 }
 
-/* Knowledge base AI response - same base + extra width */
-.ai-response-content {
-  font-size: 0.875rem;
-  line-height: 1.7;
+/* ── Scrollbar for response containers ── */
+.ai-response-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.ai-response-content::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 2px;
 }
