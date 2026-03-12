@@ -105,8 +105,8 @@ export function exportPDF(entries: DiaryEntry[], totalExpenses: number, totalInc
   const summaryData = Object.entries(activityCounts).map(([type, data]) => [
     ACTIVITY_LABELS[type] || type,
     `${data.count}`,
-    data.expense ? `₹${data.expense.toLocaleString()}` : "—",
-    data.income ? `₹${data.income.toLocaleString()}` : "—",
+    data.expense ? `Rs.${data.expense.toLocaleString()}` : "—",
+    data.income ? `Rs.${data.income.toLocaleString()}` : "—",
   ]);
 
   autoTable(doc, {
