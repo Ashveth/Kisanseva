@@ -15,6 +15,7 @@ export interface Translations {
   password: string;
   fullName: string;
   pleaseWait: string;
+  phoneNumber: string;
 
   // Auth
   welcomeBack: string;
