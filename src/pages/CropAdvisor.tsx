@@ -220,7 +220,7 @@ const CropAdvisor = () => {
           </p>
           {weatherPrefilled && (
             <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium flex items-center gap-1">
-              <LocateFixed className="h-3 w-3" /> Auto-detected
+              <LocateFixed className="h-3 w-3" /> {t.autoDetected}
             </span>
           )}
           {weatherLoading && !weatherPrefilled && (
