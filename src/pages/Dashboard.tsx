@@ -25,6 +25,46 @@ const Dashboard = () => {
   const alerts = weather?.alerts ?? mockWeather.alerts;
   const forecast = weather?.forecast ?? mockWeather.forecast;
 
+  const [showInstallBanner, setShowInstallBanner] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+
+  useEffect(() => {
+    const dismissed = localStorage.getItem("farmwise-install-dismissed");
+    const isStandalone = window.matchMedia("(display-mode: standalone)").matches;
+    if (dismissed || isStandalone) return;
+
+    const handler = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallBanner(true);
+    };
+    window.addEventListener("beforeinstallprompt", handler);
+
+    // Show fallback banner after 3s if no prompt event (iOS)
+    const timer = setTimeout(() => {
+      if (!isStandalone) setShowInstallBanner(true);
+    }, 3000);
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handler);
+      clearTimeout(timer);
+    };
+  }, []);
+
+  const handleInstall = async () => {
+    if (deferredPrompt) {
+      await deferredPrompt.prompt();
+      setShowInstallBanner(false);
+    } else {
+      window.location.href = "/install";
+    }
+  };
+
+  const dismissBanner = () => {
+    setShowInstallBanner(false);
+    localStorage.setItem("farmwise-install-dismissed", "true");
+  };
+
   const quickActions = [
     { path: "/crop-advisor", icon: Leaf, label: t.cropAdvisor, desc: t.cropAdvisorDesc, gradient: "gradient-hero" },
     { path: "/disease-detect", icon: Camera, label: t.scanPlant, desc: t.scanPlantDesc, gradient: "gradient-earth" },
