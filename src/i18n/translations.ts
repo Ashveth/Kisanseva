@@ -550,6 +550,15 @@ export const translations: Record<Language, Translations> = {
     langEnglish: "English",
     langHindi: "हिंदी (Hindi)",
     langTamil: "தமிழ் (Tamil)",
+
+    notifications: "सूचनाएं",
+    unreadNotifications: "अपठित",
+    markAllRead: "सभी पढ़ें",
+    allNotifications: "सभी",
+    noNotifications: "अभी कोई सूचना नहीं",
+    noNotificationsDesc: "आपको यहां मौसम अलर्ट, बाज़ार अपडेट और रोग चेतावनियां मिलेंगी।",
+    generateSampleAlerts: "नमूना अलर्ट बनाएं",
+    navNotifications: "अलर्ट",
   },
 
   ta: {
