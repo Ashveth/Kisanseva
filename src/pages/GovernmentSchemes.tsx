@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { allSchemes, schemeCategories, schemeLevels, type Scheme } from "@/data/governmentSchemes";
+import { allSchemes, schemeCategories, schemeLevels, schemeStates, type Scheme } from "@/data/governmentSchemes";
 import { AIErrorCard } from "@/components/ui/ai-loading";
 import { Skeleton } from "@/components/ui/skeleton";
 
