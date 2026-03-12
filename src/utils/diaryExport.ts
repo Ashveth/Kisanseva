@@ -85,7 +85,7 @@ export function exportPDF(entries: DiaryEntry[], totalExpenses: number, totalInc
   // — Summary cards row —
   const margin = 14;
   const usableWidth = pageWidth - margin * 2;
-  const cardY = 44;
+  const cardY = headerH + 8;
   const cardH = 22;
   const cardGap = 3;
   const cardW = (usableWidth - cardGap * 3) / 4;
