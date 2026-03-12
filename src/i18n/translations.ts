@@ -418,7 +418,7 @@ export const translations: Record<Language, Translations> = {
   },
 
   hi: {
-    appName: "FarmWise AI",
+    appName: "KisanSeva",
     loading: "लोड हो रहा है...",
     save: "सहेजें",
     saving: "सहेज रहे हैं...",
