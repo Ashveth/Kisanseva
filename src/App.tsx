@@ -20,6 +20,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import NotificationsPage from "./pages/NotificationsPage";
 import ProfilePage from "./pages/ProfilePage";
 import InstallPage from "./pages/InstallPage";
+import FarmDiaryPage from "./pages/FarmDiaryPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -52,6 +53,7 @@ const AppRoutes = () => (
       <Route path="/knowledge" element={<KnowledgeBase />} />
       <Route path="/chat" element={<AIChatPage />} />
       <Route path="/yield-predictor" element={<YieldPredictor />} />
+      <Route path="/diary" element={<FarmDiaryPage />} />
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/notifications" element={<NotificationsPage />} />
     </Route>

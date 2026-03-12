@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Leaf, Camera, CloudSun, TrendingUp, BookOpen, MessageCircle, Sprout, BarChart3, AlertTriangle, Droplets, Thermometer, Wind, Download, X } from "lucide-react";
+import { Leaf, Camera, CloudSun, TrendingUp, BookOpen, MessageCircle, Sprout, BarChart3, AlertTriangle, Droplets, Thermometer, Wind, Download, X, BookMarked } from "lucide-react";
 import StatCard from "@/components/ui/stat-card";
 import heroImage from "@/assets/hero-farm.jpg";
 import { useWeather } from "@/hooks/useWeather";
@@ -70,6 +70,7 @@ const Dashboard = () => {
     { path: "/disease-detect", icon: Camera, label: t.scanPlant, desc: t.scanPlantDesc, gradient: "gradient-earth" },
     { path: "/weather", icon: CloudSun, label: t.weather, desc: t.weatherDesc, gradient: "gradient-sky" },
     { path: "/market", icon: TrendingUp, label: t.marketPrices, desc: t.marketPricesDesc, gradient: "gradient-harvest" },
+    { path: "/diary", icon: BookMarked, label: "Farm Diary", desc: "Log daily activities & expenses", gradient: "gradient-earth" },
     { path: "/knowledge", icon: BookOpen, label: t.pestGuide, desc: t.pestGuideDesc, gradient: "gradient-hero" },
     { path: "/chat", icon: MessageCircle, label: t.askAI, desc: t.askAIDesc, gradient: "gradient-earth" },
   ];
