@@ -1595,6 +1595,8 @@ export const translations: Record<Language, Translations> = {
     chartExpenseBreakdown: "ఖర్చు వివరాలు",
     chartTotal: "మొత్తం",
     chartOfTotal: "మొత్తంలో",
+
+    govSchemes: "ప్రభుత్వ పథకాలు",
     govSchemesDesc: "రైతుల కోసం పథకాలు మరియు సబ్సిడీలు కనుగొనండి",
     searchSchemes: "పథకాలు శోధించండి...",
     central: "కేంద్ర",
