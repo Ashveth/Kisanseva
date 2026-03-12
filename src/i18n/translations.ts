@@ -1008,7 +1008,7 @@ export const translations: Record<Language, Translations> = {
   },
 
   te: {
-    appName: "FarmWise AI",
+    appName: "KisanSeva",
     loading: "లోడ్ అవుతోంది...",
     save: "సేవ్ చేయండి",
     saving: "సేవ్ చేస్తోంది...",
