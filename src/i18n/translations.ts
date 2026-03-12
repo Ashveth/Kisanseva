@@ -2092,8 +2092,11 @@ export const translations: Record<Language, Translations> = {
     toastEntrySaved: "ನಮೂನೆ ಉಳಿಸಲಾಗಿದೆ! 🌾",
     toastDeleteFailed: "ಅಳಿಸಲು ವಿಫಲವಾಯಿತು",
     toastEntryDeleted: "ನಮೂನೆ ಅಳಿಸಲಾಗಿದೆ",
-
-    govSchemes: "ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು",
+    chartIncomeVsExpenses: "ಆದಾಯ vs ವೆಚ್ಚಗಳು",
+    chartMonthlyExpenses: "ಮಾಸಿಕ ವೆಚ್ಚಗಳು",
+    chartExpenseBreakdown: "ವೆಚ್ಚ ವಿವರಗಳು",
+    chartTotal: "ಒಟ್ಟು",
+    chartOfTotal: "ಒಟ್ಟಿನಲ್ಲಿ",
     govSchemesDesc: "ರೈತರಿಗಾಗಿ ಯೋಜನೆಗಳು ಮತ್ತು ಸಬ್ಸಿಡಿಗಳನ್ನು ಹುಡುಕಿ",
     searchSchemes: "ಯೋಜನೆಗಳನ್ನು ಹುಡುಕಿ...",
     central: "ಕೇಂದ್ರ",
