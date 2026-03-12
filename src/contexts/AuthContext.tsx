@@ -2,6 +2,8 @@ import { createContext, useContext, useEffect, useState, ReactNode } from "react
 import { supabase } from "@/integrations/supabase/client";
 import type { User, Session } from "@supabase/supabase-js";
 
+const phoneToEmail = (phone: string) => `${phone.replace(/\+/g, '')}@phone.farmwise.local`;
+
 interface AuthContextType {
   user: User | null;
   session: Session | null;
@@ -51,16 +53,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signUpWithPhone = async (phone: string, password: string, fullName: string) => {
+    const syntheticEmail = phoneToEmail(phone);
     const { error } = await supabase.auth.signUp({
-      phone,
+      email: syntheticEmail,
       password,
-      options: { data: { full_name: fullName } },
+      options: { data: { full_name: fullName, phone } },
     });
     if (error) throw error;
   };
 
   const signInWithPhone = async (phone: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({ phone, password });
+    const syntheticEmail = phoneToEmail(phone);
+    const { error } = await supabase.auth.signInWithPassword({ email: syntheticEmail, password });
     if (error) throw error;
   };
 
