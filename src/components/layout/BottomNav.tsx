@@ -1,18 +1,19 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, Leaf, Camera, CloudSun, TrendingUp, BookOpen, MessageCircle } from "lucide-react";
+import { Home, Leaf, Camera, CloudSun, TrendingUp, BookOpen, MessageCircle, Bell } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useNotifications } from "@/hooks/useNotifications";
 
 const BottomNav = () => {
   const location = useLocation();
   const { t } = useLanguage();
+  const { unreadCount } = useNotifications();
 
   const navItems = [
     { path: "/", icon: Home, label: t.navHome },
     { path: "/crop-advisor", icon: Leaf, label: t.navCrops },
-    { path: "/disease-detect", icon: Camera, label: t.navDetect },
     { path: "/weather", icon: CloudSun, label: t.navWeather },
     { path: "/market", icon: TrendingUp, label: t.navMarket },
-    { path: "/knowledge", icon: BookOpen, label: t.navGuide },
+    { path: "/notifications", icon: Bell, label: t.navNotifications, badge: unreadCount },
     { path: "/chat", icon: MessageCircle, label: t.navAskAI },
   ];
 
