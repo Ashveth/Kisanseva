@@ -253,8 +253,8 @@ const FarmDiaryPage = () => {
               <Select value={activityType} onValueChange={setActivityType}>
                 <SelectTrigger className="bg-background"><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  {ACTIVITY_TYPES.map((a) => (
-                    <SelectItem key={a.value} value={a.value}>{a.label}</SelectItem>
+                  {ACTIVITY_TYPES_KEYS.map((a) => (
+                    <SelectItem key={a.value} value={a.value}>{t[a.tKey]}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
