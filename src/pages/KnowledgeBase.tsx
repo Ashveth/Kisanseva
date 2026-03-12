@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookOpen, Search, ChevronDown, ChevronUp, Shield, Leaf, Bug, MessageCircle, Loader2, Send, AlertCircle, RefreshCw } from "lucide-react";
+import { BookOpen, Search, ChevronDown, ChevronUp, Shield, Leaf, Bug, MessageCircle, Loader2, Send, AlertCircle, RefreshCw, Mic, MicOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { pests } from "@/data/mockData";
@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import ReactMarkdown from "react-markdown";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 
 const KnowledgeBase = () => {
   const [search, setSearch] = useState("");
