@@ -84,7 +84,7 @@ const InstallPage = () => {
         <div className="glass-card p-5 text-center space-y-2">
           <CheckCircle2 className="h-10 w-10 text-primary mx-auto" />
           <p className="font-display font-bold text-foreground">Already Installed!</p>
-          <p className="text-sm text-muted-foreground">FarmWise is on your home screen. Open it from there for the best experience.</p>
+          <p className="text-sm text-muted-foreground">KisanSeva is on your home screen. Open it from there for the best experience.</p>
         </div>
       ) : deferredPrompt ? (
         <Button onClick={handleInstall} className="w-full font-display" size="lg">
