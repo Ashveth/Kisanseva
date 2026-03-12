@@ -40,7 +40,20 @@ const CropAdvisor = () => {
   const [rainfall, setRainfall] = useState([200]);
   const [location, setLocation] = useState("");
   const [activePreset, setActivePreset] = useState<string | null>(null);
+  const [weatherPrefilled, setWeatherPrefilled] = useState(false);
   const { t } = useLanguage();
+  const { data: weatherData, isLoading: weatherLoading } = useWeather();
+
+  // Auto-fill temperature and rainfall from live weather
+  useEffect(() => {
+    if (weatherData && !weatherPrefilled) {
+      setTemp([Math.round(weatherData.current.temp)]);
+      // Use rain chance as approximate monthly rainfall indicator (scaled)
+      const estimatedRainfall = Math.round(weatherData.current.rainChance * 5);
+      setRainfall([Math.min(500, Math.max(0, estimatedRainfall))]);
+      setWeatherPrefilled(true);
+    }
+  }, [weatherData, weatherPrefilled]);
 
   const applyPreset = (preset: typeof soilPresets[0]) => {
     setActivePreset(preset.label);
