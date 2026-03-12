@@ -206,9 +206,15 @@ const AIChatPage = () => {
       <div className="flex gap-2">
         <Input value={input} onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && sendMessage(input)}
-          placeholder={t.chatPlaceholder} className="bg-card h-11" />
+          placeholder={isListening ? "🎤 Listening..." : t.chatPlaceholder} className="bg-card h-11" />
+        {voiceSupported && (
+          <Button onClick={toggleListening} variant={isListening ? "destructive" : "outline"}
+            className={`h-11 w-11 p-0 flex-shrink-0 ${isListening ? "animate-pulse" : ""}`}>
+            {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+          </Button>
+        )}
         <Button onClick={() => sendMessage(input)} disabled={!input.trim() || isTyping}
-          className="h-11 w-11 p-0 gradient-hero text-primary-foreground">
+          className="h-11 w-11 p-0 gradient-hero text-primary-foreground flex-shrink-0">
           <Send className="h-4 w-4" />
         </Button>
       </div>

@@ -114,12 +114,18 @@ const KnowledgeBase = () => {
         </h2>
         <div className="flex gap-2">
           <Input
-            placeholder="e.g., How to treat rust in wheat?"
+            placeholder={isListening ? "🎤 Listening..." : "e.g., How to treat rust in wheat?"}
             value={aiQuery}
             onChange={(e) => setAiQuery(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && askAIDirect(aiQuery)}
             className="bg-background"
           />
+          {voiceSupported && (
+            <Button onClick={toggleListening} variant={isListening ? "destructive" : "outline"}
+              className={`px-3 flex-shrink-0 ${isListening ? "animate-pulse" : ""}`}>
+              {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+            </Button>
+          )}
           <Button onClick={() => askAIDirect(aiQuery)} disabled={!aiQuery.trim() || aiLoading} className="gradient-hero text-primary-foreground px-4">
             {aiLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
           </Button>
