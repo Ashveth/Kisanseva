@@ -73,10 +73,22 @@ Recommend eligible government schemes for this farmer.`,
 
     const data = await response.json();
     const content = data.choices?.[0]?.message?.content || "";
-    const jsonMatch = content.match(/\[[\s\S]*\]/);
-    if (!jsonMatch) throw new Error("Invalid response format");
+    
+    // Strip markdown code fences if present
+    const cleaned = content.replace(/```(?:json)?\s*/gi, "").replace(/```\s*/g, "").trim();
+    const jsonMatch = cleaned.match(/\[[\s\S]*\]/);
+    if (!jsonMatch) {
+      console.error("Could not parse AI response:", content.substring(0, 500));
+      throw new Error("Invalid response format");
+    }
 
-    const result = JSON.parse(jsonMatch[0]);
+    let result;
+    try {
+      result = JSON.parse(jsonMatch[0]);
+    } catch (parseErr) {
+      console.error("JSON parse error:", parseErr, "Content:", jsonMatch[0].substring(0, 500));
+      throw new Error("Invalid response format");
+    }
     return new Response(JSON.stringify({ recommendations: result }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
