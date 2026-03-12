@@ -1,11 +1,12 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
-import { Send, Bot, User, Sprout } from "lucide-react";
+import { Send, Bot, User, Sprout, Mic, MicOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import ReactMarkdown from "react-markdown";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 
 interface Message {
   role: "user" | "assistant";
@@ -22,6 +23,15 @@ const AIChatPage = () => {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const handleVoiceResult = useCallback((transcript: string) => {
+    setInput((prev) => (prev ? prev + " " + transcript : transcript));
+  }, []);
+
+  const { isListening, isSupported: voiceSupported, toggleListening } = useSpeechRecognition({
+    lang: "en-IN",
+    onResult: handleVoiceResult,
+  });
 
   const quickQuestions = [t.quickQ1, t.quickQ2, t.quickQ3, t.quickQ4, t.quickQ5];
 
@@ -196,9 +206,15 @@ const AIChatPage = () => {
       <div className="flex gap-2">
         <Input value={input} onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && sendMessage(input)}
-          placeholder={t.chatPlaceholder} className="bg-card h-11" />
+          placeholder={isListening ? "🎤 Listening..." : t.chatPlaceholder} className="bg-card h-11" />
+        {voiceSupported && (
+          <Button onClick={toggleListening} variant={isListening ? "destructive" : "outline"}
+            className={`h-11 w-11 p-0 flex-shrink-0 ${isListening ? "animate-pulse" : ""}`}>
+            {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+          </Button>
+        )}
         <Button onClick={() => sendMessage(input)} disabled={!input.trim() || isTyping}
-          className="h-11 w-11 p-0 gradient-hero text-primary-foreground">
+          className="h-11 w-11 p-0 gradient-hero text-primary-foreground flex-shrink-0">
           <Send className="h-4 w-4" />
         </Button>
       </div>

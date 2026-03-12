@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookOpen, Search, ChevronDown, ChevronUp, Shield, Leaf, Bug, MessageCircle, Loader2, Send, AlertCircle, RefreshCw } from "lucide-react";
+import { BookOpen, Search, ChevronDown, ChevronUp, Shield, Leaf, Bug, MessageCircle, Loader2, Send, AlertCircle, RefreshCw, Mic, MicOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { pests } from "@/data/mockData";
@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import ReactMarkdown from "react-markdown";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 
 const KnowledgeBase = () => {
   const [search, setSearch] = useState("");
@@ -18,6 +19,15 @@ const KnowledgeBase = () => {
   const [aiError, setAiError] = useState<string | null>(null);
   const [lastQuery, setLastQuery] = useState("");
   const { t } = useLanguage();
+
+  const handleVoiceResult = useCallback((transcript: string) => {
+    setAiQuery((prev) => (prev ? prev + " " + transcript : transcript));
+  }, []);
+
+  const { isListening, isSupported: voiceSupported, toggleListening } = useSpeechRecognition({
+    lang: "en-IN",
+    onResult: handleVoiceResult,
+  });
 
   const filtered = pests.filter(
     (p) =>
@@ -104,12 +114,18 @@ const KnowledgeBase = () => {
         </h2>
         <div className="flex gap-2">
           <Input
-            placeholder="e.g., How to treat rust in wheat?"
+            placeholder={isListening ? "🎤 Listening..." : "e.g., How to treat rust in wheat?"}
             value={aiQuery}
             onChange={(e) => setAiQuery(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && askAIDirect(aiQuery)}
             className="bg-background"
           />
+          {voiceSupported && (
+            <Button onClick={toggleListening} variant={isListening ? "destructive" : "outline"}
+              className={`px-3 flex-shrink-0 ${isListening ? "animate-pulse" : ""}`}>
+              {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+            </Button>
+          )}
           <Button onClick={() => askAIDirect(aiQuery)} disabled={!aiQuery.trim() || aiLoading} className="gradient-hero text-primary-foreground px-4">
             {aiLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
           </Button>
