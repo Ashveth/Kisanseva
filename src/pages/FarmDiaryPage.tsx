@@ -145,9 +145,28 @@ const FarmDiaryPage = () => {
           </h1>
           <p className="text-sm text-muted-foreground mt-1">Log your daily farming activities</p>
         </div>
-        <Button onClick={() => { resetForm(); setShowForm(true); }} className="gradient-hero text-primary-foreground font-display">
-          <Plus className="h-4 w-4 mr-1" /> Add Entry
-        </Button>
+        <div className="flex gap-2">
+          {entries.length > 0 && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="font-display">
+                  <Download className="h-4 w-4 mr-1" /> Export
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => { exportCSV(filtered); toast.success("CSV downloaded! 📊"); }}>
+                  <FileSpreadsheet className="h-4 w-4 mr-2" /> Export as CSV
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => { exportPDF(filtered, totalExpenses); toast.success("PDF downloaded! 📄"); }}>
+                  <FileText className="h-4 w-4 mr-2" /> Export as PDF
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+          <Button onClick={() => { resetForm(); setShowForm(true); }} className="gradient-hero text-primary-foreground font-display">
+            <Plus className="h-4 w-4 mr-1" /> Add Entry
+          </Button>
+        </div>
       </div>
 
       {/* Summary cards */}
