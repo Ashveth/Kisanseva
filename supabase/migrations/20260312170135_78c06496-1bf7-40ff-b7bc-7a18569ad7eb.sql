@@ -1,0 +1,1 @@
+ALTER TABLE public.farm_diary ADD COLUMN income_amount numeric DEFAULT NULL;

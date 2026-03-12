@@ -23,6 +23,7 @@ export type Database = {
           expense_amount: number | null
           expense_currency: string | null
           id: string
+          income_amount: number | null
           tags: string[] | null
           title: string
           updated_at: string
@@ -36,6 +37,7 @@ export type Database = {
           expense_amount?: number | null
           expense_currency?: string | null
           id?: string
+          income_amount?: number | null
           tags?: string[] | null
           title: string
           updated_at?: string
@@ -49,6 +51,7 @@ export type Database = {
           expense_amount?: number | null
           expense_currency?: string | null
           id?: string
+          income_amount?: number | null
           tags?: string[] | null
           title?: string
           updated_at?: string

@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookMarked, Plus, Calendar as CalendarIcon, Sprout, Droplets, Scissors, DollarSign, Tag, Trash2, Pencil, X, Loader2, ChevronDown, Download, FileText, FileSpreadsheet, CalendarRange } from "lucide-react";
+import { BookMarked, Plus, Calendar as CalendarIcon, Sprout, Droplets, Scissors, DollarSign, Tag, Trash2, Pencil, X, Loader2, Download, FileText, FileSpreadsheet, CalendarRange, TrendingUp, TrendingDown, ArrowUpDown } from "lucide-react";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,6 +24,7 @@ interface DiaryEntry {
   description: string | null;
   date: string;
   expense_amount: number | null;
+  income_amount: number | null;
   expense_currency: string;
   tags: string[];
   created_at: string;
@@ -57,6 +58,7 @@ const FarmDiaryPage = () => {
   const [description, setDescription] = useState("");
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [expenseAmount, setExpenseAmount] = useState("");
+  const [incomeAmount, setIncomeAmount] = useState("");
 
   const fetchEntries = async () => {
     if (!user) return;
@@ -85,6 +87,7 @@ const FarmDiaryPage = () => {
     setDescription("");
     setDate(new Date().toISOString().split("T")[0]);
     setExpenseAmount("");
+    setIncomeAmount("");
     setEditingId(null);
     setShowForm(false);
   };
@@ -101,6 +104,7 @@ const FarmDiaryPage = () => {
       description: description.trim() || null,
       date,
       expense_amount: expenseAmount ? parseFloat(expenseAmount) : null,
+      income_amount: incomeAmount ? parseFloat(incomeAmount) : null,
     };
 
     if (editingId) {
@@ -124,6 +128,7 @@ const FarmDiaryPage = () => {
     setDescription(entry.description || "");
     setDate(entry.date);
     setExpenseAmount(entry.expense_amount?.toString() || "");
+    setIncomeAmount(entry.income_amount?.toString() || "");
     setEditingId(entry.id);
     setShowForm(true);
   };
@@ -149,13 +154,12 @@ const FarmDiaryPage = () => {
 
   const getActivityInfo = (type: string) => ACTIVITY_TYPES.find((a) => a.value === type) || ACTIVITY_TYPES[6];
 
-  const totalExpenses = entries
-    .filter((e) => e.expense_amount)
-    .reduce((sum, e) => sum + (e.expense_amount || 0), 0);
+  const totalExpenses = entries.filter((e) => e.expense_amount).reduce((sum, e) => sum + (e.expense_amount || 0), 0);
+  const totalIncome = entries.filter((e) => e.income_amount).reduce((sum, e) => sum + (e.income_amount || 0), 0);
+  const netProfit = totalIncome - totalExpenses;
 
-  const filteredExpenses = filtered
-    .filter((e) => e.expense_amount)
-    .reduce((sum, e) => sum + (e.expense_amount || 0), 0);
+  const filteredExpenses = filtered.filter((e) => e.expense_amount).reduce((sum, e) => sum + (e.expense_amount || 0), 0);
+  const filteredIncome = filtered.filter((e) => e.income_amount).reduce((sum, e) => sum + (e.income_amount || 0), 0);
 
   const hasDateFilter = dateFrom || dateTo;
   const clearDateFilter = () => { setDateFrom(undefined); setDateTo(undefined); };
@@ -182,7 +186,7 @@ const FarmDiaryPage = () => {
                 <DropdownMenuItem onClick={() => { exportCSV(filtered); toast.success("CSV downloaded! 📊"); }}>
                   <FileSpreadsheet className="h-4 w-4 mr-2" /> Export as CSV
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => { exportPDF(filtered, filteredExpenses); toast.success("PDF downloaded! 📄"); }}>
+                <DropdownMenuItem onClick={() => { exportPDF(filtered, filteredExpenses, filteredIncome); toast.success("PDF downloaded! 📄"); }}>
                   <FileText className="h-4 w-4 mr-2" /> Export as PDF
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -195,18 +199,31 @@ const FarmDiaryPage = () => {
       </div>
 
       {/* Summary cards */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <div className="glass-card p-3 text-center">
           <p className="text-2xl font-bold text-foreground">{entries.length}</p>
           <p className="text-xs text-muted-foreground font-display">Total Entries</p>
         </div>
         <div className="glass-card p-3 text-center">
-          <p className="text-2xl font-bold text-foreground">₹{totalExpenses.toLocaleString()}</p>
-          <p className="text-xs text-muted-foreground font-display">Total Expenses</p>
+          <p className="text-2xl font-bold text-destructive flex items-center justify-center gap-1">
+            <TrendingDown className="h-4 w-4" />
+            ₹{totalExpenses.toLocaleString()}
+          </p>
+          <p className="text-xs text-muted-foreground font-display">Expenses</p>
         </div>
         <div className="glass-card p-3 text-center">
-          <p className="text-2xl font-bold text-foreground">{new Set(entries.map((e) => e.activity_type)).size}</p>
-          <p className="text-xs text-muted-foreground font-display">Activity Types</p>
+          <p className="text-2xl font-bold text-primary flex items-center justify-center gap-1">
+            <TrendingUp className="h-4 w-4" />
+            ₹{totalIncome.toLocaleString()}
+          </p>
+          <p className="text-xs text-muted-foreground font-display">Income</p>
+        </div>
+        <div className="glass-card p-3 text-center">
+          <p className={`text-2xl font-bold flex items-center justify-center gap-1 ${netProfit >= 0 ? "text-primary" : "text-destructive"}`}>
+            <ArrowUpDown className="h-4 w-4" />
+            {netProfit >= 0 ? "+" : "-"}₹{Math.abs(netProfit).toLocaleString()}
+          </p>
+          <p className="text-xs text-muted-foreground font-display">{netProfit >= 0 ? "Profit" : "Loss"}</p>
         </div>
       </div>
 
@@ -230,7 +247,10 @@ const FarmDiaryPage = () => {
                 </SelectContent>
               </Select>
               <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="bg-background" />
-              <Input type="number" placeholder="Expense amount (optional)" value={expenseAmount} onChange={(e) => setExpenseAmount(e.target.value)} className="bg-background" />
+              <div className="grid grid-cols-2 gap-2">
+                <Input type="number" placeholder="Expense ₹" value={expenseAmount} onChange={(e) => setExpenseAmount(e.target.value)} className="bg-background" />
+                <Input type="number" placeholder="Income ₹" value={incomeAmount} onChange={(e) => setIncomeAmount(e.target.value)} className="bg-background" />
+              </div>
             </div>
             <Textarea placeholder="Add details... (optional)" value={description} onChange={(e) => setDescription(e.target.value)} className="bg-background min-h-[80px]" />
             <div className="flex gap-2 justify-end">
@@ -281,7 +301,7 @@ const FarmDiaryPage = () => {
         </div>
         {hasDateFilter && (
           <span className="text-xs text-muted-foreground font-display">
-            Showing {filtered.length} entries • ₹{filteredExpenses.toLocaleString()} expenses
+            Showing {filtered.length} entries • ₹{filteredExpenses.toLocaleString()} expenses • ₹{filteredIncome.toLocaleString()} income
           </span>
         )}
       </div>
@@ -344,9 +364,18 @@ const FarmDiaryPage = () => {
                     {entry.description && (
                       <p className="text-sm text-foreground/80 mt-2">{entry.description}</p>
                     )}
-                    {entry.expense_amount && (
-                      <p className="text-sm font-bold text-earth mt-1">₹{entry.expense_amount.toLocaleString()}</p>
-                    )}
+                    <div className="flex gap-3 mt-1">
+                      {entry.expense_amount != null && entry.expense_amount > 0 && (
+                        <p className="text-sm font-bold text-destructive flex items-center gap-1">
+                          <TrendingDown className="h-3 w-3" /> ₹{entry.expense_amount.toLocaleString()}
+                        </p>
+                      )}
+                      {entry.income_amount != null && entry.income_amount > 0 && (
+                        <p className="text-sm font-bold text-primary flex items-center gap-1">
+                          <TrendingUp className="h-3 w-3" /> ₹{entry.income_amount.toLocaleString()}
+                        </p>
+                      )}
+                    </div>
                   </div>
                 </div>
               </motion.div>
