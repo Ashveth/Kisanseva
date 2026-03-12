@@ -24,7 +24,7 @@ export interface WeatherData {
   hourly: HourlyData[];
 }
 
-const CACHE_KEY = "farmwise-weather-cache";
+const CACHE_KEY = "farmwise-weather-cache-v2";
 const COORDS_KEY = "farmwise-last-coords";
 
 function getCachedWeather(): WeatherData | undefined {
