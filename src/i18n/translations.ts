@@ -212,6 +212,7 @@ export const translations: Record<Language, Translations> = {
     password: "Password",
     fullName: "Full Name",
     pleaseWait: "Please wait...",
+    phoneNumber: "Phone number (e.g., 9876543210)",
 
     welcomeBack: "Welcome back, farmer!",
     joinFarmers: "Join thousands of smart farmers",
