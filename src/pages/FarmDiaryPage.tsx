@@ -260,8 +260,8 @@ const FarmDiaryPage = () => {
               </Select>
               <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="bg-background" />
               <div className="grid grid-cols-2 gap-2">
-                <Input type="number" placeholder="Expense ₹" value={expenseAmount} onChange={(e) => setExpenseAmount(e.target.value)} className="bg-background" />
-                <Input type="number" placeholder="Income ₹" value={incomeAmount} onChange={(e) => setIncomeAmount(e.target.value)} className="bg-background" />
+                <Input type="number" placeholder={t.expensePlaceholder} value={expenseAmount} onChange={(e) => setExpenseAmount(e.target.value)} className="bg-background" />
+                <Input type="number" placeholder={t.incomePlaceholder} value={incomeAmount} onChange={(e) => setIncomeAmount(e.target.value)} className="bg-background" />
               </div>
             </div>
             <Textarea placeholder="Add details... (optional)" value={description} onChange={(e) => setDescription(e.target.value)} className="bg-background min-h-[80px]" />
