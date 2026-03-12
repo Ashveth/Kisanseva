@@ -353,10 +353,10 @@ const GovernmentSchemes = () => {
               <div className="h-16 w-16 rounded-2xl bg-muted/50 flex items-center justify-center mx-auto mb-4">
                 <Landmark className="h-8 w-8 text-muted-foreground/40" />
               </div>
-              <p className="text-muted-foreground font-display font-bold text-sm">No schemes found</p>
-              <p className="text-muted-foreground text-xs mt-1">Try adjusting your filters</p>
+              <p className="text-muted-foreground font-display font-bold text-sm">{t.noSchemesFound}</p>
+              <p className="text-muted-foreground text-xs mt-1">{t.clearAll}</p>
               <Button variant="outline" size="sm" className="mt-3 text-xs" onClick={clearFilters}>
-                Clear all filters
+                {t.clearAll}
               </Button>
             </motion.div>
           )}
