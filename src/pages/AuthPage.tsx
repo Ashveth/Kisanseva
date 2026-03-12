@@ -135,7 +135,7 @@ const AuthPage = () => {
               <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
                 type="tel"
-                placeholder={t.phoneNumber || "Phone number (e.g., 9876543210)"}
+                placeholder={t.phoneNumber}
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 className="pl-10 h-11 bg-card"
