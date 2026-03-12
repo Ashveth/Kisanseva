@@ -55,6 +55,7 @@ const AppRoutes = () => (
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/notifications" element={<NotificationsPage />} />
     </Route>
+    <Route path="/install" element={<InstallPage />} />
     <Route path="*" element={<NotFound />} />
   </Routes>
 );
