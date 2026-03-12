@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, Leaf, Camera, CloudSun, TrendingUp, BookOpen, MessageCircle, Sprout, Bell } from "lucide-react";
+import { Home, Leaf, Camera, CloudSun, TrendingUp, BookOpen, MessageCircle, Sprout, User } from "lucide-react";
 
 const navItems = [
   { path: "/", icon: Home, label: "Dashboard" },
@@ -42,10 +42,16 @@ const TopBar = () => {
             );
           })}
         </nav>
-        <button className="relative p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors">
-          <Bell className="h-5 w-5" />
-          <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-destructive animate-pulse-gentle" />
-        </button>
+        <Link
+          to="/profile"
+          className={`p-2 rounded-lg transition-colors ${
+            location.pathname === "/profile"
+              ? "bg-primary text-primary-foreground"
+              : "text-muted-foreground hover:text-foreground hover:bg-muted"
+          }`}
+        >
+          <User className="h-5 w-5" />
+        </Link>
       </div>
     </header>
   );
