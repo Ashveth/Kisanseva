@@ -133,13 +133,31 @@ const FarmDiaryPage = () => {
     else { toast.success("Entry deleted"); fetchEntries(); }
   };
 
-  const filtered = filterType === "all" ? entries : entries.filter((e) => e.activity_type === filterType);
+  const filtered = useMemo(() => {
+    let result = filterType === "all" ? entries : entries.filter((e) => e.activity_type === filterType);
+    if (dateFrom) {
+      const fromStr = format(dateFrom, "yyyy-MM-dd");
+      result = result.filter((e) => e.date >= fromStr);
+    }
+    if (dateTo) {
+      const toStr = format(dateTo, "yyyy-MM-dd");
+      result = result.filter((e) => e.date <= toStr);
+    }
+    return result;
+  }, [entries, filterType, dateFrom, dateTo]);
 
   const getActivityInfo = (type: string) => ACTIVITY_TYPES.find((a) => a.value === type) || ACTIVITY_TYPES[6];
 
   const totalExpenses = entries
     .filter((e) => e.expense_amount)
     .reduce((sum, e) => sum + (e.expense_amount || 0), 0);
+
+  const filteredExpenses = filtered
+    .filter((e) => e.expense_amount)
+    .reduce((sum, e) => sum + (e.expense_amount || 0), 0);
+
+  const hasDateFilter = dateFrom || dateTo;
+  const clearDateFilter = () => { setDateFrom(undefined); setDateTo(undefined); };
 
   return (
     <div className="container py-6 space-y-6">
