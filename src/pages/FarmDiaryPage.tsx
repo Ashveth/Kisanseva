@@ -179,7 +179,7 @@ const FarmDiaryPage = () => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="font-display">
-                  <Download className="h-4 w-4 mr-1" /> Export
+                  <Download className="h-4 w-4 mr-1" /> {t.exportData}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
