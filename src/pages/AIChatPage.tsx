@@ -1,33 +1,29 @@
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { MessageCircle, Send, Bot, User, Sprout } from "lucide-react";
+import { Send, Bot, User, Sprout } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import ReactMarkdown from "react-markdown";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
 }
 
-const quickQuestions = [
-  "Which crop should I grow this season?",
-  "How to treat leaf spots?",
-  "Will it rain tomorrow?",
-  "Best fertilizer for wheat?",
-  "When to harvest rice?",
-];
-
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/farm-chat`;
 
 const AIChatPage = () => {
+  const { t } = useLanguage();
   const [messages, setMessages] = useState<Message[]>([
-    { role: "assistant", content: "Hello! 👋 I'm your AI Farming Assistant. Ask me anything about crops, diseases, weather, or farming tips! 🌾" },
+    { role: "assistant", content: t.chatWelcome },
   ]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const quickQuestions = [t.quickQ1, t.quickQ2, t.quickQ3, t.quickQ4, t.quickQ5];
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
@@ -88,14 +84,11 @@ const AIChatPage = () => {
         while ((newlineIndex = textBuffer.indexOf("\n")) !== -1) {
           let line = textBuffer.slice(0, newlineIndex);
           textBuffer = textBuffer.slice(newlineIndex + 1);
-
           if (line.endsWith("\r")) line = line.slice(0, -1);
           if (line.startsWith(":") || line.trim() === "") continue;
           if (!line.startsWith("data: ")) continue;
-
           const jsonStr = line.slice(6).trim();
           if (jsonStr === "[DONE]") { streamDone = true; break; }
-
           try {
             const parsed = JSON.parse(jsonStr);
             const content = parsed.choices?.[0]?.delta?.content as string | undefined;
@@ -107,7 +100,6 @@ const AIChatPage = () => {
         }
       }
 
-      // flush remaining
       if (textBuffer.trim()) {
         for (let raw of textBuffer.split("\n")) {
           if (!raw) continue;
@@ -127,10 +119,7 @@ const AIChatPage = () => {
       console.error("Chat error:", err);
       toast.error(err.message || "Failed to get response");
       if (!assistantSoFar) {
-        setMessages((prev) => [
-          ...prev,
-          { role: "assistant", content: "Sorry, I'm having trouble connecting right now. Please try again in a moment! 🌾" },
-        ]);
+        setMessages((prev) => [...prev, { role: "assistant", content: t.chatError }]);
       }
     } finally {
       setIsTyping(false);
@@ -144,34 +133,25 @@ const AIChatPage = () => {
           <Sprout className="h-5 w-5 text-primary-foreground" />
         </div>
         <div>
-          <h1 className="text-lg font-bold font-display text-foreground">AI Farming Assistant</h1>
-          <p className="text-xs text-muted-foreground">Powered by AI • Ask anything about farming</p>
+          <h1 className="text-lg font-bold font-display text-foreground">{t.aiFarmingAssistant}</h1>
+          <p className="text-xs text-muted-foreground">{t.poweredByAI}</p>
         </div>
       </div>
 
-      {/* Messages */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto space-y-3 mb-4 pr-1">
         {messages.map((msg, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className={`flex gap-2 ${msg.role === "user" ? "justify-end" : ""}`}
-          >
+          <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+            className={`flex gap-2 ${msg.role === "user" ? "justify-end" : ""}`}>
             {msg.role === "assistant" && (
               <div className="h-7 w-7 rounded-lg gradient-hero flex items-center justify-center flex-shrink-0 mt-1">
                 <Bot className="h-4 w-4 text-primary-foreground" />
               </div>
             )}
             <div className={`max-w-[80%] rounded-2xl p-3 text-sm ${
-              msg.role === "user"
-                ? "gradient-hero text-primary-foreground rounded-br-sm"
-                : "glass-card text-foreground rounded-bl-sm"
+              msg.role === "user" ? "gradient-hero text-primary-foreground rounded-br-sm" : "glass-card text-foreground rounded-bl-sm"
             }`}>
               {msg.role === "assistant" ? (
-                <div className="prose prose-sm max-w-none dark:prose-invert">
-                  <ReactMarkdown>{msg.content}</ReactMarkdown>
-                </div>
+                <div className="prose prose-sm max-w-none dark:prose-invert"><ReactMarkdown>{msg.content}</ReactMarkdown></div>
               ) : (
                 <p className="whitespace-pre-line">{msg.content}</p>
               )}
@@ -198,17 +178,13 @@ const AIChatPage = () => {
           </div>
         )}
 
-        {/* Quick questions */}
         {messages.length === 1 && (
           <div className="space-y-2 mt-4">
-            <p className="text-xs text-muted-foreground font-display font-bold">Try asking:</p>
+            <p className="text-xs text-muted-foreground font-display font-bold">{t.tryAsking}</p>
             <div className="flex flex-wrap gap-2">
               {quickQuestions.map((q) => (
-                <button
-                  key={q}
-                  onClick={() => sendMessage(q)}
-                  className="text-xs bg-muted text-foreground hover:bg-primary hover:text-primary-foreground px-3 py-1.5 rounded-full transition-colors font-medium"
-                >
+                <button key={q} onClick={() => sendMessage(q)}
+                  className="text-xs bg-muted text-foreground hover:bg-primary hover:text-primary-foreground px-3 py-1.5 rounded-full transition-colors font-medium">
                   {q}
                 </button>
               ))}
@@ -217,20 +193,12 @@ const AIChatPage = () => {
         )}
       </div>
 
-      {/* Input */}
       <div className="flex gap-2">
-        <Input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
+        <Input value={input} onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && sendMessage(input)}
-          placeholder="Ask about crops, weather, diseases..."
-          className="bg-card h-11"
-        />
-        <Button
-          onClick={() => sendMessage(input)}
-          disabled={!input.trim() || isTyping}
-          className="h-11 w-11 p-0 gradient-hero text-primary-foreground"
-        >
+          placeholder={t.chatPlaceholder} className="bg-card h-11" />
+        <Button onClick={() => sendMessage(input)} disabled={!input.trim() || isTyping}
+          className="h-11 w-11 p-0 gradient-hero text-primary-foreground">
           <Send className="h-4 w-4" />
         </Button>
       </div>

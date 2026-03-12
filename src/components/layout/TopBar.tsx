@@ -1,18 +1,20 @@
 import { Link, useLocation } from "react-router-dom";
 import { Home, Leaf, Camera, CloudSun, TrendingUp, BookOpen, MessageCircle, Sprout, User } from "lucide-react";
-
-const navItems = [
-  { path: "/", icon: Home, label: "Dashboard" },
-  { path: "/crop-advisor", icon: Leaf, label: "Crop Advisor" },
-  { path: "/disease-detect", icon: Camera, label: "Disease Detect" },
-  { path: "/weather", icon: CloudSun, label: "Weather" },
-  { path: "/market", icon: TrendingUp, label: "Market" },
-  { path: "/knowledge", icon: BookOpen, label: "Knowledge Base" },
-  { path: "/chat", icon: MessageCircle, label: "AI Assistant" },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const TopBar = () => {
   const location = useLocation();
+  const { t } = useLanguage();
+
+  const navItems = [
+    { path: "/", icon: Home, label: t.navDashboard },
+    { path: "/crop-advisor", icon: Leaf, label: t.navCropAdvisor },
+    { path: "/disease-detect", icon: Camera, label: t.navDiseaseDetect },
+    { path: "/weather", icon: CloudSun, label: t.navWeather },
+    { path: "/market", icon: TrendingUp, label: t.navMarket },
+    { path: "/knowledge", icon: BookOpen, label: t.navKnowledge },
+    { path: "/chat", icon: MessageCircle, label: t.navAIAssistant },
+  ];
 
   return (
     <header className="hidden md:block sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border">
@@ -21,7 +23,7 @@ const TopBar = () => {
           <div className="h-9 w-9 rounded-lg gradient-hero flex items-center justify-center">
             <Sprout className="h-5 w-5 text-primary-foreground" />
           </div>
-          <span className="font-display font-bold text-lg text-foreground">FarmWise AI</span>
+          <span className="font-display font-bold text-lg text-foreground">{t.appName}</span>
         </Link>
         <nav className="flex items-center gap-1">
           {navItems.map((item) => {

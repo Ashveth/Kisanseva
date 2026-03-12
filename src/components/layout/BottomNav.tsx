@@ -1,18 +1,20 @@
 import { Link, useLocation } from "react-router-dom";
 import { Home, Leaf, Camera, CloudSun, TrendingUp, BookOpen, MessageCircle } from "lucide-react";
-
-const navItems = [
-  { path: "/", icon: Home, label: "Home" },
-  { path: "/crop-advisor", icon: Leaf, label: "Crops" },
-  { path: "/disease-detect", icon: Camera, label: "Detect" },
-  { path: "/weather", icon: CloudSun, label: "Weather" },
-  { path: "/market", icon: TrendingUp, label: "Market" },
-  { path: "/knowledge", icon: BookOpen, label: "Guide" },
-  { path: "/chat", icon: MessageCircle, label: "Ask AI" },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const BottomNav = () => {
   const location = useLocation();
+  const { t } = useLanguage();
+
+  const navItems = [
+    { path: "/", icon: Home, label: t.navHome },
+    { path: "/crop-advisor", icon: Leaf, label: t.navCrops },
+    { path: "/disease-detect", icon: Camera, label: t.navDetect },
+    { path: "/weather", icon: CloudSun, label: t.navWeather },
+    { path: "/market", icon: TrendingUp, label: t.navMarket },
+    { path: "/knowledge", icon: BookOpen, label: t.navGuide },
+    { path: "/chat", icon: MessageCircle, label: t.navAskAI },
+  ];
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-md border-t border-border md:hidden">
