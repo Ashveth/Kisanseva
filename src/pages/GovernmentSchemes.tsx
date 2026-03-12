@@ -226,20 +226,23 @@ const GovernmentSchemes = () => {
 
           {/* Category chips */}
           <div className="flex gap-1.5 overflow-x-auto pb-0.5 scrollbar-hide">
-            {schemeCategories.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-display font-bold whitespace-nowrap transition-all ${
-                  activeCategory === cat
-                    ? "bg-primary/15 text-primary border border-primary/25 shadow-sm"
-                    : "bg-muted/50 text-muted-foreground hover:bg-muted border border-transparent"
-                }`}
-              >
-                {cat !== "All" && categoryIcons[cat]}
-                {cat}
-              </button>
-            ))}
+            {schemeCategories.map(cat => {
+              const catLabel = cat === "All" ? t.all : (categoryTranslationMap[cat] ? t[categoryTranslationMap[cat]] : cat);
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-display font-bold whitespace-nowrap transition-all ${
+                    activeCategory === cat
+                      ? "bg-primary/15 text-primary border border-primary/25 shadow-sm"
+                      : "bg-muted/50 text-muted-foreground hover:bg-muted border border-transparent"
+                  }`}
+                >
+                  {cat !== "All" && categoryIcons[cat]}
+                  {catLabel}
+                </button>
+              );
+            })}
           </div>
         </div>
 
