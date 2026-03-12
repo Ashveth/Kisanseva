@@ -57,24 +57,27 @@ export function exportPDF(entries: DiaryEntry[], totalExpenses: number, totalInc
   doc.rect(0, 0, pageWidth, 36, "F");
   doc.setFontSize(22);
   doc.setTextColor(255, 255, 255);
-  doc.text("🌾 KisanSeva Farm Diary", 14, 18);
+  doc.text("KisanSeva Farm Diary", 14, 18);
   doc.setFontSize(9);
   doc.setTextColor(220, 255, 220);
-  doc.text(`Generated on ${formatDate(new Date().toISOString())}  •  ${entries.length} entries`, 14, 28);
+  doc.text(`Generated on ${formatDate(new Date().toISOString())}  |  ${entries.length} ${entries.length === 1 ? "entry" : "entries"}`, 14, 28);
 
   // — Summary cards row —
+  const margin = 14;
+  const usableWidth = pageWidth - margin * 2;
   const cardY = 44;
   const cardH = 22;
-  const cardW = (pageWidth - 28 - 12) / 4; // 4 cards with gaps
+  const cardGap = 3;
+  const cardW = (usableWidth - cardGap * 3) / 4;
   const cards = [
     { label: "Total Entries", value: `${entries.length}`, bg: [240, 249, 255] },
-    { label: "Total Expenses", value: `₹${totalExpenses.toLocaleString()}`, bg: [255, 240, 240] },
-    { label: "Total Income", value: `₹${totalIncome.toLocaleString()}`, bg: [240, 255, 240] },
-    { label: profit >= 0 ? "Net Profit" : "Net Loss", value: `${profit >= 0 ? "+" : "-"}₹${Math.abs(profit).toLocaleString()}`, bg: profit >= 0 ? [230, 255, 230] : [255, 230, 230] },
+    { label: "Total Expenses", value: `Rs.${totalExpenses.toLocaleString()}`, bg: [255, 240, 240] },
+    { label: "Total Income", value: `Rs.${totalIncome.toLocaleString()}`, bg: [240, 255, 240] },
+    { label: profit >= 0 ? "Net Profit" : "Net Loss", value: `${profit >= 0 ? "+" : "-"}Rs.${Math.abs(profit).toLocaleString()}`, bg: profit >= 0 ? [230, 255, 230] : [255, 230, 230] },
   ];
 
   cards.forEach((card, i) => {
-    const x = 14 + i * (cardW + 4);
+    const x = margin + i * (cardW + cardGap);
     doc.setFillColor(card.bg[0], card.bg[1], card.bg[2]);
     doc.roundedRect(x, cardY, cardW, cardH, 3, 3, "F");
     doc.setFontSize(7);
@@ -97,64 +100,66 @@ export function exportPDF(entries: DiaryEntry[], totalExpenses: number, totalInc
 
   doc.setFontSize(11);
   doc.setTextColor(34, 120, 60);
-  doc.text("Activity Summary", 14, breakdownY);
+  doc.text("Activity Summary", margin, breakdownY);
 
   const summaryData = Object.entries(activityCounts).map(([type, data]) => [
     ACTIVITY_LABELS[type] || type,
     `${data.count}`,
-    data.expense ? `₹${data.expense.toLocaleString()}` : "—",
-    data.income ? `₹${data.income.toLocaleString()}` : "—",
+    data.expense ? `Rs.${data.expense.toLocaleString()}` : "—",
+    data.income ? `Rs.${data.income.toLocaleString()}` : "—",
   ]);
 
   autoTable(doc, {
     startY: breakdownY + 4,
     head: [["Activity", "Count", "Expenses", "Income"]],
     body: summaryData,
-    styles: { fontSize: 8, cellPadding: 2.5 },
+    styles: { fontSize: 8, cellPadding: 2.5, overflow: "linebreak" },
     headStyles: { fillColor: [34, 120, 60], textColor: 255, fontStyle: "bold" },
     alternateRowStyles: { fillColor: [248, 252, 248] },
     columnStyles: {
-      1: { halign: "center", cellWidth: 18 },
-      2: { halign: "right", cellWidth: 28 },
-      3: { halign: "right", cellWidth: 28 },
+      0: { cellWidth: "auto" },
+      1: { halign: "center", cellWidth: 22 },
+      2: { halign: "right", cellWidth: 30 },
+      3: { halign: "right", cellWidth: 30 },
     },
     theme: "grid",
-    tableWidth: pageWidth - 28,
-    margin: { left: 14 },
+    tableWidth: usableWidth,
+    margin: { left: margin, right: margin },
   });
 
   // — Detailed entries table —
   const detailY = (doc as any).lastAutoTable?.finalY + 10 || breakdownY + 50;
   doc.setFontSize(11);
   doc.setTextColor(34, 120, 60);
-  doc.text("Detailed Entries", 14, detailY);
+  doc.text("Detailed Entries", margin, detailY);
 
   autoTable(doc, {
     startY: detailY + 4,
-    head: [["#", "Date", "Activity", "Title", "Description", "Expense (₹)", "Income (₹)"]],
+    head: [["#", "Date", "Activity", "Title", "Description", "Expense", "Income"]],
     body: entries.map((e, i) => [
       `${i + 1}`,
       formatDate(e.date),
       ACTIVITY_LABELS[e.activity_type] || e.activity_type,
       e.title,
       e.description || "—",
-      e.expense_amount ? `₹${e.expense_amount.toLocaleString()}` : "—",
-      e.income_amount ? `₹${e.income_amount.toLocaleString()}` : "—",
+      e.expense_amount ? `Rs.${e.expense_amount.toLocaleString()}` : "—",
+      e.income_amount ? `Rs.${e.income_amount.toLocaleString()}` : "—",
     ]),
-    styles: { fontSize: 8, cellPadding: 2.5 },
-    headStyles: { fillColor: [34, 120, 60], textColor: 255, fontStyle: "bold" },
+    styles: { fontSize: 7.5, cellPadding: 2, overflow: "linebreak" },
+    headStyles: { fillColor: [34, 120, 60], textColor: 255, fontStyle: "bold", fontSize: 7.5 },
     alternateRowStyles: { fillColor: [248, 252, 248] },
     columnStyles: {
-      0: { cellWidth: 10, halign: "center" },
-      1: { cellWidth: 24 },
+      0: { cellWidth: 8, halign: "center" },
+      1: { cellWidth: 22 },
       2: { cellWidth: 22 },
-      4: { cellWidth: 42 },
+      3: { cellWidth: "auto" },
+      4: { cellWidth: "auto" },
       5: { cellWidth: 22, halign: "right" },
       6: { cellWidth: 22, halign: "right" },
     },
     theme: "grid",
-    tableWidth: pageWidth - 28,
-    margin: { left: 14 },
+    tableWidth: usableWidth,
+    margin: { left: margin, right: margin },
   });
 
   // — Footer on every page —
