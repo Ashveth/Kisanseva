@@ -105,7 +105,7 @@ const GovernmentSchemes = () => {
 
   const checkEligibility = async () => {
     if (!farmSize && !state && !crops) {
-      toast.error("Please fill at least one field");
+      toast.error(t.fillAtLeastOne);
       return;
     }
     setEligibilityLoading(true);
