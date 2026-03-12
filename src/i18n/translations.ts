@@ -1081,6 +1081,8 @@ export const translations: Record<Language, Translations> = {
     chartExpenseBreakdown: "செலவு பிரிவு",
     chartTotal: "மொத்தம்",
     chartOfTotal: "மொத்தத்தில்",
+
+    govSchemes: "அரசு திட்டங்கள்",
     govSchemesDesc: "விவசாயிகளுக்கான திட்டங்கள் மற்றும் மானியங்களைக் கண்டறியுங்கள்",
     searchSchemes: "திட்டங்களைத் தேடுங்கள்...",
     central: "மத்திய",
