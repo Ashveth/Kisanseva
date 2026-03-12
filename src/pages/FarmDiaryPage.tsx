@@ -71,7 +71,7 @@ const FarmDiaryPage = () => {
       .order("created_at", { ascending: false });
 
     if (error) {
-      toast.error("Failed to load diary entries");
+      toast.error(t.toastLoadFailed);
       console.error(error);
     } else {
       setEntries((data as unknown as DiaryEntry[]) || []);
