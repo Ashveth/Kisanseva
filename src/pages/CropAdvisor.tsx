@@ -20,12 +20,12 @@ interface CropRecommendation {
 }
 
 const soilPresets = [
-  { label: "🌾 Alluvial", nitrogen: 80, phosphorus: 60, potassium: 70, ph: 7.0 },
-  { label: "🏜️ Sandy", nitrogen: 30, phosphorus: 20, potassium: 25, ph: 6.0 },
-  { label: "🧱 Clay", nitrogen: 60, phosphorus: 50, potassium: 55, ph: 7.5 },
-  { label: "🌿 Loamy", nitrogen: 70, phosphorus: 55, potassium: 60, ph: 6.8 },
-  { label: "⬛ Black", nitrogen: 50, phosphorus: 40, potassium: 80, ph: 8.0 },
-  { label: "🔴 Red", nitrogen: 35, phosphorus: 30, potassium: 35, ph: 5.5 },
+  { emoji: "🌾", key: "soilAlluvial" as const, nitrogen: 80, phosphorus: 60, potassium: 70, ph: 7.0 },
+  { emoji: "🏜️", key: "soilSandy" as const, nitrogen: 30, phosphorus: 20, potassium: 25, ph: 6.0 },
+  { emoji: "🧱", key: "soilClay" as const, nitrogen: 60, phosphorus: 50, potassium: 55, ph: 7.5 },
+  { emoji: "🌿", key: "soilLoamy" as const, nitrogen: 70, phosphorus: 55, potassium: 60, ph: 6.8 },
+  { emoji: "⬛", key: "soilBlack" as const, nitrogen: 50, phosphorus: 40, potassium: 80, ph: 8.0 },
+  { emoji: "🔴", key: "soilRed" as const, nitrogen: 35, phosphorus: 30, potassium: 35, ph: 5.5 },
 ];
 
 const CropAdvisor = () => {
@@ -56,7 +56,7 @@ const CropAdvisor = () => {
   }, [weatherData, weatherPrefilled]);
 
   const applyPreset = (preset: typeof soilPresets[0]) => {
-    setActivePreset(preset.label);
+    setActivePreset(preset.key);
     setNitrogen([preset.nitrogen]);
     setPhosphorus([preset.phosphorus]);
     setPotassium([preset.potassium]);
@@ -129,21 +129,21 @@ const CropAdvisor = () => {
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}>
         <p className="text-xs font-bold font-display text-foreground mb-2 flex items-center gap-1.5">
           <span className="h-5 w-5 rounded-full gradient-hero text-primary-foreground flex items-center justify-center text-[10px] font-extrabold">1</span>
-          Select Your Soil Type
+          {t.selectSoilType}
         </p>
         <div className="grid grid-cols-3 gap-2">
           {soilPresets.map((preset) => (
             <button
-              key={preset.label}
+              key={preset.key}
               onClick={() => applyPreset(preset)}
               className={`p-3 rounded-xl border-2 text-center transition-all active:scale-95 ${
-                activePreset === preset.label
+                activePreset === preset.key
                   ? "border-primary bg-primary/10 shadow-card"
                   : "border-border bg-card/80 hover:border-primary/40"
               }`}
             >
-              <span className="text-2xl block mb-1">{preset.label.split(" ")[0]}</span>
-              <span className="text-[11px] font-bold font-display text-foreground block">{preset.label.split(" ")[1]}</span>
+              <span className="text-2xl block mb-1">{preset.emoji}</span>
+              <span className="text-[11px] font-bold font-display text-foreground block">{t[preset.key]}</span>
             </button>
           ))}
         </div>
@@ -203,9 +203,9 @@ const CropAdvisor = () => {
             </div>
             <Slider value={ph} onValueChange={(v) => { setPh(v); setActivePreset(null); }} min={3} max={10} step={0.1} />
             <div className="flex justify-between text-[9px] text-muted-foreground px-0.5">
-              <span>🟡 Acidic</span>
-              <span>🟢 Neutral</span>
-              <span>🔵 Alkaline</span>
+              <span>🟡 {t.acidic}</span>
+              <span>🟢 {t.neutral}</span>
+              <span>🔵 {t.alkaline}</span>
             </div>
           </div>
         </div>
@@ -216,16 +216,16 @@ const CropAdvisor = () => {
         <div className="flex items-center justify-between mb-2">
           <p className="text-xs font-bold font-display text-foreground flex items-center gap-1.5">
             <span className="h-5 w-5 rounded-full gradient-sky text-sky-foreground flex items-center justify-center text-[10px] font-extrabold">3</span>
-            Weather & Location
+            {t.weatherAndLocation}
           </p>
           {weatherPrefilled && (
             <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium flex items-center gap-1">
-              <LocateFixed className="h-3 w-3" /> Auto-detected
+              <LocateFixed className="h-3 w-3" /> {t.autoDetected}
             </span>
           )}
           {weatherLoading && !weatherPrefilled && (
             <span className="text-[10px] px-2 py-0.5 rounded-full bg-muted text-muted-foreground font-medium flex items-center gap-1">
-              <Loader2 className="h-3 w-3 animate-spin" /> Detecting...
+              <Loader2 className="h-3 w-3 animate-spin" /> {t.detectingLocation}
             </span>
           )}
         </div>
@@ -289,7 +289,7 @@ const CropAdvisor = () => {
           {loading ? (
             <span className="flex items-center gap-2">
               <Loader2 className="h-5 w-5 animate-spin" />
-              Analyzing...
+              {t.analyzingSoil}
             </span>
           ) : (
             <span className="flex items-center gap-2">
