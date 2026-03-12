@@ -603,6 +603,10 @@ export const translations: Record<Language, Translations> = {
     langEnglish: "English",
     langHindi: "हिंदी (Hindi)",
     langTamil: "தமிழ் (Tamil)",
+    langMarathi: "मराठी (Marathi)",
+    langTelugu: "తెలుగు (Telugu)",
+    langMalayalam: "മലയാളം (Malayalam)",
+    langKannada: "ಕನ್ನಡ (Kannada)",
 
     notifications: "सूचनाएं",
     unreadNotifications: "अपठित",
