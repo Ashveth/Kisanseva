@@ -71,9 +71,9 @@ export function exportPDF(entries: DiaryEntry[], totalExpenses: number, totalInc
   const cardW = (usableWidth - cardGap * 3) / 4;
   const cards = [
     { label: "Total Entries", value: `${entries.length}`, bg: [240, 249, 255] },
-    { label: "Total Expenses", value: `₹${totalExpenses.toLocaleString()}`, bg: [255, 240, 240] },
-    { label: "Total Income", value: `₹${totalIncome.toLocaleString()}`, bg: [240, 255, 240] },
-    { label: profit >= 0 ? "Net Profit" : "Net Loss", value: `${profit >= 0 ? "+" : "-"}₹${Math.abs(profit).toLocaleString()}`, bg: profit >= 0 ? [230, 255, 230] : [255, 230, 230] },
+    { label: "Total Expenses", value: `Rs.${totalExpenses.toLocaleString()}`, bg: [255, 240, 240] },
+    { label: "Total Income", value: `Rs.${totalIncome.toLocaleString()}`, bg: [240, 255, 240] },
+    { label: profit >= 0 ? "Net Profit" : "Net Loss", value: `${profit >= 0 ? "+" : "-"}Rs.${Math.abs(profit).toLocaleString()}`, bg: profit >= 0 ? [230, 255, 230] : [255, 230, 230] },
   ];
 
   cards.forEach((card, i) => {
