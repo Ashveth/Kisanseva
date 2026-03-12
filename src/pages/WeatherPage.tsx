@@ -2,16 +2,18 @@ import { motion } from "framer-motion";
 import { CloudSun, Thermometer, Droplets, Wind, AlertTriangle, Sun, MapPin, RefreshCw } from "lucide-react";
 import { useWeather } from "@/hooks/useWeather";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const WeatherPage = () => {
   const { data, isLoading, isError, geoError, refetch } = useWeather();
+  const { t } = useLanguage();
 
   return (
     <div className="container py-6 space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold font-display text-foreground flex items-center gap-2">
           <CloudSun className="h-7 w-7 text-sky" />
-          Weather Intelligence
+          {t.weatherIntelligence}
         </h1>
         <button onClick={() => refetch()} className="p-2 rounded-lg hover:bg-muted transition-colors" title="Refresh">
           <RefreshCw className={`h-5 w-5 text-muted-foreground ${isLoading ? 'animate-spin' : ''}`} />
@@ -21,7 +23,7 @@ const WeatherPage = () => {
       {geoError && (
         <div className="glass-card p-3 flex items-center gap-2 text-sm text-muted-foreground">
           <MapPin className="h-4 w-4" />
-          {geoError}
+          {t.locationDenied}
         </div>
       )}
 
@@ -35,16 +37,15 @@ const WeatherPage = () => {
 
       {isError && (
         <div className="glass-card p-6 text-center">
-          <p className="text-destructive font-medium">Failed to load weather data</p>
-          <button onClick={() => refetch()} className="mt-2 text-sm text-primary underline">Try again</button>
+          <p className="text-destructive font-medium">{t.failedLoadWeather}</p>
+          <button onClick={() => refetch()} className="mt-2 text-sm text-primary underline">{t.tryAgain}</button>
         </div>
       )}
 
       {data && (
         <>
-          {/* Current Weather */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass-card p-6 gradient-sky text-sky-foreground rounded-xl">
-            <p className="text-sm opacity-80">Current Conditions • Live</p>
+            <p className="text-sm opacity-80">{t.currentConditions} • {t.live}</p>
             <div className="flex items-center justify-between mt-2">
               <div>
                 <p className="text-5xl font-bold font-display">{data.current.temp}°C</p>
@@ -58,61 +59,45 @@ const WeatherPage = () => {
               <div className="text-center">
                 <Droplets className="h-5 w-5 mx-auto mb-1 opacity-80" />
                 <p className="text-sm font-bold">{data.current.humidity}%</p>
-                <p className="text-xs opacity-70">Humidity</p>
+                <p className="text-xs opacity-70">{t.humidity}</p>
               </div>
               <div className="text-center">
                 <Wind className="h-5 w-5 mx-auto mb-1 opacity-80" />
                 <p className="text-sm font-bold">{data.current.windSpeed} km/h</p>
-                <p className="text-xs opacity-70">Wind</p>
+                <p className="text-xs opacity-70">{t.wind}</p>
               </div>
               <div className="text-center">
                 <CloudSun className="h-5 w-5 mx-auto mb-1 opacity-80" />
                 <p className="text-sm font-bold">{data.current.rainChance}%</p>
-                <p className="text-xs opacity-70">Rain</p>
+                <p className="text-xs opacity-70">{t.rain}</p>
               </div>
               <div className="text-center">
                 <Sun className="h-5 w-5 mx-auto mb-1 opacity-80" />
                 <p className="text-sm font-bold">{data.current.uv}</p>
-                <p className="text-xs opacity-70">UV Index</p>
+                <p className="text-xs opacity-70">{t.uvIndex}</p>
               </div>
             </div>
           </motion.div>
 
-          {/* Alerts */}
           {data.alerts.length > 0 && (
             <div className="space-y-2">
-              <h2 className="text-lg font-bold font-display text-foreground">⚠️ Weather Alerts</h2>
+              <h2 className="text-lg font-bold font-display text-foreground">{t.weatherAlerts}</h2>
               {data.alerts.map((alert, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  className={`glass-card p-3 flex items-center gap-3 border-l-4 ${
-                    alert.severity === "warning" ? "border-l-harvest" : "border-l-sky"
-                  }`}
-                >
-                  <AlertTriangle className={`h-5 w-5 flex-shrink-0 ${
-                    alert.severity === "warning" ? "text-harvest" : "text-sky"
-                  }`} />
+                <motion.div key={i} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }}
+                  className={`glass-card p-3 flex items-center gap-3 border-l-4 ${alert.severity === "warning" ? "border-l-harvest" : "border-l-sky"}`}>
+                  <AlertTriangle className={`h-5 w-5 flex-shrink-0 ${alert.severity === "warning" ? "text-harvest" : "text-sky"}`} />
                   <p className="text-sm text-foreground">{alert.message}</p>
                 </motion.div>
               ))}
             </div>
           )}
 
-          {/* 5-Day Forecast */}
           <div>
-            <h2 className="text-lg font-bold font-display text-foreground mb-3">5-Day Forecast</h2>
+            <h2 className="text-lg font-bold font-display text-foreground mb-3">{t.fiveDayForecast}</h2>
             <div className="space-y-2">
               {data.forecast.map((day, i) => (
-                <motion.div
-                  key={day.day}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.05 }}
-                  className="glass-card p-3 flex items-center justify-between"
-                >
+                <motion.div key={day.day} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
+                  className="glass-card p-3 flex items-center justify-between">
                   <div className="flex items-center gap-3 w-24">
                     <span className="text-2xl">{day.icon}</span>
                     <span className="font-display font-bold text-foreground text-sm">{day.day}</span>
@@ -130,31 +115,30 @@ const WeatherPage = () => {
             </div>
           </div>
 
-          {/* Farming Advisory */}
           <div className="glass-card p-4">
-            <h2 className="font-display font-bold text-foreground mb-2">🌾 Farming Advisory</h2>
+            <h2 className="font-display font-bold text-foreground mb-2">{t.farmingAdvisory}</h2>
             <div className="space-y-2 text-sm text-foreground">
               {data.current.rainChance > 50 ? (
-                <p>• <strong>Irrigation:</strong> Reduce watering — rain expected soon</p>
+                <p>• <strong>{t.humidity}:</strong> {t.irrigationReduceRain}</p>
               ) : (
-                <p>• <strong>Irrigation:</strong> Normal watering schedule recommended</p>
+                <p>• <strong>{t.humidity}:</strong> {t.irrigationNormal}</p>
               )}
               {data.forecast.some(d => d.rain > 60) ? (
-                <p>• <strong>Spraying:</strong> Complete pesticide application before rain arrives</p>
+                <p>• <strong>{t.rain}:</strong> {t.sprayingBeforeRain}</p>
               ) : (
-                <p>• <strong>Spraying:</strong> Good conditions for pesticide application</p>
+                <p>• <strong>{t.rain}:</strong> {t.sprayingGood}</p>
               )}
               {data.current.temp > 35 ? (
-                <p>• <strong>Heat:</strong> Provide shade for sensitive crops and increase watering</p>
+                <p>• <strong>{t.temperature}:</strong> {t.heatProtect}</p>
               ) : data.current.temp < 10 ? (
-                <p>• <strong>Cold:</strong> Cover frost-sensitive crops overnight</p>
+                <p>• <strong>{t.temperature}:</strong> {t.coldCover}</p>
               ) : (
-                <p>• <strong>Temperature:</strong> Favorable growing conditions</p>
+                <p>• <strong>{t.temperature}:</strong> {t.tempFavorable}</p>
               )}
               {data.current.windSpeed > 30 ? (
-                <p>• <strong>Wind:</strong> Secure structures and avoid spraying</p>
+                <p>• <strong>{t.wind}:</strong> {t.windSecure}</p>
               ) : (
-                <p>• <strong>Sowing:</strong> Good conditions for field activities</p>
+                <p>• <strong>{t.wind}:</strong> {t.sowingGood}</p>
               )}
             </div>
           </div>

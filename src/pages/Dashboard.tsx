@@ -6,15 +6,7 @@ import heroImage from "@/assets/hero-farm.jpg";
 import { useWeather } from "@/hooks/useWeather";
 import { weatherData as mockWeather } from "@/data/mockData";
 import { Skeleton } from "@/components/ui/skeleton";
-
-const quickActions = [
-  { path: "/crop-advisor", icon: Leaf, label: "Crop Advisor", desc: "Get crop recommendations", gradient: "gradient-hero" },
-  { path: "/disease-detect", icon: Camera, label: "Scan Plant", desc: "Detect diseases instantly", gradient: "gradient-earth" },
-  { path: "/weather", icon: CloudSun, label: "Weather", desc: "Check forecasts", gradient: "gradient-sky" },
-  { path: "/market", icon: TrendingUp, label: "Market Prices", desc: "Price trends & forecasts", gradient: "gradient-harvest" },
-  { path: "/knowledge", icon: BookOpen, label: "Pest Guide", desc: "Treatment knowledge", gradient: "gradient-hero" },
-  { path: "/chat", icon: MessageCircle, label: "Ask AI", desc: "Chat with farming AI", gradient: "gradient-earth" },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const container = {
   hidden: { opacity: 0 },
@@ -27,9 +19,19 @@ const item = {
 
 const Dashboard = () => {
   const { data: weather, isLoading } = useWeather();
+  const { t } = useLanguage();
   const w = weather?.current ?? mockWeather.current;
   const alerts = weather?.alerts ?? mockWeather.alerts;
   const forecast = weather?.forecast ?? mockWeather.forecast;
+
+  const quickActions = [
+    { path: "/crop-advisor", icon: Leaf, label: t.cropAdvisor, desc: t.cropAdvisorDesc, gradient: "gradient-hero" },
+    { path: "/disease-detect", icon: Camera, label: t.scanPlant, desc: t.scanPlantDesc, gradient: "gradient-earth" },
+    { path: "/weather", icon: CloudSun, label: t.weather, desc: t.weatherDesc, gradient: "gradient-sky" },
+    { path: "/market", icon: TrendingUp, label: t.marketPrices, desc: t.marketPricesDesc, gradient: "gradient-harvest" },
+    { path: "/knowledge", icon: BookOpen, label: t.pestGuide, desc: t.pestGuideDesc, gradient: "gradient-hero" },
+    { path: "/chat", icon: MessageCircle, label: t.askAI, desc: t.askAIDesc, gradient: "gradient-earth" },
+  ];
 
   return (
     <div className="space-y-6">
@@ -42,11 +44,11 @@ const Dashboard = () => {
             <div className="flex items-center gap-2 mb-1">
               <Sprout className="h-6 w-6 text-harvest" />
               <h1 className="text-2xl md:text-3xl font-bold font-display text-primary-foreground">
-                FarmWise AI
+                {t.appName}
               </h1>
             </div>
             <p className="text-sm text-primary-foreground/80 max-w-md">
-              Smart farming decisions powered by AI. Get crop recommendations, detect diseases, and track market prices.
+              {t.heroSubtitle}
             </p>
           </div>
         </div>
@@ -60,10 +62,10 @@ const Dashboard = () => {
           </div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <StatCard icon={Thermometer} label="Temperature" value={`${w.temp}°C`} gradient="earth" />
-            <StatCard icon={Droplets} label="Humidity" value={`${w.humidity}%`} gradient="sky" />
-            <StatCard icon={Wind} label="Wind" value={`${w.windSpeed} km/h`} gradient="hero" />
-            <StatCard icon={BarChart3} label="Rain Chance" value={`${w.rainChance}%`} gradient="harvest" />
+            <StatCard icon={Thermometer} label={t.temperature} value={`${w.temp}°C`} gradient="earth" />
+            <StatCard icon={Droplets} label={t.humidity} value={`${w.humidity}%`} gradient="sky" />
+            <StatCard icon={Wind} label={t.wind} value={`${w.windSpeed} km/h`} gradient="hero" />
+            <StatCard icon={BarChart3} label={t.rainChance} value={`${w.rainChance}%`} gradient="harvest" />
           </div>
         )}
 
@@ -85,7 +87,7 @@ const Dashboard = () => {
 
         {/* Quick Actions */}
         <div>
-          <h2 className="text-lg font-bold font-display text-foreground mb-3">Quick Actions</h2>
+          <h2 className="text-lg font-bold font-display text-foreground mb-3">{t.quickActions}</h2>
           <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {quickActions.map((action) => (
               <motion.div key={action.path} variants={item}>
@@ -108,7 +110,7 @@ const Dashboard = () => {
 
         {/* 5-Day Forecast Mini */}
         <div>
-          <h2 className="text-lg font-bold font-display text-foreground mb-3">5-Day Forecast</h2>
+          <h2 className="text-lg font-bold font-display text-foreground mb-3">{t.fiveDayForecast}</h2>
           <div className="glass-card p-4">
             <div className="flex justify-between">
               {forecast.map((day) => (
