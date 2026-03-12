@@ -15,6 +15,8 @@ import KnowledgeBase from "./pages/KnowledgeBase";
 import AIChatPage from "./pages/AIChatPage";
 import YieldPredictor from "./pages/YieldPredictor";
 import AuthPage from "./pages/AuthPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 import NotificationsPage from "./pages/NotificationsPage";
 import ProfilePage from "./pages/ProfilePage";
 import NotFound from "./pages/NotFound";
