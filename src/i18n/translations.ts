@@ -536,8 +536,11 @@ export const translations: Record<Language, Translations> = {
     toastEntrySaved: "Entry saved! 🌾",
     toastDeleteFailed: "Failed to delete",
     toastEntryDeleted: "Entry deleted",
-
-    govSchemes: "Government Schemes",
+    chartIncomeVsExpenses: "Income vs Expenses",
+    chartMonthlyExpenses: "Monthly Expenses",
+    chartExpenseBreakdown: "Expense Breakdown",
+    chartTotal: "Total",
+    chartOfTotal: "of total",
     govSchemesDesc: "Find schemes and subsidies for farmers",
     searchSchemes: "Search schemes...",
     central: "Central",
