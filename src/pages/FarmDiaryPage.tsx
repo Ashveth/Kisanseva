@@ -1,16 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookMarked, Plus, Calendar, Sprout, Droplets, Scissors, DollarSign, Tag, Trash2, Pencil, X, Loader2, ChevronDown, Download, FileText, FileSpreadsheet } from "lucide-react";
+import { BookMarked, Plus, Calendar as CalendarIcon, Sprout, Droplets, Scissors, DollarSign, Tag, Trash2, Pencil, X, Loader2, ChevronDown, Download, FileText, FileSpreadsheet, CalendarRange } from "lucide-react";
+import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { exportCSV, exportPDF } from "@/utils/diaryExport";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 
 interface DiaryEntry {
   id: string;
@@ -43,6 +47,8 @@ const FarmDiaryPage = () => {
   const [saving, setSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [filterType, setFilterType] = useState("all");
+  const [dateFrom, setDateFrom] = useState<Date | undefined>(undefined);
+  const [dateTo, setDateTo] = useState<Date | undefined>(undefined);
 
   // Form state
   const [title, setTitle] = useState("");
@@ -127,13 +133,31 @@ const FarmDiaryPage = () => {
     else { toast.success("Entry deleted"); fetchEntries(); }
   };
 
-  const filtered = filterType === "all" ? entries : entries.filter((e) => e.activity_type === filterType);
+  const filtered = useMemo(() => {
+    let result = filterType === "all" ? entries : entries.filter((e) => e.activity_type === filterType);
+    if (dateFrom) {
+      const fromStr = format(dateFrom, "yyyy-MM-dd");
+      result = result.filter((e) => e.date >= fromStr);
+    }
+    if (dateTo) {
+      const toStr = format(dateTo, "yyyy-MM-dd");
+      result = result.filter((e) => e.date <= toStr);
+    }
+    return result;
+  }, [entries, filterType, dateFrom, dateTo]);
 
   const getActivityInfo = (type: string) => ACTIVITY_TYPES.find((a) => a.value === type) || ACTIVITY_TYPES[6];
 
   const totalExpenses = entries
     .filter((e) => e.expense_amount)
     .reduce((sum, e) => sum + (e.expense_amount || 0), 0);
+
+  const filteredExpenses = filtered
+    .filter((e) => e.expense_amount)
+    .reduce((sum, e) => sum + (e.expense_amount || 0), 0);
+
+  const hasDateFilter = dateFrom || dateTo;
+  const clearDateFilter = () => { setDateFrom(undefined); setDateTo(undefined); };
 
   return (
     <div className="container py-6 space-y-6">
@@ -157,7 +181,7 @@ const FarmDiaryPage = () => {
                 <DropdownMenuItem onClick={() => { exportCSV(filtered); toast.success("CSV downloaded! 📊"); }}>
                   <FileSpreadsheet className="h-4 w-4 mr-2" /> Export as CSV
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => { exportPDF(filtered, totalExpenses); toast.success("PDF downloaded! 📄"); }}>
+                <DropdownMenuItem onClick={() => { exportPDF(filtered, filteredExpenses); toast.success("PDF downloaded! 📄"); }}>
                   <FileText className="h-4 w-4 mr-2" /> Export as PDF
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -219,7 +243,46 @@ const FarmDiaryPage = () => {
         )}
       </AnimatePresence>
 
-      {/* Filter */}
+      {/* Date Range Filter */}
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="flex items-center gap-2">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" size="sm" className={cn("text-xs font-display gap-1.5", dateFrom && "border-primary text-primary")}>
+                <CalendarRange className="h-3.5 w-3.5" />
+                {dateFrom ? format(dateFrom, "dd MMM yyyy") : "From"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar mode="single" selected={dateFrom} onSelect={setDateFrom} initialFocus className={cn("p-3 pointer-events-auto")} />
+            </PopoverContent>
+          </Popover>
+          <span className="text-xs text-muted-foreground">→</span>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" size="sm" className={cn("text-xs font-display gap-1.5", dateTo && "border-primary text-primary")}>
+                <CalendarRange className="h-3.5 w-3.5" />
+                {dateTo ? format(dateTo, "dd MMM yyyy") : "To"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar mode="single" selected={dateTo} onSelect={setDateTo} disabled={(d) => dateFrom ? d < dateFrom : false} initialFocus className={cn("p-3 pointer-events-auto")} />
+            </PopoverContent>
+          </Popover>
+          {hasDateFilter && (
+            <Button variant="ghost" size="sm" onClick={clearDateFilter} className="text-xs text-muted-foreground hover:text-foreground h-7 px-2">
+              <X className="h-3 w-3 mr-1" /> Clear
+            </Button>
+          )}
+        </div>
+        {hasDateFilter && (
+          <span className="text-xs text-muted-foreground font-display">
+            Showing {filtered.length} entries • ₹{filteredExpenses.toLocaleString()} expenses
+          </span>
+        )}
+      </div>
+
+      {/* Activity Filter */}
       <div className="flex gap-2 overflow-x-auto pb-1">
         <button onClick={() => setFilterType("all")}
           className={`px-3 py-1.5 rounded-full text-xs font-medium font-display whitespace-nowrap transition-colors ${filterType === "all" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:text-foreground"}`}>
