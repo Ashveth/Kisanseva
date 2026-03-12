@@ -804,8 +804,11 @@ export const translations: Record<Language, Translations> = {
     toastEntrySaved: "प्रविष्टि सहेजी गई! 🌾",
     toastDeleteFailed: "हटाने में विफल",
     toastEntryDeleted: "प्रविष्टि हटाई गई",
-
-    govSchemes: "सरकारी योजनाएं",
+    chartIncomeVsExpenses: "आय बनाम व्यय",
+    chartMonthlyExpenses: "मासिक व्यय",
+    chartExpenseBreakdown: "व्यय विवरण",
+    chartTotal: "कुल",
+    chartOfTotal: "कुल का",
     govSchemesDesc: "किसानों के लिए योजनाएं और सब्सिडी खोजें",
     searchSchemes: "योजनाएं खोजें...",
     central: "केंद्र",
