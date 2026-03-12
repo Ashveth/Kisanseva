@@ -325,7 +325,7 @@ const GovernmentSchemes = () => {
           </p>
           {showBookmarked && (
             <Badge variant="outline" className="text-[10px] gap-1 border-harvest/30 text-harvest">
-              <BookmarkCheck className="h-3 w-3" /> Saved only
+              <BookmarkCheck className="h-3 w-3" /> {t.savedSchemes}
             </Badge>
           )}
         </div>
