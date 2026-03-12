@@ -1,12 +1,27 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { BarChart3, Leaf, Thermometer, CloudRain, Droplets, ChevronRight } from "lucide-react";
+import { BarChart3, Leaf, Thermometer, CloudRain, Droplets, ChevronRight, Loader2, AlertTriangle, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { yieldFactors } from "@/data/mockData";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
+
+const crops = ["Rice", "Wheat", "Maize", "Cotton", "Soybean", "Groundnut", "Sugarcane"];
+const fertilizers = ["Urea", "DAP", "MOP", "NPK Complex", "Organic Compost"];
+
+interface YieldResult {
+  yield: number;
+  unit: string;
+  harvestPeriod: string;
+  confidence: number;
+  rating: string;
+  insights: string[];
+  risks: string[];
+  optimizations: string[];
+}
 
 const YieldPredictor = () => {
   const [crop, setCrop] = useState("");
@@ -16,22 +31,34 @@ const YieldPredictor = () => {
   const [temp, setTemp] = useState([28]);
   const [rainfall, setRainfall] = useState([200]);
   const [fertilizer, setFertilizer] = useState("");
-  const [result, setResult] = useState<null | { yield: number; harvestPeriod: string; insights: string[] }>(null);
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<YieldResult | null>(null);
   const { t } = useLanguage();
 
-  const handlePredict = () => {
-    const baseYield = 2.5 + Math.random() * 3;
-    const adjustedYield = (baseYield * (1 + nitrogen[0] / 200) * (1 + phosphorus[0] / 300)).toFixed(1);
-    setResult({
-      yield: parseFloat(adjustedYield),
-      harvestPeriod: "90-120 days",
-      insights: [
-        `Optimal nitrogen level for ${crop || "your crop"} is 80-100 kg/ha`,
-        "Consider split application of fertilizers for better absorption",
-        "Current rainfall is adequate — reduce irrigation frequency",
-        "Expected productivity is above district average",
-      ],
-    });
+  const handlePredict = async () => {
+    if (!crop) { toast.error("Please select a crop"); return; }
+    setLoading(true);
+    setResult(null);
+    try {
+      const { data, error } = await supabase.functions.invoke("yield-predict", {
+        body: {
+          crop,
+          nitrogen: nitrogen[0],
+          phosphorus: phosphorus[0],
+          potassium: potassium[0],
+          temperature: temp[0],
+          rainfall: rainfall[0],
+          fertilizer: fertilizer || "None",
+        },
+      });
+      if (error) throw error;
+      setResult(data);
+    } catch (err: any) {
+      console.error("Yield predict error:", err);
+      toast.error(err.message || "Failed to predict yield");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -49,7 +76,7 @@ const YieldPredictor = () => {
             <Select value={crop} onValueChange={setCrop}>
               <SelectTrigger className="bg-background"><SelectValue placeholder={t.selectCrop} /></SelectTrigger>
               <SelectContent>
-                {yieldFactors.crops.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                {crops.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
               </SelectContent>
             </Select>
           </div>
@@ -58,7 +85,7 @@ const YieldPredictor = () => {
             <Select value={fertilizer} onValueChange={setFertilizer}>
               <SelectTrigger className="bg-background"><SelectValue placeholder={t.selectFertilizer} /></SelectTrigger>
               <SelectContent>
-                {yieldFactors.fertilizers.map((f) => <SelectItem key={f} value={f}>{f}</SelectItem>)}
+                {fertilizers.map((f) => <SelectItem key={f} value={f}>{f}</SelectItem>)}
               </SelectContent>
             </Select>
           </div>
@@ -99,9 +126,18 @@ const YieldPredictor = () => {
           </div>
         </div>
 
-        <Button onClick={handlePredict} className="w-full gradient-harvest text-harvest-foreground font-display font-bold h-12">
-          <BarChart3 className="h-5 w-5 mr-2" />
-          {t.predictYield}
+        <Button onClick={handlePredict} disabled={loading} className="w-full gradient-harvest text-harvest-foreground font-display font-bold h-12">
+          {loading ? (
+            <span className="flex items-center gap-2">
+              <Loader2 className="h-5 w-5 animate-spin" />
+              AI is predicting yield...
+            </span>
+          ) : (
+            <>
+              <BarChart3 className="h-5 w-5 mr-2" />
+              {t.predictYield}
+            </>
+          )}
         </Button>
       </div>
 
@@ -109,8 +145,12 @@ const YieldPredictor = () => {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
           <div className="glass-card p-5 text-center">
             <p className="text-sm text-muted-foreground">{t.estimatedYield}</p>
-            <p className="text-4xl font-bold font-display text-primary mt-1">{result.yield} {t.tonsPerAcre}</p>
+            <p className="text-4xl font-bold font-display text-primary mt-1">{result.yield} {result.unit || t.tonsPerAcre}</p>
             <p className="text-sm text-muted-foreground mt-2">{t.harvestPeriod}: {result.harvestPeriod}</p>
+            <div className="flex items-center justify-center gap-2 mt-2">
+              <TrendingUp className="h-4 w-4 text-primary" />
+              <span className="text-sm font-medium text-primary">{result.rating} ({result.confidence}% confidence)</span>
+            </div>
           </div>
 
           <div className="glass-card p-4">
@@ -122,6 +162,34 @@ const YieldPredictor = () => {
               </p>
             ))}
           </div>
+
+          {result.risks?.length > 0 && (
+            <div className="glass-card p-4">
+              <h3 className="font-display font-bold text-foreground mb-3 flex items-center gap-2">
+                <AlertTriangle className="h-4 w-4 text-harvest" /> Potential Risks
+              </h3>
+              {result.risks.map((risk, i) => (
+                <p key={i} className="text-sm text-foreground flex items-start gap-2 mb-2">
+                  <AlertTriangle className="h-3.5 w-3.5 text-harvest mt-0.5 flex-shrink-0" />
+                  {risk}
+                </p>
+              ))}
+            </div>
+          )}
+
+          {result.optimizations?.length > 0 && (
+            <div className="glass-card p-4">
+              <h3 className="font-display font-bold text-foreground mb-3 flex items-center gap-2">
+                <Leaf className="h-4 w-4 text-primary" /> Optimization Tips
+              </h3>
+              {result.optimizations.map((opt, i) => (
+                <p key={i} className="text-sm text-foreground flex items-start gap-2 mb-2">
+                  <ChevronRight className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                  {opt}
+                </p>
+              ))}
+            </div>
+          )}
         </motion.div>
       )}
     </div>
