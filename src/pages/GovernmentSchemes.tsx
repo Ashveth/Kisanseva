@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { allSchemes, schemeCategories, schemeLevels, type Scheme } from "@/data/governmentSchemes";
+import { allSchemes, schemeCategories, schemeLevels, schemeStates, type Scheme } from "@/data/governmentSchemes";
 import { AIErrorCard } from "@/components/ui/ai-loading";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -41,6 +41,7 @@ const GovernmentSchemes = () => {
   const [expanded, setExpanded] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeLevel, setActiveLevel] = useState<string>("All");
+  const [activeState, setActiveState] = useState<string>("All");
   const [bookmarks, setBookmarks] = useState<string[]>(getBookmarks());
   const [showBookmarked, setShowBookmarked] = useState(false);
   const [activeTab, setActiveTab] = useState<string>("details");
@@ -69,8 +70,9 @@ const GovernmentSchemes = () => {
       (s.state && s.state.toLowerCase().includes(search.toLowerCase()));
     const matchesCategory = activeCategory === "All" || s.category === activeCategory;
     const matchesLevel = activeLevel === "All" || s.level === activeLevel;
+    const matchesState = activeState === "All" || s.state === activeState || (activeState === "Central" && s.level === "Central");
     const matchesBookmark = !showBookmarked || bookmarks.includes(s.id);
-    return matchesSearch && matchesCategory && matchesLevel && matchesBookmark;
+    return matchesSearch && matchesCategory && matchesLevel && matchesState && matchesBookmark;
   });
 
   const checkEligibility = async () => {
@@ -218,8 +220,24 @@ const GovernmentSchemes = () => {
             </button>
           ))}
         </div>
+        {/* State filter pills */}
+        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+          <MapPin className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0 mt-0.5" />
+          {schemeStates.map(st => (
+            <button
+              key={st}
+              onClick={() => setActiveState(st)}
+              className={`px-3 py-1 rounded-full text-[11px] font-display font-bold whitespace-nowrap transition-colors ${
+                activeState === st ? "bg-primary/15 text-primary border border-primary/30" : "bg-muted/60 text-muted-foreground"
+              }`}
+            >
+              {st}
+            </button>
+          ))}
+        </div>
         {/* Category pills */}
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+          <Filter className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0 mt-0.5" />
           {schemeCategories.map(cat => (
             <button
               key={cat}
