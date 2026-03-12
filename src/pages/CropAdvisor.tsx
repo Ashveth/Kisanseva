@@ -1,12 +1,10 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Leaf, Droplets, Thermometer, CloudRain, MapPin, Sprout, ChevronRight, Loader2, FlaskConical, Gauge, Zap } from "lucide-react";
+import { Leaf, Droplets, Thermometer, CloudRain, MapPin, Sprout, ChevronRight, Loader2, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { AIErrorCard, ResultCardSkeleton } from "@/components/ui/ai-loading";
 import { Progress } from "@/components/ui/progress";
@@ -20,11 +18,14 @@ interface CropRecommendation {
   tips: string[];
 }
 
-const nutrientConfig = [
-  { key: "nitrogen", icon: "N", color: "bg-primary", min: 0, max: 140, unit: "kg/ha" },
-  { key: "phosphorus", icon: "P", color: "bg-secondary", min: 0, max: 140, unit: "kg/ha" },
-  { key: "potassium", icon: "K", color: "bg-accent", min: 0, max: 200, unit: "kg/ha" },
-] as const;
+const soilPresets = [
+  { label: "🌾 Alluvial", nitrogen: 80, phosphorus: 60, potassium: 70, ph: 7.0 },
+  { label: "🏜️ Sandy", nitrogen: 30, phosphorus: 20, potassium: 25, ph: 6.0 },
+  { label: "🧱 Clay", nitrogen: 60, phosphorus: 50, potassium: 55, ph: 7.5 },
+  { label: "🌿 Loamy", nitrogen: 70, phosphorus: 55, potassium: 60, ph: 6.8 },
+  { label: "⬛ Black", nitrogen: 50, phosphorus: 40, potassium: 80, ph: 8.0 },
+  { label: "🔴 Red", nitrogen: 35, phosphorus: 30, potassium: 35, ph: 5.5 },
+];
 
 const CropAdvisor = () => {
   const [loading, setLoading] = useState(false);
@@ -37,10 +38,16 @@ const CropAdvisor = () => {
   const [temp, setTemp] = useState([28]);
   const [rainfall, setRainfall] = useState([200]);
   const [location, setLocation] = useState("");
+  const [activePreset, setActivePreset] = useState<string | null>(null);
   const { t } = useLanguage();
 
-  const nutrientValues = { nitrogen, phosphorus, potassium };
-  const nutrientSetters = { nitrogen: setNitrogen, phosphorus: setPhosphorus, potassium: setPotassium };
+  const applyPreset = (preset: typeof soilPresets[0]) => {
+    setActivePreset(preset.label);
+    setNitrogen([preset.nitrogen]);
+    setPhosphorus([preset.phosphorus]);
+    setPotassium([preset.potassium]);
+    setPh([preset.ph]);
+  };
 
   const handleGetRecommendations = async () => {
     setLoading(true);
@@ -69,147 +76,176 @@ const CropAdvisor = () => {
     }
   };
 
-  const waterNeedIcon = (level: string) => {
+  const waterNeedEmoji = (level: string) => {
     const l = level.toLowerCase();
-    if (l === "high") return "💧💧💧";
-    if (l === "medium") return "💧💧";
-    return "💧";
+    return l === "high" ? "💧💧💧" : l === "medium" ? "💧💧" : "💧";
   };
 
+  const rankEmoji = ["🥇", "🥈", "🥉"];
+
   const medalColors = [
-    "from-primary to-leaf text-primary-foreground",
-    "from-secondary to-harvest text-secondary-foreground",
-    "from-earth to-accent text-accent-foreground",
+    "from-primary to-leaf",
+    "from-secondary to-harvest",
+    "from-earth to-accent",
   ];
 
   return (
-    <div className="container py-4 pb-24 space-y-5 max-w-2xl mx-auto">
-      {/* Hero Header */}
+    <div className="container py-4 pb-28 space-y-4 max-w-2xl mx-auto">
+      {/* Hero */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative overflow-hidden rounded-2xl gradient-hero p-5 pb-6"
+        className="rounded-2xl gradient-hero p-5 relative overflow-hidden"
       >
-        <div className="absolute top-0 right-0 w-32 h-32 opacity-10">
-          <Sprout className="w-full h-full" />
-        </div>
-        <div className="relative z-10">
-          <div className="flex items-center gap-2 mb-1">
-            <div className="h-8 w-8 rounded-lg bg-primary-foreground/20 flex items-center justify-center">
-              <Leaf className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <h1 className="text-xl font-extrabold font-display text-primary-foreground">
+        <div className="absolute -right-4 -bottom-4 text-6xl opacity-15 select-none">🌱</div>
+        <div className="flex items-center gap-3">
+          <div className="h-10 w-10 rounded-xl bg-primary-foreground/20 flex items-center justify-center text-xl">
+            🌾
+          </div>
+          <div>
+            <h1 className="text-lg font-extrabold font-display text-primary-foreground">
               {t.cropAdvisor}
             </h1>
+            <p className="text-xs text-primary-foreground/75">{t.enterSoilData}</p>
           </div>
-          <p className="text-sm text-primary-foreground/80 ml-10">{t.enterSoilData}</p>
         </div>
       </motion.div>
 
-      {/* NPK Quick Cards */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-      >
-        <div className="flex items-center gap-2 mb-3">
-          <FlaskConical className="h-4 w-4 text-primary" />
-          <h2 className="font-display font-bold text-sm text-foreground">{t.soilNutrients}</h2>
-        </div>
-        <div className="grid grid-cols-3 gap-3">
-          {nutrientConfig.map((n) => {
-            const val = nutrientValues[n.key][0];
-            const pct = ((val - n.min) / (n.max - n.min)) * 100;
-            return (
-              <div key={n.key} className="glass-card p-3 space-y-2">
-                <div className="flex items-center justify-between">
-                  <div className={`h-7 w-7 rounded-lg ${n.color} flex items-center justify-center`}>
-                    <span className="text-xs font-extrabold text-primary-foreground">{n.icon}</span>
-                  </div>
-                  <span className="text-lg font-extrabold font-display text-foreground">{val}</span>
-                </div>
-                <p className="text-[10px] text-muted-foreground font-medium">
-                  {t[n.key]} ({n.unit})
-                </p>
-                <Slider
-                  value={nutrientValues[n.key]}
-                  onValueChange={nutrientSetters[n.key]}
-                  min={n.min}
-                  max={n.max}
-                  step={1}
-                  className="mt-1"
-                />
-                <Progress value={pct} className="h-1" />
-              </div>
-            );
-          })}
+      {/* Step 1: Quick Soil Type Selection */}
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}>
+        <p className="text-xs font-bold font-display text-foreground mb-2 flex items-center gap-1.5">
+          <span className="h-5 w-5 rounded-full gradient-hero text-primary-foreground flex items-center justify-center text-[10px] font-extrabold">1</span>
+          Select Your Soil Type
+        </p>
+        <div className="grid grid-cols-3 gap-2">
+          {soilPresets.map((preset) => (
+            <button
+              key={preset.label}
+              onClick={() => applyPreset(preset)}
+              className={`p-3 rounded-xl border-2 text-center transition-all active:scale-95 ${
+                activePreset === preset.label
+                  ? "border-primary bg-primary/10 shadow-card"
+                  : "border-border bg-card/80 hover:border-primary/40"
+              }`}
+            >
+              <span className="text-2xl block mb-1">{preset.label.split(" ")[0]}</span>
+              <span className="text-[11px] font-bold font-display text-foreground block">{preset.label.split(" ")[1]}</span>
+            </button>
+          ))}
         </div>
       </motion.div>
 
-      {/* Environment Parameters */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-      >
-        <div className="flex items-center gap-2 mb-3">
-          <Gauge className="h-4 w-4 text-accent" />
-          <h2 className="font-display font-bold text-sm text-foreground">Environment & Location</h2>
-        </div>
+      {/* Step 2: Fine-tune NPK */}
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+        <p className="text-xs font-bold font-display text-foreground mb-2 flex items-center gap-1.5">
+          <span className="h-5 w-5 rounded-full gradient-harvest text-harvest-foreground flex items-center justify-center text-[10px] font-extrabold">2</span>
+          {t.soilNutrients}
+        </p>
         <div className="glass-card p-4 space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* pH */}
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label className="text-xs flex items-center gap-1.5 text-muted-foreground">
-                  <Droplets className="h-3.5 w-3.5 text-sky" /> {t.soilPh}
-                </Label>
-                <span className="text-sm font-bold font-display text-foreground">{ph[0]}</span>
+          {/* Nitrogen */}
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="h-6 w-6 rounded-md bg-primary flex items-center justify-center text-[10px] font-extrabold text-primary-foreground">N</span>
+                <span className="text-xs font-medium text-foreground">{t.nitrogen}</span>
               </div>
-              <Slider value={ph} onValueChange={setPh} min={3} max={10} step={0.1} />
-              <div className="flex justify-between text-[9px] text-muted-foreground">
-                <span>Acidic</span>
-                <span>Neutral</span>
-                <span>Alkaline</span>
-              </div>
+              <span className="text-sm font-extrabold font-display text-primary tabular-nums">{nitrogen[0]} <span className="text-[9px] font-normal text-muted-foreground">kg/ha</span></span>
             </div>
+            <Slider value={nitrogen} onValueChange={(v) => { setNitrogen(v); setActivePreset(null); }} min={0} max={140} step={1} />
+          </div>
+
+          {/* Phosphorus */}
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="h-6 w-6 rounded-md bg-secondary flex items-center justify-center text-[10px] font-extrabold text-secondary-foreground">P</span>
+                <span className="text-xs font-medium text-foreground">{t.phosphorus}</span>
+              </div>
+              <span className="text-sm font-extrabold font-display text-secondary tabular-nums">{phosphorus[0]} <span className="text-[9px] font-normal text-muted-foreground">kg/ha</span></span>
+            </div>
+            <Slider value={phosphorus} onValueChange={(v) => { setPhosphorus(v); setActivePreset(null); }} min={0} max={140} step={1} />
+          </div>
+
+          {/* Potassium */}
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="h-6 w-6 rounded-md bg-accent flex items-center justify-center text-[10px] font-extrabold text-accent-foreground">K</span>
+                <span className="text-xs font-medium text-foreground">{t.potassium}</span>
+              </div>
+              <span className="text-sm font-extrabold font-display text-accent tabular-nums">{potassium[0]} <span className="text-[9px] font-normal text-muted-foreground">kg/ha</span></span>
+            </div>
+            <Slider value={potassium} onValueChange={(v) => { setPotassium(v); setActivePreset(null); }} min={0} max={200} step={1} />
+          </div>
+
+          {/* pH */}
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Droplets className="h-4 w-4 text-sky" />
+                <span className="text-xs font-medium text-foreground">{t.soilPh}</span>
+              </div>
+              <span className="text-sm font-extrabold font-display text-sky tabular-nums">{ph[0]}</span>
+            </div>
+            <Slider value={ph} onValueChange={(v) => { setPh(v); setActivePreset(null); }} min={3} max={10} step={0.1} />
+            <div className="flex justify-between text-[9px] text-muted-foreground px-0.5">
+              <span>🟡 Acidic</span>
+              <span>🟢 Neutral</span>
+              <span>🔵 Alkaline</span>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Step 3: Weather & Location */}
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
+        <p className="text-xs font-bold font-display text-foreground mb-2 flex items-center gap-1.5">
+          <span className="h-5 w-5 rounded-full gradient-sky text-sky-foreground flex items-center justify-center text-[10px] font-extrabold">3</span>
+          Weather & Location
+        </p>
+        <div className="glass-card p-4 space-y-4">
+          <div className="grid grid-cols-2 gap-4">
             {/* Temperature */}
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <Label className="text-xs flex items-center gap-1.5 text-muted-foreground">
-                  <Thermometer className="h-3.5 w-3.5 text-accent" /> {t.temperature}
-                </Label>
-                <span className="text-sm font-bold font-display text-foreground">{temp[0]}°C</span>
+                <div className="flex items-center gap-1.5">
+                  <Thermometer className="h-4 w-4 text-accent" />
+                  <span className="text-xs font-medium text-foreground">{t.temperature}</span>
+                </div>
+                <span className="text-sm font-extrabold font-display text-foreground tabular-nums">{temp[0]}°C</span>
               </div>
               <Slider value={temp} onValueChange={setTemp} min={5} max={50} step={1} />
               <div className="flex justify-between text-[9px] text-muted-foreground">
-                <span>5°C</span>
-                <span>50°C</span>
+                <span>❄️ 5°</span>
+                <span>🔥 50°</span>
               </div>
             </div>
+
             {/* Rainfall */}
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <Label className="text-xs flex items-center gap-1.5 text-muted-foreground">
-                  <CloudRain className="h-3.5 w-3.5 text-sky" /> {t.rainfall}
-                </Label>
-                <span className="text-sm font-bold font-display text-foreground">{rainfall[0]}mm</span>
+                <div className="flex items-center gap-1.5">
+                  <CloudRain className="h-4 w-4 text-sky" />
+                  <span className="text-xs font-medium text-foreground">{t.rainfall}</span>
+                </div>
+                <span className="text-sm font-extrabold font-display text-foreground tabular-nums">{rainfall[0]}mm</span>
               </div>
               <Slider value={rainfall} onValueChange={setRainfall} min={0} max={500} step={10} />
               <div className="flex justify-between text-[9px] text-muted-foreground">
-                <span>0mm</span>
-                <span>500mm</span>
+                <span>🏜️ Dry</span>
+                <span>🌧️ Heavy</span>
               </div>
             </div>
           </div>
 
-          <div className="pt-1">
-            <Label className="text-xs flex items-center gap-1.5 mb-2 text-muted-foreground">
-              <MapPin className="h-3.5 w-3.5 text-earth" /> {t.location}
-            </Label>
+          <div>
+            <div className="flex items-center gap-1.5 mb-1.5">
+              <MapPin className="h-4 w-4 text-earth" />
+              <span className="text-xs font-medium text-foreground">{t.location}</span>
+            </div>
             <Input
               placeholder={t.enterLocation}
-              className="bg-background/60 border-border/60 h-9 text-sm"
+              className="bg-background/60 h-11 text-sm rounded-xl"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
             />
@@ -217,39 +253,35 @@ const CropAdvisor = () => {
         </div>
       </motion.div>
 
-      {/* CTA Button */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-      >
+      {/* Big CTA */}
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
         <Button
           onClick={handleGetRecommendations}
           disabled={loading}
-          className="w-full gradient-hero text-primary-foreground font-display font-extrabold h-12 text-base rounded-xl shadow-elevated active:scale-[0.98] transition-transform"
+          className="w-full gradient-hero text-primary-foreground font-display font-extrabold h-14 text-base rounded-2xl shadow-elevated active:scale-[0.97] transition-transform"
         >
           {loading ? (
             <span className="flex items-center gap-2">
               <Loader2 className="h-5 w-5 animate-spin" />
-              Analyzing soil data...
+              Analyzing...
             </span>
           ) : (
-            <>
-              <Zap className="h-5 w-5 mr-1" />
+            <span className="flex items-center gap-2">
+              <Zap className="h-5 w-5" />
               {t.getCropRecommendations}
-            </>
+            </span>
           )}
         </Button>
       </motion.div>
 
-      {/* Loading State */}
+      {/* Loading */}
       {loading && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <ResultCardSkeleton count={3} />
         </motion.div>
       )}
 
-      {/* Error State */}
+      {/* Error */}
       {error && <AIErrorCard message={error} onRetry={handleGetRecommendations} />}
 
       {/* Results */}
@@ -258,63 +290,62 @@ const CropAdvisor = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="space-y-4"
+            exit={{ opacity: 0 }}
+            className="space-y-3"
           >
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 pt-2">
               <Sprout className="h-5 w-5 text-primary" />
-              <h2 className="text-lg font-extrabold font-display text-foreground">{t.topRecommendedCrops}</h2>
+              <h2 className="text-base font-extrabold font-display text-foreground">{t.topRecommendedCrops}</h2>
             </div>
 
             {results.map((crop, i) => (
               <motion.div
                 key={crop.name}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.12 }}
+                transition={{ delay: i * 0.1 }}
                 className="glass-card overflow-hidden"
               >
-                {/* Card Header with rank gradient strip */}
                 <div className={`h-1.5 bg-gradient-to-r ${medalColors[i] || medalColors[2]}`} />
                 <div className="p-4 space-y-3">
+                  {/* Header */}
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
-                      <div className={`h-11 w-11 rounded-xl bg-gradient-to-br ${medalColors[i] || medalColors[2]} flex items-center justify-center shadow-card`}>
-                        <span className="text-sm font-extrabold">#{i + 1}</span>
-                      </div>
+                      <span className="text-3xl">{rankEmoji[i] || "🌱"}</span>
                       <div>
-                        <h3 className="font-display font-extrabold text-foreground text-base">{crop.name}</h3>
-                        <div className="flex items-center gap-2 mt-0.5">
+                        <h3 className="font-display font-extrabold text-foreground text-base leading-tight">{crop.name}</h3>
+                        <div className="flex items-center gap-1.5 mt-1">
                           <span className="text-[10px] px-2 py-0.5 rounded-full bg-muted text-muted-foreground font-medium">
-                            {crop.season}
+                            📅 {crop.season}
                           </span>
-                          <span className="text-[10px]">{waterNeedIcon(crop.waterNeed)}</span>
+                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-muted text-muted-foreground font-medium">
+                            {waterNeedEmoji(crop.waterNeed)} {crop.waterNeed}
+                          </span>
                         </div>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <div className="flex items-center gap-1 justify-end">
-                        <span className="text-lg font-extrabold font-display text-primary">{crop.confidence}%</span>
-                      </div>
+                    <div className="text-right flex-shrink-0">
+                      <span className="text-xl font-extrabold font-display text-primary">{crop.confidence}%</span>
                       <p className="text-[10px] text-muted-foreground">{t.match}</p>
                     </div>
                   </div>
 
                   {/* Confidence bar */}
-                  <div className="space-y-1">
-                    <Progress value={crop.confidence} className="h-2" />
-                    <div className="flex justify-between text-[10px] text-muted-foreground">
-                      <span>{t.yield}: {crop.yield}</span>
-                      <span>{t.waterNeed}: {crop.waterNeed}</span>
-                    </div>
+                  <Progress value={crop.confidence} className="h-2.5 rounded-full" />
+
+                  {/* Yield info */}
+                  <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                    <span>📊 {t.yield}: <strong className="text-foreground">{crop.yield}</strong></span>
                   </div>
 
                   {/* Tips */}
-                  <div className="bg-muted/40 rounded-lg p-3 space-y-1.5">
-                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">{t.cultivationTips}</p>
+                  <div className="bg-muted/40 rounded-xl p-3 space-y-2">
+                    <p className="text-[10px] font-bold text-primary uppercase tracking-wider flex items-center gap-1">
+                      💡 {t.cultivationTips}
+                    </p>
                     {crop.tips.map((tip, j) => (
                       <div key={j} className="flex items-start gap-2">
-                        <ChevronRight className="h-3 w-3 text-primary mt-0.5 flex-shrink-0" />
+                        <ChevronRight className="h-3.5 w-3.5 text-primary mt-0.5 flex-shrink-0" />
                         <p className="text-xs text-foreground leading-relaxed">{tip}</p>
                       </div>
                     ))}
