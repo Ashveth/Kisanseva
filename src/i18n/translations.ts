@@ -1196,7 +1196,7 @@ export const translations: Record<Language, Translations> = {
   },
 
   ml: {
-    appName: "FarmWise AI",
+    appName: "KisanSeva",
     loading: "ലോഡ് ചെയ്യുന്നു...",
     save: "സേവ് ചെയ്യുക",
     saving: "സേവ് ചെയ്യുന്നു...",
