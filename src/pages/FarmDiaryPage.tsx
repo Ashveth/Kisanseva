@@ -186,7 +186,19 @@ const FarmDiaryPage = () => {
                 <DropdownMenuItem onClick={() => { exportCSV(filtered); toast.success("CSV downloaded! 📊"); }}>
                   <FileSpreadsheet className="h-4 w-4 mr-2" /> Export as CSV
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => { exportPDF(filtered, filteredExpenses, filteredIncome); toast.success("PDF downloaded! 📄"); }}>
+                <DropdownMenuItem onClick={async () => {
+                  let farmerName: string | undefined;
+                  try {
+                    const { data } = await supabase.from("profiles").select("full_name").eq("id", user!.id).single();
+                    farmerName = data?.full_name || undefined;
+                  } catch {}
+                  exportPDF(filtered, filteredExpenses, filteredIncome, {
+                    farmerName,
+                    dateFrom: dateFrom ? format(dateFrom, "yyyy-MM-dd") : undefined,
+                    dateTo: dateTo ? format(dateTo, "yyyy-MM-dd") : undefined,
+                  });
+                  toast.success("PDF downloaded! 📄");
+                }}>
                   <FileText className="h-4 w-4 mr-2" /> Export as PDF
                 </DropdownMenuItem>
               </DropdownMenuContent>
