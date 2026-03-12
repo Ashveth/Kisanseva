@@ -35,6 +35,25 @@ const AuthRoute = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
+const AppRoutes = () => (
+  <Routes>
+    <Route path="/auth" element={<AuthRoute><AuthPage /></AuthRoute>} />
+    <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
+      <Route path="/" element={<Dashboard />} />
+      <Route path="/crop-advisor" element={<CropAdvisor />} />
+      <Route path="/disease-detect" element={<DiseaseDetect />} />
+      <Route path="/weather" element={<WeatherPage />} />
+      <Route path="/market" element={<MarketPage />} />
+      <Route path="/knowledge" element={<KnowledgeBase />} />
+      <Route path="/chat" element={<AIChatPage />} />
+      <Route path="/yield-predictor" element={<YieldPredictor />} />
+      <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/notifications" element={<NotificationsPage />} />
+    </Route>
+    <Route path="*" element={<NotFound />} />
+  </Routes>
+);
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -43,22 +62,7 @@ const App = () => (
       <LanguageProvider>
         <BrowserRouter>
           <AuthProvider>
-            <Routes>
-              <Route path="/auth" element={<AuthRoute><AuthPage /></AuthRoute>} />
-              <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/crop-advisor" element={<CropAdvisor />} />
-                <Route path="/disease-detect" element={<DiseaseDetect />} />
-                <Route path="/weather" element={<WeatherPage />} />
-                <Route path="/market" element={<MarketPage />} />
-                <Route path="/knowledge" element={<KnowledgeBase />} />
-                <Route path="/chat" element={<AIChatPage />} />
-                <Route path="/yield-predictor" element={<YieldPredictor />} />
-                <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/notifications" element={<NotificationsPage />} />
-              </Route>
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <AppRoutes />
           </AuthProvider>
         </BrowserRouter>
       </LanguageProvider>
