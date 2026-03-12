@@ -16,6 +16,9 @@ import { toast } from "sonner";
 import { allSchemes, schemeCategories, schemeLevels, schemeStates, type Scheme } from "@/data/governmentSchemes";
 import { AIErrorCard } from "@/components/ui/ai-loading";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useLanguage } from "@/contexts/LanguageContext";
+import type { Translations } from "@/i18n/translations";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // ── Bookmark helpers ──
 const BOOKMARKS_KEY = "farmwise-scheme-bookmarks";
