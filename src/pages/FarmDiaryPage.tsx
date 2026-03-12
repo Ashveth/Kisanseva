@@ -235,7 +235,7 @@ const FarmDiaryPage = () => {
             <ArrowUpDown className="h-4 w-4" />
             {netProfit >= 0 ? "+" : "-"}₹{Math.abs(netProfit).toLocaleString()}
           </p>
-          <p className="text-xs text-muted-foreground font-display">{netProfit >= 0 ? "Profit" : "Loss"}</p>
+          <p className="text-xs text-muted-foreground font-display">{netProfit >= 0 ? t.profit : t.loss}</p>
         </div>
       </div>
 
