@@ -154,8 +154,11 @@
 }
 
 .ai-response strong {
-  color: hsl(var(--foreground));
+  color: hsl(var(--primary));
   font-weight: 700;
+  background: hsl(var(--primary) / 0.08);
+  padding: 0.05rem 0.3rem;
+  border-radius: 0.25rem;
 }
 
 .ai-response table {
