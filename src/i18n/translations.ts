@@ -368,6 +368,15 @@ export const translations: Record<Language, Translations> = {
     langEnglish: "English",
     langHindi: "हिंदी (Hindi)",
     langTamil: "தமிழ் (Tamil)",
+
+    notifications: "Notifications",
+    unreadNotifications: "unread",
+    markAllRead: "Mark all read",
+    allNotifications: "All",
+    noNotifications: "No notifications yet",
+    noNotificationsDesc: "You'll receive weather alerts, market updates, and disease warnings here.",
+    generateSampleAlerts: "Generate Sample Alerts",
+    navNotifications: "Alerts",
   },
 
   hi: {
