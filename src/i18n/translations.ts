@@ -263,6 +263,13 @@ export interface Translations {
   toastDeleteFailed: string;
   toastEntryDeleted: string;
 
+  // Chart labels
+  chartIncomeVsExpenses: string;
+  chartMonthlyExpenses: string;
+  chartExpenseBreakdown: string;
+  chartTotal: string;
+  chartOfTotal: string;
+
   // Government Schemes
   govSchemes: string;
   govSchemesDesc: string;
