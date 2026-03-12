@@ -465,7 +465,7 @@ const SchemeCard = ({ scheme, index, isExpanded, isBookmarked, activeTab, onTogg
 
               <TabsContent value="details" className="space-y-3 mt-3">
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2">Who Can Apply</p>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2">{t.eligibility}</p>
                   <div className="space-y-1.5">
                     {scheme.eligibility.map((item, j) => (
                       <div key={j} className="flex items-start gap-2">
