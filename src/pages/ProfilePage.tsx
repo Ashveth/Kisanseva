@@ -42,6 +42,10 @@ const ProfilePage = () => {
     { value: "en", label: t.langEnglish },
     { value: "hi", label: t.langHindi },
     { value: "ta", label: t.langTamil },
+    { value: "mr", label: t.langMarathi },
+    { value: "te", label: t.langTelugu },
+    { value: "ml", label: t.langMalayalam },
+    { value: "kn", label: t.langKannada },
   ];
 
   useEffect(() => {
