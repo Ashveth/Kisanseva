@@ -63,6 +63,10 @@ const AuthPage = () => {
     { value: "en", label: "EN" },
     { value: "hi", label: "हिं" },
     { value: "ta", label: "த" },
+    { value: "mr", label: "मरा" },
+    { value: "te", label: "తె" },
+    { value: "ml", label: "മല" },
+    { value: "kn", label: "ಕ" },
   ];
 
   return (
