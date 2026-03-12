@@ -1,11 +1,23 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, Leaf, Camera, CloudSun, TrendingUp, BookOpen, MessageCircle, Sprout, User, Bell } from "lucide-react";
+import { Home, Leaf, Camera, CloudSun, TrendingUp, BookOpen, MessageCircle, Sprout, User, Bell, Globe } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useNotifications } from "@/hooks/useNotifications";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Language } from "@/i18n/translations";
+
+const LANGUAGES: { code: Language; label: string; flag: string }[] = [
+  { code: "en", label: "English", flag: "🇬🇧" },
+  { code: "hi", label: "हिंदी", flag: "🇮🇳" },
+  { code: "ta", label: "தமிழ்", flag: "🇮🇳" },
+  { code: "mr", label: "मराठी", flag: "🇮🇳" },
+  { code: "te", label: "తెలుగు", flag: "🇮🇳" },
+  { code: "ml", label: "മലയാളം", flag: "🇮🇳" },
+  { code: "kn", label: "ಕನ್ನಡ", flag: "🇮🇳" },
+];
 
 const TopBar = () => {
   const location = useLocation();
-  const { t } = useLanguage();
+  const { t, language, setLanguage } = useLanguage();
   const { unreadCount } = useNotifications();
 
   const navItems = [
@@ -17,6 +29,8 @@ const TopBar = () => {
     { path: "/knowledge", icon: BookOpen, label: t.navKnowledge },
     { path: "/chat", icon: MessageCircle, label: t.navAIAssistant },
   ];
+
+  const currentLang = LANGUAGES.find((l) => l.code === language) || LANGUAGES[0];
 
   return (
     <header className="hidden md:block sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border">
@@ -47,6 +61,26 @@ const TopBar = () => {
           })}
         </nav>
         <div className="flex items-center gap-1">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="flex items-center gap-1.5 px-2.5 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors">
+                <Globe className="h-4 w-4" />
+                <span className="text-xs font-display">{currentLang.label}</span>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="min-w-[160px]">
+              {LANGUAGES.map((lang) => (
+                <DropdownMenuItem
+                  key={lang.code}
+                  onClick={() => setLanguage(lang.code)}
+                  className={`gap-2 font-display ${language === lang.code ? "bg-primary/10 text-primary font-bold" : ""}`}
+                >
+                  <span>{lang.flag}</span>
+                  <span>{lang.label}</span>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Link
             to="/notifications"
             className={`p-2 rounded-lg transition-colors relative ${
