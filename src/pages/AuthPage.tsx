@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Sprout, Mail, Lock, User, ArrowRight, Globe } from "lucide-react";
+import { Sprout, Mail, Lock, User, ArrowRight, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
@@ -11,24 +11,45 @@ import { Language } from "@/i18n/translations";
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const [loginMethod, setLoginMethod] = useState<"phone" | "email">("phone");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
-  const { signIn, signUp } = useAuth();
+  const { signIn, signUp, signInWithPhone, signUpWithPhone } = useAuth();
   const { t, language, setLanguage } = useLanguage();
   const navigate = useNavigate();
+
+  const formatPhoneNumber = (input: string): string => {
+    const digits = input.replace(/[^\d+]/g, "");
+    if (digits.startsWith("+")) return digits;
+    if (digits.startsWith("0")) return "+91" + digits.slice(1);
+    if (digits.length === 10) return "+91" + digits;
+    return digits;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
-      if (isLogin) {
-        await signIn(email, password);
-        toast.success(t.welcomeBack.replace(", farmer!", "! 🌾"));
+      if (loginMethod === "phone") {
+        const formattedPhone = formatPhoneNumber(phone);
+        if (isLogin) {
+          await signInWithPhone(formattedPhone, password);
+          toast.success(t.welcomeBack.replace(", farmer!", "! 🌾"));
+        } else {
+          await signUpWithPhone(formattedPhone, password, fullName);
+          toast.success(t.createAccount + " 🌱");
+        }
       } else {
-        await signUp(email, password, fullName);
-        toast.success(t.createAccount + " 🌱");
+        if (isLogin) {
+          await signIn(email, password);
+          toast.success(t.welcomeBack.replace(", farmer!", "! 🌾"));
+        } else {
+          await signUp(email, password, fullName);
+          toast.success(t.createAccount + " 🌱");
+        }
       }
       navigate("/");
     } catch (err: any) {
@@ -72,6 +93,34 @@ const AuthPage = () => {
           </p>
         </div>
 
+        {/* Login Method Toggle */}
+        <div className="flex gap-1 p-1 bg-muted rounded-xl mb-4">
+          <button
+            type="button"
+            onClick={() => setLoginMethod("phone")}
+            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-all ${
+              loginMethod === "phone"
+                ? "bg-card text-foreground shadow-sm"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            <Phone className="h-4 w-4" />
+            {t.phone}
+          </button>
+          <button
+            type="button"
+            onClick={() => setLoginMethod("email")}
+            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition-all ${
+              loginMethod === "email"
+                ? "bg-card text-foreground shadow-sm"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            <Mail className="h-4 w-4" />
+            {t.email}
+          </button>
+        </div>
+
         <form onSubmit={handleSubmit} className="glass-card p-6 space-y-4">
           {!isLogin && (
             <div className="relative">
@@ -80,11 +129,28 @@ const AuthPage = () => {
                 className="pl-10 h-11 bg-card" required={!isLogin} />
             </div>
           )}
-          <div className="relative">
-            <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-            <Input type="email" placeholder={t.email} value={email} onChange={(e) => setEmail(e.target.value)}
-              className="pl-10 h-11 bg-card" required />
-          </div>
+
+          {loginMethod === "phone" ? (
+            <div className="relative">
+              <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input
+                type="tel"
+                placeholder={t.phoneNumber}
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="pl-10 h-11 bg-card"
+                required
+              />
+              <span className="absolute right-3 top-3 text-xs text-muted-foreground">+91</span>
+            </div>
+          ) : (
+            <div className="relative">
+              <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input type="email" placeholder={t.email} value={email} onChange={(e) => setEmail(e.target.value)}
+                className="pl-10 h-11 bg-card" required />
+            </div>
+          )}
+
           <div className="relative">
             <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input type="password" placeholder={t.password} value={password} onChange={(e) => setPassword(e.target.value)}

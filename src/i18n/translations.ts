@@ -15,6 +15,7 @@ export interface Translations {
   password: string;
   fullName: string;
   pleaseWait: string;
+  phoneNumber: string;
 
   // Auth
   welcomeBack: string;
@@ -211,6 +212,7 @@ export const translations: Record<Language, Translations> = {
     password: "Password",
     fullName: "Full Name",
     pleaseWait: "Please wait...",
+    phoneNumber: "Phone number (e.g., 9876543210)",
 
     welcomeBack: "Welcome back, farmer!",
     joinFarmers: "Join thousands of smart farmers",
@@ -393,6 +395,7 @@ export const translations: Record<Language, Translations> = {
     password: "पासवर्ड",
     fullName: "पूरा नाम",
     pleaseWait: "कृपया प्रतीक्षा करें...",
+    phoneNumber: "फ़ोन नंबर (जैसे, 9876543210)",
 
     welcomeBack: "वापस आपका स्वागत है, किसान!",
     joinFarmers: "हज़ारों स्मार्ट किसानों से जुड़ें",
@@ -575,6 +578,7 @@ export const translations: Record<Language, Translations> = {
     password: "கடவுச்சொல்",
     fullName: "முழு பெயர்",
     pleaseWait: "காத்திருக்கவும்...",
+    phoneNumber: "தொலைபேசி எண் (எ.கா., 9876543210)",
 
     welcomeBack: "மீண்டும் வரவேற்கிறோம், விவசாயி!",
     joinFarmers: "ஆயிரக்கணக்கான ஸ்மார்ட் விவசாயிகளுடன் இணையுங்கள்",
