@@ -109,8 +109,8 @@ const FarmDiaryPage = () => {
 
     if (editingId) {
       const { error } = await supabase.from("farm_diary").update(payload).eq("id", editingId);
-      if (error) { toast.error("Failed to update entry"); console.error(error); }
-      else { toast.success("Entry updated"); }
+      if (error) { toast.error(t.toastUpdateFailed); console.error(error); }
+      else { toast.success(t.toastEntryUpdated); }
     } else {
       const { error } = await supabase.from("farm_diary").insert(payload);
       if (error) { toast.error("Failed to save entry"); console.error(error); }
