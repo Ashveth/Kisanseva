@@ -113,8 +113,8 @@ const FarmDiaryPage = () => {
       else { toast.success(t.toastEntryUpdated); }
     } else {
       const { error } = await supabase.from("farm_diary").insert(payload);
-      if (error) { toast.error("Failed to save entry"); console.error(error); }
-      else { toast.success("Entry saved! 🌾"); }
+      if (error) { toast.error(t.toastSaveFailed); console.error(error); }
+      else { toast.success(t.toastEntrySaved); }
     }
 
     setSaving(false);
