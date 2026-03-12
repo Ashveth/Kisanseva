@@ -184,7 +184,7 @@ const FarmDiaryPage = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem onClick={() => { exportCSV(filtered); toast.success("CSV downloaded! 📊"); }}>
-                  <FileSpreadsheet className="h-4 w-4 mr-2" /> Export as CSV
+                  <FileSpreadsheet className="h-4 w-4 mr-2" /> {t.exportCSV}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={async () => {
                   let farmerName: string | undefined;
