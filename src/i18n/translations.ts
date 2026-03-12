@@ -184,6 +184,16 @@ export interface Translations {
   langEnglish: string;
   langHindi: string;
   langTamil: string;
+
+  // Notifications
+  notifications: string;
+  unreadNotifications: string;
+  markAllRead: string;
+  allNotifications: string;
+  noNotifications: string;
+  noNotificationsDesc: string;
+  generateSampleAlerts: string;
+  navNotifications: string;
 }
 
 export const translations: Record<Language, Translations> = {
