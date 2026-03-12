@@ -215,7 +215,7 @@ const GovernmentSchemes = () => {
             <Select value={activeState} onValueChange={setActiveState}>
               <SelectTrigger className="h-8 w-auto min-w-[140px] text-[11px] font-display font-bold border-border bg-card gap-1">
                 <MapPin className="h-3 w-3 text-primary flex-shrink-0" />
-                <SelectValue placeholder="All States" />
+                <SelectValue placeholder={t.selectState} />
               </SelectTrigger>
               <SelectContent>
                 {schemeStates.map(st => (
