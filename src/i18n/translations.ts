@@ -1327,8 +1327,11 @@ export const translations: Record<Language, Translations> = {
     toastEntrySaved: "नोंद जतन झाली! 🌾",
     toastDeleteFailed: "हटवता आले नाही",
     toastEntryDeleted: "नोंद हटवली",
-
-    govSchemes: "सरकारी योजना",
+    chartIncomeVsExpenses: "उत्पन्न विरुद्ध खर्च",
+    chartMonthlyExpenses: "मासिक खर्च",
+    chartExpenseBreakdown: "खर्च तपशील",
+    chartTotal: "एकूण",
+    chartOfTotal: "एकूणाचे",
     govSchemesDesc: "शेतकऱ्यांसाठी योजना आणि अनुदान शोधा",
     searchSchemes: "योजना शोधा...",
     central: "केंद्र",
