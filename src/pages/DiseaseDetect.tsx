@@ -1,6 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Camera, AlertTriangle, CheckCircle, Shield, Leaf, X, Loader2, Heart, Pill, Info, BarChart3 } from "lucide-react";
+import { Camera, AlertTriangle, CheckCircle, Shield, Leaf, X, Loader2, Heart, Pill, Info, BarChart3, Upload, ImagePlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -23,6 +23,7 @@ const DiseaseDetect = () => {
   const [analyzing, setAnalyzing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<{ healthy: boolean; disease: DiseaseResult } | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const { t } = useLanguage();
 
@@ -101,50 +102,105 @@ const DiseaseDetect = () => {
 
       {!image ? (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
-          <button
-            onClick={() => fileRef.current?.click()}
-            className="glass-card w-full p-8 flex flex-col items-center gap-4 hover:shadow-elevated transition-shadow cursor-pointer border-2 border-dashed border-primary/30"
+          {/* Drop zone */}
+          <div
+            onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+            onDragLeave={() => setIsDragging(false)}
+            onDrop={(e) => {
+              e.preventDefault();
+              setIsDragging(false);
+              const file = e.dataTransfer.files[0];
+              if (file) {
+                const fakeEvent = { target: { files: [file] } } as unknown as React.ChangeEvent<HTMLInputElement>;
+                handleImage(fakeEvent);
+              }
+            }}
+            className={`relative rounded-2xl border-2 border-dashed transition-all duration-300 ${
+              isDragging
+                ? "border-primary bg-primary/10 scale-[1.02]"
+                : "border-primary/25 hover:border-primary/50 bg-card"
+            }`}
           >
-            <div className="h-20 w-20 rounded-full gradient-earth flex items-center justify-center">
-              <Camera className="h-10 w-10 text-earth-foreground" />
+            <div className="p-8 flex flex-col items-center gap-5">
+              <motion.div
+                animate={isDragging ? { scale: 1.1, y: -5 } : { scale: 1, y: 0 }}
+                className="h-20 w-20 rounded-2xl gradient-earth flex items-center justify-center shadow-lg"
+              >
+                <ImagePlus className="h-9 w-9 text-earth-foreground" />
+              </motion.div>
+              <div className="text-center space-y-1">
+                <p className="font-display font-bold text-foreground text-lg">{t.captureOrUpload}</p>
+                <p className="text-sm text-muted-foreground">{t.takePhotoLeaf}</p>
+              </div>
+              <div className="flex gap-2 w-full">
+                <Button
+                  onClick={() => fileRef.current?.click()}
+                  className="flex-1 gradient-earth text-earth-foreground font-display font-bold h-11"
+                >
+                  <Camera className="h-4 w-4 mr-2" />
+                  Take Photo
+                </Button>
+                <Button
+                  onClick={() => {
+                    const input = document.createElement("input");
+                    input.type = "file";
+                    input.accept = "image/*";
+                    input.onchange = (e) => handleImage(e as unknown as React.ChangeEvent<HTMLInputElement>);
+                    input.click();
+                  }}
+                  variant="outline"
+                  className="flex-1 font-display font-bold h-11"
+                >
+                  <Upload className="h-4 w-4 mr-2" />
+                  Gallery
+                </Button>
+              </div>
             </div>
-            <div className="text-center">
-              <p className="font-display font-bold text-foreground">{t.captureOrUpload}</p>
-              <p className="text-sm text-muted-foreground mt-1">{t.takePhotoLeaf}</p>
-            </div>
-          </button>
-          <div className="glass-card p-4">
-            <p className="text-xs font-display font-bold text-foreground mb-2">{t.tipsTitle}</p>
-            <ul className="text-xs text-muted-foreground space-y-1">
-              <li>• {t.tipFocus}</li>
-              <li>• {t.tipLighting}</li>
-              <li>• {t.tipSteady}</li>
-              <li>• {t.tipBothParts}</li>
-            </ul>
+          </div>
+
+          {/* Tips */}
+          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+            {[
+              { icon: "🎯", text: t.tipFocus },
+              { icon: "💡", text: t.tipLighting },
+              { icon: "📷", text: t.tipSteady },
+              { icon: "🌿", text: t.tipBothParts },
+            ].map((tip, i) => (
+              <div key={i} className="flex-shrink-0 glass-card px-3 py-2 flex items-center gap-2 min-w-[140px]">
+                <span className="text-base">{tip.icon}</span>
+                <span className="text-[11px] text-muted-foreground leading-tight">{tip.text}</span>
+              </div>
+            ))}
           </div>
         </motion.div>
       ) : (
-        <div className="space-y-4">
-          <div className="relative">
-            <img src={image} alt="Uploaded plant" className="w-full max-h-64 object-cover rounded-xl" />
-            <button onClick={handleReset} className="absolute top-2 right-2 bg-foreground/60 rounded-full p-1.5">
+        <div className="space-y-3">
+          <div className="relative rounded-2xl overflow-hidden shadow-lg">
+            <img src={image} alt="Uploaded plant" className="w-full max-h-72 object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-foreground/30 to-transparent pointer-events-none" />
+            <button
+              onClick={handleReset}
+              className="absolute top-3 right-3 bg-foreground/70 backdrop-blur-sm rounded-full p-2 hover:bg-foreground/90 transition-colors"
+            >
               <X className="h-4 w-4 text-primary-foreground" />
             </button>
+            {!result && !analyzing && !error && (
+              <div className="absolute bottom-3 left-3 right-3">
+                <Button onClick={handleAnalyze} className="w-full gradient-earth text-earth-foreground font-display font-bold h-11 shadow-lg">
+                  <Shield className="h-5 w-5 mr-2" />
+                  {t.analyzeImage}
+                </Button>
+              </div>
+            )}
           </div>
-          {!result && !analyzing && !error && (
-            <Button onClick={handleAnalyze} className="w-full gradient-earth text-earth-foreground font-display font-bold h-12">
-              <Shield className="h-5 w-5 mr-2" />
-              {t.analyzeImage}
-            </Button>
-          )}
           {analyzing && (
-            <>
+            <div className="space-y-3">
               <div className="flex items-center justify-center gap-2 py-2">
                 <Loader2 className="h-5 w-5 animate-spin text-primary" />
                 <span className="text-sm text-muted-foreground font-medium">AI is analyzing your plant...</span>
               </div>
               <AnalysisSkeleton />
-            </>
+            </div>
           )}
         </div>
       )}
