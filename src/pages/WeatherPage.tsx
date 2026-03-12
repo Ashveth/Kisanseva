@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
-import { CloudSun, Thermometer, Droplets, Wind, AlertTriangle, Sun, MapPin, RefreshCw } from "lucide-react";
+import { CloudSun, Thermometer, Droplets, Wind, AlertTriangle, Sun, MapPin, RefreshCw, Clock } from "lucide-react";
 import { useWeather } from "@/hooks/useWeather";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/contexts/LanguageContext";
 
