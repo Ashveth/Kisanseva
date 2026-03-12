@@ -286,7 +286,7 @@ const FarmDiaryPage = () => {
             <PopoverTrigger asChild>
               <Button variant="outline" size="sm" className={cn("text-xs font-display gap-1.5", dateFrom && "border-primary text-primary")}>
                 <CalendarRange className="h-3.5 w-3.5" />
-                {dateFrom ? format(dateFrom, "dd MMM yyyy") : "From"}
+                {dateFrom ? format(dateFrom, "dd MMM yyyy") : t.from}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
