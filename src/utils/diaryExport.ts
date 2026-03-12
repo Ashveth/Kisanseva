@@ -166,7 +166,7 @@ export function exportPDF(entries: DiaryEntry[], totalExpenses: number, totalInc
     doc.rect(0, pageHeight - 12, pageWidth, 12, "F");
     doc.setFontSize(7);
     doc.setTextColor(150, 150, 150);
-    doc.text("Farm Diary — KisanSeva", 14, pageHeight - 4);
+    doc.text("KisanSeva — Farm Diary", 14, pageHeight - 4);
     doc.text(`Page ${i} of ${totalPages}`, pageWidth - 14, pageHeight - 4, { align: "right" });
   }
 

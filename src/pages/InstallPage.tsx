@@ -89,7 +89,7 @@ const InstallPage = () => {
       ) : deferredPrompt ? (
         <Button onClick={handleInstall} className="w-full font-display" size="lg">
           <Download className="h-5 w-5 mr-2" />
-          Install FarmWise
+          Install KisanSeva
         </Button>
       ) : (
         <div className="glass-card p-5 space-y-3">
