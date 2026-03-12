@@ -4,8 +4,6 @@ import { useWeather } from "@/hooks/useWeather";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useLanguage } from "@/contexts/LanguageContext";
 
 const WeatherPage = () => {
   const { data, isLoading, isError, geoError, refetch } = useWeather();
