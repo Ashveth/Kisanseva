@@ -162,7 +162,7 @@ const AIChatPage = () => {
               msg.role === "user" ? "gradient-hero text-primary-foreground rounded-br-sm" : "glass-card text-foreground rounded-bl-sm"
             }`}>
               {msg.role === "assistant" ? (
-                <div className="prose prose-sm max-w-none dark:prose-invert"><ReactMarkdown>{msg.content}</ReactMarkdown></div>
+                <div className="prose prose-sm max-w-none dark:prose-invert prose-headings:mt-3 prose-headings:mb-1 prose-table:text-xs prose-th:bg-muted prose-th:px-2 prose-th:py-1 prose-td:px-2 prose-td:py-1 prose-table:border prose-th:border prose-td:border"><ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown></div>
               ) : (
                 <p className="whitespace-pre-line">{msg.content}</p>
               )}
