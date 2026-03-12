@@ -272,7 +272,7 @@ const GovernmentSchemes = () => {
                   </div>
                   <Button onClick={checkEligibility} disabled={eligibilityLoading} size="sm" className="w-full gradient-hero text-primary-foreground font-display font-bold h-9 rounded-xl">
                     {eligibilityLoading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Sparkles className="h-4 w-4 mr-2" />}
-                    Check My Eligibility
+                    {t.checkEligibility}
                   </Button>
 
                   {eligibilityLoading && (
