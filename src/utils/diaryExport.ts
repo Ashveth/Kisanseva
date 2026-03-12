@@ -131,7 +131,7 @@ export function exportPDF(entries: DiaryEntry[], totalExpenses: number, totalInc
   const detailY = (doc as any).lastAutoTable?.finalY + 10 || breakdownY + 50;
   doc.setFontSize(11);
   doc.setTextColor(34, 120, 60);
-  doc.text("Detailed Entries", 14, detailY);
+  doc.text("Detailed Entries", margin, detailY);
 
   autoTable(doc, {
     startY: detailY + 4,
