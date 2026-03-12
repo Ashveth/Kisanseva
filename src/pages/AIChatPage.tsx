@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { MessageCircle, Send, Bot, User, Sprout } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import ReactMarkdown from "react-markdown";
 
 interface Message {
   role: "user" | "assistant";
@@ -17,23 +19,7 @@ const quickQuestions = [
   "When to harvest rice?",
 ];
 
-const mockResponses: Record<string, string> = {
-  "crop": "Based on current weather conditions (28°C, moderate rainfall), **Rice** and **Maize** are excellent choices for this season. Rice thrives in warm, humid conditions while Maize is versatile. I recommend using the Crop Advisor tool for a detailed analysis based on your soil nutrients!",
-  "leaf": "**Leaf spots** can be caused by fungal or bacterial infections. Here's what to do:\n\n1. **Remove affected leaves** immediately\n2. **Chemical:** Spray Mancozeb 75% WP @ 2.5g/litre\n3. **Organic:** Apply neem oil solution (5ml/litre)\n4. **Prevention:** Ensure proper plant spacing and avoid overhead watering\n\nFor accurate diagnosis, use the Disease Detection scanner!",
-  "rain": "Based on current weather data:\n\n- **Today:** 40% chance of rain ⛅\n- **Tomorrow:** 70% chance 🌧️\n- **Wednesday:** 80% chance 🌧️\n\n**Advisory:** Complete any pesticide spraying today. Hold off on irrigation. Consider harvesting ripe crops before Wednesday.",
-  "fertilizer": "For **wheat cultivation**, here's the recommended fertilizer schedule:\n\n1. **Basal dose:** DAP 50kg + MOP 40kg per acre at sowing\n2. **First top-dressing:** Urea 30kg at 21 days (CRI stage)\n3. **Second top-dressing:** Urea 30kg at tillering\n\nAlways test soil before application. Organic compost (2-3 tons/acre) improves soil health!",
-  "harvest": "**Rice harvesting guidelines:**\n\n- Harvest when 80-85% of grains turn golden\n- Grain moisture should be 20-25%\n- Best time: early morning after dew dries\n- Cut 15-20cm above ground\n- Dry to 14% moisture for storage\n\nCurrent forecast shows rain on Wednesday — try to harvest before then!",
-};
-
-const getResponse = (input: string): string => {
-  const lower = input.toLowerCase();
-  if (lower.includes("crop") || lower.includes("grow")) return mockResponses["crop"];
-  if (lower.includes("leaf") || lower.includes("spot") || lower.includes("disease") || lower.includes("treat")) return mockResponses["leaf"];
-  if (lower.includes("rain") || lower.includes("weather") || lower.includes("tomorrow")) return mockResponses["rain"];
-  if (lower.includes("fertilizer") || lower.includes("nutrient")) return mockResponses["fertilizer"];
-  if (lower.includes("harvest") || lower.includes("when")) return mockResponses["harvest"];
-  return "I can help you with crop recommendations, disease treatment, weather forecasts, fertilizer advice, and harvesting tips. Try asking me something specific! 🌾";
-};
+const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/farm-chat`;
 
 const AIChatPage = () => {
   const [messages, setMessages] = useState<Message[]>([
@@ -47,18 +33,108 @@ const AIChatPage = () => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages]);
 
-  const sendMessage = (text: string) => {
-    if (!text.trim()) return;
+  const sendMessage = async (text: string) => {
+    if (!text.trim() || isTyping) return;
     const userMsg: Message = { role: "user", content: text };
-    setMessages((prev) => [...prev, userMsg]);
+    const allMessages = [...messages, userMsg];
+    setMessages(allMessages);
     setInput("");
     setIsTyping(true);
 
-    setTimeout(() => {
-      const response = getResponse(text);
-      setMessages((prev) => [...prev, { role: "assistant", content: response }]);
+    let assistantSoFar = "";
+
+    try {
+      const resp = await fetch(CHAT_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+        },
+        body: JSON.stringify({
+          messages: allMessages.map((m) => ({ role: m.role, content: m.content })),
+        }),
+      });
+
+      if (!resp.ok) {
+        const errData = await resp.json().catch(() => ({}));
+        throw new Error(errData.error || `Error ${resp.status}`);
+      }
+
+      if (!resp.body) throw new Error("No response body");
+
+      const reader = resp.body.getReader();
+      const decoder = new TextDecoder();
+      let textBuffer = "";
+
+      const upsertAssistant = (nextChunk: string) => {
+        assistantSoFar += nextChunk;
+        const content = assistantSoFar;
+        setMessages((prev) => {
+          const last = prev[prev.length - 1];
+          if (last?.role === "assistant" && prev.length > 1 && prev[prev.length - 2]?.role === "user") {
+            return prev.map((m, i) => (i === prev.length - 1 ? { ...m, content } : m));
+          }
+          return [...prev, { role: "assistant", content }];
+        });
+      };
+
+      let streamDone = false;
+      while (!streamDone) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        textBuffer += decoder.decode(value, { stream: true });
+
+        let newlineIndex: number;
+        while ((newlineIndex = textBuffer.indexOf("\n")) !== -1) {
+          let line = textBuffer.slice(0, newlineIndex);
+          textBuffer = textBuffer.slice(newlineIndex + 1);
+
+          if (line.endsWith("\r")) line = line.slice(0, -1);
+          if (line.startsWith(":") || line.trim() === "") continue;
+          if (!line.startsWith("data: ")) continue;
+
+          const jsonStr = line.slice(6).trim();
+          if (jsonStr === "[DONE]") { streamDone = true; break; }
+
+          try {
+            const parsed = JSON.parse(jsonStr);
+            const content = parsed.choices?.[0]?.delta?.content as string | undefined;
+            if (content) upsertAssistant(content);
+          } catch {
+            textBuffer = line + "\n" + textBuffer;
+            break;
+          }
+        }
+      }
+
+      // flush remaining
+      if (textBuffer.trim()) {
+        for (let raw of textBuffer.split("\n")) {
+          if (!raw) continue;
+          if (raw.endsWith("\r")) raw = raw.slice(0, -1);
+          if (raw.startsWith(":") || raw.trim() === "") continue;
+          if (!raw.startsWith("data: ")) continue;
+          const jsonStr = raw.slice(6).trim();
+          if (jsonStr === "[DONE]") continue;
+          try {
+            const parsed = JSON.parse(jsonStr);
+            const content = parsed.choices?.[0]?.delta?.content as string | undefined;
+            if (content) upsertAssistant(content);
+          } catch { /* ignore */ }
+        }
+      }
+    } catch (err: any) {
+      console.error("Chat error:", err);
+      toast.error(err.message || "Failed to get response");
+      if (!assistantSoFar) {
+        setMessages((prev) => [
+          ...prev,
+          { role: "assistant", content: "Sorry, I'm having trouble connecting right now. Please try again in a moment! 🌾" },
+        ]);
+      }
+    } finally {
       setIsTyping(false);
-    }, 1000 + Math.random() * 1000);
+    }
   };
 
   return (
@@ -69,7 +145,7 @@ const AIChatPage = () => {
         </div>
         <div>
           <h1 className="text-lg font-bold font-display text-foreground">AI Farming Assistant</h1>
-          <p className="text-xs text-muted-foreground">Ask anything about farming</p>
+          <p className="text-xs text-muted-foreground">Powered by AI • Ask anything about farming</p>
         </div>
       </div>
 
@@ -92,7 +168,13 @@ const AIChatPage = () => {
                 ? "gradient-hero text-primary-foreground rounded-br-sm"
                 : "glass-card text-foreground rounded-bl-sm"
             }`}>
-              <p className="whitespace-pre-line">{msg.content}</p>
+              {msg.role === "assistant" ? (
+                <div className="prose prose-sm max-w-none dark:prose-invert">
+                  <ReactMarkdown>{msg.content}</ReactMarkdown>
+                </div>
+              ) : (
+                <p className="whitespace-pre-line">{msg.content}</p>
+              )}
             </div>
             {msg.role === "user" && (
               <div className="h-7 w-7 rounded-lg bg-muted flex items-center justify-center flex-shrink-0 mt-1">
@@ -101,7 +183,7 @@ const AIChatPage = () => {
             )}
           </motion.div>
         ))}
-        {isTyping && (
+        {isTyping && !messages[messages.length - 1]?.content && (
           <div className="flex gap-2">
             <div className="h-7 w-7 rounded-lg gradient-hero flex items-center justify-center flex-shrink-0">
               <Bot className="h-4 w-4 text-primary-foreground" />

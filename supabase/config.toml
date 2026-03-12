@@ -2,3 +2,6 @@ project_id = "idvsrsbvulyefsqdgjwg"
 
 [functions.get-weather]
 verify_jwt = false
+
+[functions.farm-chat]
+verify_jwt = false
