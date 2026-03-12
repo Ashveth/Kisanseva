@@ -181,7 +181,7 @@ const FarmDiaryPage = () => {
                 <DropdownMenuItem onClick={() => { exportCSV(filtered); toast.success("CSV downloaded! 📊"); }}>
                   <FileSpreadsheet className="h-4 w-4 mr-2" /> Export as CSV
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => { exportPDF(filtered, totalExpenses); toast.success("PDF downloaded! 📄"); }}>
+                <DropdownMenuItem onClick={() => { exportPDF(filtered, filteredExpenses); toast.success("PDF downloaded! 📄"); }}>
                   <FileText className="h-4 w-4 mr-2" /> Export as PDF
                 </DropdownMenuItem>
               </DropdownMenuContent>
