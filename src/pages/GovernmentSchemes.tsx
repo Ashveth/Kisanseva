@@ -18,7 +18,6 @@ import { AIErrorCard } from "@/components/ui/ai-loading";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { Translations } from "@/i18n/translations";
-import { Skeleton } from "@/components/ui/skeleton";
 
 // ── Bookmark helpers ──
 const BOOKMARKS_KEY = "farmwise-scheme-bookmarks";
