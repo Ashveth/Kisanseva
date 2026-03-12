@@ -228,7 +228,7 @@ const FarmDiaryPage = () => {
             <TrendingUp className="h-4 w-4" />
             ₹{totalIncome.toLocaleString()}
           </p>
-          <p className="text-xs text-muted-foreground font-display">Income</p>
+          <p className="text-xs text-muted-foreground font-display">{t.income}</p>
         </div>
         <div className="glass-card p-3 text-center">
           <p className={`text-2xl font-bold flex items-center justify-center gap-1 ${netProfit >= 0 ? "text-primary" : "text-destructive"}`}>
