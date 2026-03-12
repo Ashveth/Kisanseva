@@ -619,7 +619,7 @@ export const translations: Record<Language, Translations> = {
   },
 
   ta: {
-    appName: "FarmWise AI",
+    appName: "KisanSeva",
     loading: "ஏற்றுகிறது...",
     save: "சேமி",
     saving: "சேமிக்கிறது...",
