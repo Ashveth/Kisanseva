@@ -1837,8 +1837,11 @@ export const translations: Record<Language, Translations> = {
     toastEntrySaved: "എൻട്രി സേവ് ചെയ്തു! 🌾",
     toastDeleteFailed: "ഇല്ലാതാക്കാനായില്ല",
     toastEntryDeleted: "എൻട്രി ഇല്ലാതാക്കി",
-
-    govSchemes: "സർക്കാർ പദ്ധതികൾ",
+    chartIncomeVsExpenses: "വരുമാനം vs ചെലവുകൾ",
+    chartMonthlyExpenses: "പ്രതിമാസ ചെലവുകൾ",
+    chartExpenseBreakdown: "ചെലവ് വിശദാംശങ്ങൾ",
+    chartTotal: "ആകെ",
+    chartOfTotal: "ആകെയുടെ",
     govSchemesDesc: "കർഷകർക്കുള്ള പദ്ധതികളും സബ്‌സിഡികളും കണ്ടെത്തുക",
     searchSchemes: "പദ്ധതികൾ തിരയുക...",
     central: "കേന്ദ്ര",
