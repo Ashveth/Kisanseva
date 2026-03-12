@@ -20,6 +20,15 @@ const KnowledgeBase = () => {
   const [lastQuery, setLastQuery] = useState("");
   const { t } = useLanguage();
 
+  const handleVoiceResult = useCallback((transcript: string) => {
+    setAiQuery((prev) => (prev ? prev + " " + transcript : transcript));
+  }, []);
+
+  const { isListening, isSupported: voiceSupported, toggleListening } = useSpeechRecognition({
+    lang: "en-IN",
+    onResult: handleVoiceResult,
+  });
+
   const filtered = pests.filter(
     (p) =>
       p.name.toLowerCase().includes(search.toLowerCase()) ||
