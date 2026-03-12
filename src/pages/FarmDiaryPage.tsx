@@ -205,7 +205,7 @@ const FarmDiaryPage = () => {
             </DropdownMenu>
           )}
           <Button onClick={() => { resetForm(); setShowForm(true); }} className="gradient-hero text-primary-foreground font-display">
-            <Plus className="h-4 w-4 mr-1" /> Add Entry
+            <Plus className="h-4 w-4 mr-1" /> {t.addEntry}
           </Button>
         </div>
       </div>
