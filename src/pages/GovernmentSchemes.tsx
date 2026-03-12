@@ -476,7 +476,7 @@ const SchemeCard = ({ scheme, index, isExpanded, isBookmarked, activeTab, onTogg
                   </div>
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2">Key Benefits</p>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2">{t.benefits}</p>
                   <div className="grid gap-1.5">
                     {scheme.benefits.map((item, j) => (
                       <div key={j} className="flex items-start gap-2 bg-primary/5 rounded-xl px-3 py-2">
