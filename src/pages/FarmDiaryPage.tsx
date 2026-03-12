@@ -214,7 +214,7 @@ const FarmDiaryPage = () => {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <div className="glass-card p-3 text-center">
           <p className="text-2xl font-bold text-foreground">{entries.length}</p>
-          <p className="text-xs text-muted-foreground font-display">Total Entries</p>
+          <p className="text-xs text-muted-foreground font-display">{t.totalEntries}</p>
         </div>
         <div className="glass-card p-3 text-center">
           <p className="text-2xl font-bold text-destructive flex items-center justify-center gap-1">
