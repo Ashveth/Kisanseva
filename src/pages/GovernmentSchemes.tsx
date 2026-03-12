@@ -376,9 +376,10 @@ interface SchemeCardProps {
   onToggle: () => void;
   onBookmark: () => void;
   onTabChange: (tab: string) => void;
+  t: Translations;
 }
 
-const SchemeCard = ({ scheme, index, isExpanded, isBookmarked, activeTab, onToggle, onBookmark, onTabChange }: SchemeCardProps) => (
+const SchemeCard = ({ scheme, index, isExpanded, isBookmarked, activeTab, onToggle, onBookmark, onTabChange, t }: SchemeCardProps) => (
   <motion.div
     layout
     initial={{ opacity: 0, y: 12 }}
