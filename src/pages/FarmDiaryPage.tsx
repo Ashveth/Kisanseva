@@ -361,7 +361,7 @@ const FarmDiaryPage = () => {
                           <CalendarIcon className="h-3 w-3" />
                           {new Date(entry.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
                           <span className="mx-1">•</span>
-                          {info.label}
+                          {t[info.tKey]}
                         </p>
                       </div>
                       <div className="flex gap-1 flex-shrink-0">
