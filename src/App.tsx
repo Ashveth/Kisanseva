@@ -53,6 +53,7 @@ const AppRoutes = () => (
       <Route path="/knowledge" element={<KnowledgeBase />} />
       <Route path="/chat" element={<AIChatPage />} />
       <Route path="/yield-predictor" element={<YieldPredictor />} />
+      <Route path="/diary" element={<FarmDiaryPage />} />
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/notifications" element={<NotificationsPage />} />
     </Route>
