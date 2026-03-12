@@ -249,7 +249,7 @@ const FarmDiaryPage = () => {
               <button onClick={resetForm} className="p-1 text-muted-foreground hover:text-foreground"><X className="h-4 w-4" /></button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <Input placeholder="What did you do? e.g., Planted rice seedlings" value={title} onChange={(e) => setTitle(e.target.value)} className="bg-background" />
+              <Input placeholder={t.entryPlaceholder} value={title} onChange={(e) => setTitle(e.target.value)} className="bg-background" />
               <Select value={activityType} onValueChange={setActivityType}>
                 <SelectTrigger className="bg-background"><SelectValue /></SelectTrigger>
                 <SelectContent>
