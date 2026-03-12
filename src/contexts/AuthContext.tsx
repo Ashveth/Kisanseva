@@ -2,6 +2,8 @@ import { createContext, useContext, useEffect, useState, ReactNode } from "react
 import { supabase } from "@/integrations/supabase/client";
 import type { User, Session } from "@supabase/supabase-js";
 
+const phoneToEmail = (phone: string) => `${phone.replace(/\+/g, '')}@phone.farmwise.local`;
+
 interface AuthContextType {
   user: User | null;
   session: Session | null;
