@@ -338,8 +338,8 @@ const FarmDiaryPage = () => {
       ) : filtered.length === 0 ? (
         <div className="glass-card p-8 text-center space-y-2">
           <BookMarked className="h-10 w-10 text-muted-foreground mx-auto" />
-          <p className="font-display font-bold text-foreground">No entries yet</p>
-          <p className="text-sm text-muted-foreground">Start logging your daily farming activities!</p>
+          <p className="font-display font-bold text-foreground">{t.noEntriesYet}</p>
+          <p className="text-sm text-muted-foreground">{t.noEntriesDesc}</p>
         </div>
       ) : (
         <div className="space-y-3">
