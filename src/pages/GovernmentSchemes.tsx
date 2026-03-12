@@ -54,6 +54,7 @@ interface EligibilityResult {
 }
 
 const GovernmentSchemes = () => {
+  const { t } = useLanguage();
   const [search, setSearch] = useState("");
   const [expanded, setExpanded] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState("All");
