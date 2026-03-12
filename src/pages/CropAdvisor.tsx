@@ -1,22 +1,59 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Leaf, Droplets, Thermometer, CloudRain, MapPin, Sprout, ChevronRight } from "lucide-react";
+import { Leaf, Droplets, Thermometer, CloudRain, MapPin, Sprout, ChevronRight, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { cropRecommendations } from "@/data/mockData";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 
+interface CropRecommendation {
+  name: string;
+  yield: string;
+  confidence: number;
+  season: string;
+  waterNeed: string;
+  tips: string[];
+}
+
 const CropAdvisor = () => {
-  const [showResults, setShowResults] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [results, setResults] = useState<CropRecommendation[] | null>(null);
   const [nitrogen, setNitrogen] = useState([50]);
   const [phosphorus, setPhosphorus] = useState([40]);
   const [potassium, setPotassium] = useState([45]);
   const [ph, setPh] = useState([6.5]);
   const [temp, setTemp] = useState([28]);
   const [rainfall, setRainfall] = useState([200]);
+  const [location, setLocation] = useState("");
   const { t } = useLanguage();
+
+  const handleGetRecommendations = async () => {
+    setLoading(true);
+    setResults(null);
+    try {
+      const { data, error } = await supabase.functions.invoke("crop-advisor", {
+        body: {
+          nitrogen: nitrogen[0],
+          phosphorus: phosphorus[0],
+          potassium: potassium[0],
+          ph: ph[0],
+          temperature: temp[0],
+          rainfall: rainfall[0],
+          location: location || undefined,
+        },
+      });
+      if (error) throw error;
+      setResults(data.crops || []);
+    } catch (err: any) {
+      console.error("Crop advisor error:", err);
+      toast.error(err.message || "Failed to get recommendations");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="container py-6 space-y-6">
@@ -77,20 +114,29 @@ const CropAdvisor = () => {
           <Label className="text-sm flex items-center gap-1.5 mb-2">
             <MapPin className="h-3.5 w-3.5 text-earth" /> {t.location}
           </Label>
-          <Input placeholder={t.enterLocation} className="bg-background" />
+          <Input placeholder={t.enterLocation} className="bg-background" value={location} onChange={(e) => setLocation(e.target.value)} />
         </div>
 
-        <Button onClick={() => setShowResults(true)} className="w-full gradient-hero text-primary-foreground font-display font-bold h-12 text-base">
-          <Sprout className="h-5 w-5 mr-2" />
-          {t.getCropRecommendations}
+        <Button onClick={handleGetRecommendations} disabled={loading} className="w-full gradient-hero text-primary-foreground font-display font-bold h-12 text-base">
+          {loading ? (
+            <span className="flex items-center gap-2">
+              <Loader2 className="h-5 w-5 animate-spin" />
+              Analyzing soil data...
+            </span>
+          ) : (
+            <>
+              <Sprout className="h-5 w-5 mr-2" />
+              {t.getCropRecommendations}
+            </>
+          )}
         </Button>
       </div>
 
       <AnimatePresence>
-        {showResults && (
+        {results && (
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
             <h2 className="text-lg font-bold font-display text-foreground">{t.topRecommendedCrops}</h2>
-            {cropRecommendations.map((crop, i) => (
+            {results.map((crop, i) => (
               <motion.div key={crop.name} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.15 }} className="glass-card p-4 space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">

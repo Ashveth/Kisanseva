@@ -1,38 +1,65 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Camera, Upload, AlertTriangle, CheckCircle, Shield, Leaf, X } from "lucide-react";
+import { Camera, AlertTriangle, CheckCircle, Shield, Leaf, X, Loader2, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { diseases } from "@/data/mockData";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
+
+interface DiseaseResult {
+  name: string;
+  crop: string;
+  confidence: number;
+  severity: string;
+  treatment: string;
+  organic: string;
+  prevention: string[];
+  description?: string;
+}
 
 const DiseaseDetect = () => {
   const [image, setImage] = useState<string | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
-  const [result, setResult] = useState<typeof diseases[0] | null>(null);
+  const [result, setResult] = useState<{ healthy: boolean; disease: DiseaseResult } | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const { t } = useLanguage();
 
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (ev) => setImage(ev.target?.result as string);
-      reader.readAsDataURL(file);
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Image too large. Please use an image under 5MB.");
+      return;
     }
+    const reader = new FileReader();
+    reader.onload = (ev) => setImage(ev.target?.result as string);
+    reader.readAsDataURL(file);
   };
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
+    if (!image) return;
     setAnalyzing(true);
-    setTimeout(() => {
-      setResult(diseases[Math.floor(Math.random() * diseases.length)]);
+    setResult(null);
+    try {
+      const { data, error } = await supabase.functions.invoke("disease-detect", {
+        body: { image },
+      });
+      if (error) throw error;
+      setResult(data);
+    } catch (err: any) {
+      console.error("Disease detect error:", err);
+      toast.error(err.message || "Failed to analyze image");
+    } finally {
       setAnalyzing(false);
-    }, 2000);
+    }
   };
 
   const handleReset = () => {
     setImage(null);
     setResult(null);
   };
+
+  const disease = result?.disease;
 
   return (
     <div className="container py-6 space-y-6">
@@ -82,8 +109,8 @@ const DiseaseDetect = () => {
             <Button onClick={handleAnalyze} disabled={analyzing} className="w-full gradient-earth text-earth-foreground font-display font-bold h-12">
               {analyzing ? (
                 <span className="flex items-center gap-2">
-                  <div className="h-4 w-4 border-2 border-earth-foreground/30 border-t-earth-foreground rounded-full animate-spin" />
-                  {t.analyzing}
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  AI is analyzing your plant...
                 </span>
               ) : (
                 <>
@@ -97,36 +124,47 @@ const DiseaseDetect = () => {
       )}
 
       <AnimatePresence>
-        {result && (
+        {result && disease && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-            <div className="glass-card p-4 border-l-4 border-l-destructive">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <AlertTriangle className="h-5 w-5 text-destructive" />
-                  <h3 className="font-display font-bold text-foreground">{result.name} {t.detected}</h3>
+            {result.healthy ? (
+              <div className="glass-card p-4 border-l-4 border-l-primary">
+                <div className="flex items-center gap-2 mb-2">
+                  <Heart className="h-5 w-5 text-primary" />
+                  <h3 className="font-display font-bold text-foreground">Plant looks healthy! 🌱</h3>
                 </div>
-                <span className={`text-xs font-bold px-2 py-1 rounded-full ${
-                  result.severity === "High" ? "bg-destructive/10 text-destructive" : "bg-harvest/10 text-harvest"
-                }`}>
-                  {result.severity} {t.severity}
-                </span>
+                {disease.description && <p className="text-sm text-muted-foreground">{disease.description}</p>}
               </div>
-              <p className="text-sm text-muted-foreground">{t.crop}: {result.crop}</p>
-              <div className="mt-2 bg-muted/50 rounded-lg p-2 flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-primary" />
-                <p className="text-sm text-foreground">{t.confidence}: <strong>{result.confidence}%</strong></p>
+            ) : (
+              <div className="glass-card p-4 border-l-4 border-l-destructive">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <AlertTriangle className="h-5 w-5 text-destructive" />
+                    <h3 className="font-display font-bold text-foreground">{disease.name} {t.detected}</h3>
+                  </div>
+                  <span className={`text-xs font-bold px-2 py-1 rounded-full ${
+                    disease.severity === "High" ? "bg-destructive/10 text-destructive" : "bg-harvest/10 text-harvest"
+                  }`}>
+                    {disease.severity} {t.severity}
+                  </span>
+                </div>
+                <p className="text-sm text-muted-foreground">{t.crop}: {disease.crop}</p>
+                {disease.description && <p className="text-sm text-muted-foreground mt-1">{disease.description}</p>}
+                <div className="mt-2 bg-muted/50 rounded-lg p-2 flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-primary" />
+                  <p className="text-sm text-foreground">{t.confidence}: <strong>{disease.confidence}%</strong></p>
+                </div>
               </div>
-            </div>
+            )}
 
             <div className="glass-card p-4 space-y-3">
               <h3 className="font-display font-bold text-foreground flex items-center gap-2">{t.treatment}</h3>
               <div className="bg-primary/5 rounded-lg p-3">
                 <p className="text-xs font-medium text-primary mb-1">{t.chemicalTreatment}</p>
-                <p className="text-sm text-foreground">{result.treatment}</p>
+                <p className="text-sm text-foreground">{disease.treatment}</p>
               </div>
               <div className="bg-leaf/10 rounded-lg p-3">
                 <p className="text-xs font-medium text-leaf mb-1">{t.organicAlternative}</p>
-                <p className="text-sm text-foreground">{result.organic}</p>
+                <p className="text-sm text-foreground">{disease.organic}</p>
               </div>
             </div>
 
@@ -134,7 +172,7 @@ const DiseaseDetect = () => {
               <h3 className="font-display font-bold text-foreground flex items-center gap-2 mb-2">
                 <Leaf className="h-4 w-4 text-primary" /> {t.preventionTips}
               </h3>
-              {result.prevention.map((tip, i) => (
+              {disease.prevention.map((tip, i) => (
                 <p key={i} className="text-sm text-foreground flex items-start gap-2 mb-1.5">
                   <CheckCircle className="h-3.5 w-3.5 text-primary mt-0.5 flex-shrink-0" />
                   {tip}
