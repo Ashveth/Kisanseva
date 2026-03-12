@@ -113,17 +113,18 @@ export function exportPDF(entries: DiaryEntry[], totalExpenses: number, totalInc
     startY: breakdownY + 4,
     head: [["Activity", "Count", "Expenses", "Income"]],
     body: summaryData,
-    styles: { fontSize: 8, cellPadding: 2.5 },
+    styles: { fontSize: 8, cellPadding: 2.5, overflow: "linebreak" },
     headStyles: { fillColor: [34, 120, 60], textColor: 255, fontStyle: "bold" },
     alternateRowStyles: { fillColor: [248, 252, 248] },
     columnStyles: {
-      1: { halign: "center", cellWidth: 18 },
-      2: { halign: "right", cellWidth: 28 },
-      3: { halign: "right", cellWidth: 28 },
+      0: { cellWidth: "auto" },
+      1: { halign: "center", cellWidth: 22 },
+      2: { halign: "right", cellWidth: 30 },
+      3: { halign: "right", cellWidth: 30 },
     },
     theme: "grid",
-    tableWidth: pageWidth - 28,
-    margin: { left: 14 },
+    tableWidth: usableWidth,
+    margin: { left: margin, right: margin },
   });
 
   // — Detailed entries table —
