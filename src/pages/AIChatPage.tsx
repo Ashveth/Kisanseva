@@ -24,6 +24,15 @@ const AIChatPage = () => {
   const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  const handleVoiceResult = useCallback((transcript: string) => {
+    setInput((prev) => (prev ? prev + " " + transcript : transcript));
+  }, []);
+
+  const { isListening, isSupported: voiceSupported, toggleListening } = useSpeechRecognition({
+    lang: "en-IN",
+    onResult: handleVoiceResult,
+  });
+
   const quickQuestions = [t.quickQ1, t.quickQ2, t.quickQ3, t.quickQ4, t.quickQ5];
 
   useEffect(() => {
