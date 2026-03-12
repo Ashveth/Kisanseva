@@ -245,7 +245,7 @@ const FarmDiaryPage = () => {
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}
             className="glass-card p-4 space-y-4 overflow-hidden">
             <div className="flex items-center justify-between">
-              <h2 className="font-display font-bold text-foreground">{editingId ? "Edit Entry" : "New Entry"}</h2>
+              <h2 className="font-display font-bold text-foreground">{editingId ? t.editEntry : t.newEntry}</h2>
               <button onClick={resetForm} className="p-1 text-muted-foreground hover:text-foreground"><X className="h-4 w-4" /></button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
