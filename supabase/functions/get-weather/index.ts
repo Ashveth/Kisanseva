@@ -74,7 +74,22 @@ Deno.serve(async (req) => {
     if (current.windSpeed > 40) alerts.push({ type: "wind", message: `High winds: ${current.windSpeed} km/h — secure structures`, severity: "warning" });
     if (current.uv > 8) alerts.push({ type: "uv", message: `Very high UV index (${current.uv}) — limit outdoor exposure`, severity: "info" });
 
-    return new Response(JSON.stringify({ current, forecast, alerts }), {
+    // Build hourly forecast (next 24 hours)
+    const hourly = (data.hourly?.time ?? []).map((time: string, i: number) => {
+      const d = new Date(time);
+      const hour = d.getHours();
+      const label = hour === 0 ? "12 AM" : hour < 12 ? `${hour} AM` : hour === 12 ? "12 PM" : `${hour - 12} PM`;
+      const { icon } = weatherCodeToCondition(data.hourly.weather_code[i]);
+      return {
+        time: label,
+        temp: Math.round(data.hourly.temperature_2m[i]),
+        humidity: Math.round(data.hourly.relative_humidity_2m[i]),
+        windSpeed: Math.round(data.hourly.wind_speed_10m[i]),
+        icon,
+      };
+    });
+
+    return new Response(JSON.stringify({ current, forecast, alerts, hourly }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
