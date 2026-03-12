@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      farm_diary: {
+        Row: {
+          activity_type: string
+          created_at: string
+          date: string
+          description: string | null
+          expense_amount: number | null
+          expense_currency: string | null
+          id: string
+          tags: string[] | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          activity_type?: string
+          created_at?: string
+          date?: string
+          description?: string | null
+          expense_amount?: number | null
+          expense_currency?: string | null
+          id?: string
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          activity_type?: string
+          created_at?: string
+          date?: string
+          description?: string | null
+          expense_amount?: number | null
+          expense_currency?: string | null
+          id?: string
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           created_at: string
