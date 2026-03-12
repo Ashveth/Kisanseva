@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bell, CloudRain, TrendingUp, Bug, Check, CheckCheck, Trash2, Plus, AlertTriangle, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -72,10 +73,9 @@ const NotificationCard = ({
 const NotificationsPage = () => {
   const { t } = useLanguage();
   const { notifications, unreadCount, loading, markAsRead, markAllAsRead, deleteNotification, generateSampleNotifications } = useNotifications();
-
-  const filterTypes = ["all", "weather", "market", "disease"] as const;
   const [activeFilter, setActiveFilter] = useState<string>("all");
 
+  const filterTypes = ["all", "weather", "market", "disease"] as const;
   const filtered = activeFilter === "all" ? notifications : notifications.filter((n) => n.type === activeFilter);
 
   return (
@@ -92,14 +92,12 @@ const NotificationsPage = () => {
             </p>
           )}
         </div>
-        <div className="flex gap-2">
-          {unreadCount > 0 && (
-            <Button variant="outline" size="sm" onClick={markAllAsRead} className="text-xs">
-              <CheckCheck className="h-3.5 w-3.5 mr-1" />
-              {t.markAllRead}
-            </Button>
-          )}
-        </div>
+        {unreadCount > 0 && (
+          <Button variant="outline" size="sm" onClick={markAllAsRead} className="text-xs">
+            <CheckCheck className="h-3.5 w-3.5 mr-1" />
+            {t.markAllRead}
+          </Button>
+        )}
       </div>
 
       {/* Filter Chips */}
@@ -117,7 +115,6 @@ const NotificationsPage = () => {
         ))}
       </div>
 
-      {/* Notifications List */}
       {loading ? (
         <div className="space-y-3">
           {[1, 2, 3].map((i) => (
@@ -145,21 +142,12 @@ const NotificationsPage = () => {
           </Button>
         </div>
       ) : (
-        <AnimatePresence mode="popLayout">
-          <div className="space-y-3">
+        <div className="space-y-3">
+          <AnimatePresence mode="popLayout">
             {filtered.map((n) => (
               <NotificationCard key={n.id} notification={n} onMarkRead={markAsRead} onDelete={deleteNotification} />
             ))}
-          </div>
-        </AnimatePresence>
-      )}
-
-      {notifications.length === 0 && !loading && (
-        <div className="fixed bottom-24 md:bottom-8 right-4 md:right-8">
-          <Button onClick={generateSampleNotifications} className="gradient-hero text-primary-foreground shadow-elevated font-display">
-            <Plus className="h-4 w-4 mr-2" />
-            {t.generateSampleAlerts}
-          </Button>
+          </AnimatePresence>
         </div>
       )}
     </div>
@@ -167,5 +155,3 @@ const NotificationsPage = () => {
 };
 
 export default NotificationsPage;
-
-import { useState } from "react";
