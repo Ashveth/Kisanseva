@@ -110,6 +110,20 @@ export interface Translations {
   yield: string;
   season: string;
   waterNeed: string;
+  selectSoilType: string;
+  weatherAndLocation: string;
+  autoDetected: string;
+  detectingLocation: string;
+  analyzingSoil: string;
+  acidic: string;
+  neutral: string;
+  alkaline: string;
+  soilAlluvial: string;
+  soilSandy: string;
+  soilClay: string;
+  soilLoamy: string;
+  soilBlack: string;
+  soilRed: string;
 
   // Disease Detection
   plantDiseaseDetection: string;
