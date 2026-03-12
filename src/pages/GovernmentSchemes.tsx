@@ -41,6 +41,7 @@ const GovernmentSchemes = () => {
   const [expanded, setExpanded] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeLevel, setActiveLevel] = useState<string>("All");
+  const [activeState, setActiveState] = useState<string>("All");
   const [bookmarks, setBookmarks] = useState<string[]>(getBookmarks());
   const [showBookmarked, setShowBookmarked] = useState(false);
   const [activeTab, setActiveTab] = useState<string>("details");
