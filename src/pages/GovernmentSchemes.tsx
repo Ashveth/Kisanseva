@@ -457,7 +457,7 @@ const SchemeCard = ({ scheme, index, isExpanded, isBookmarked, activeTab, onTogg
             <div className="flex items-start gap-2">
               <Badge variant="secondary" className="text-[9px] px-2 py-0.5 flex-shrink-0 mt-0.5 gap-1">
                 {categoryIcons[scheme.category]}
-                {scheme.category}
+                {categoryTranslationMap[scheme.category] ? t[categoryTranslationMap[scheme.category]] : scheme.category}
               </Badge>
               <p className="text-[11px] text-muted-foreground leading-relaxed">{scheme.description}</p>
             </div>
