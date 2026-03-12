@@ -736,6 +736,7 @@ export const translations: Record<Language, Translations> = {
     soilBlack: "काली",
     soilRed: "लाल",
 
+    plantDiseaseDetection: "पौधा रोग पहचान",
     uploadLeafImage: "रोग पहचान के लिए पत्ती की तस्वीर अपलोड या कैप्चर करें",
     captureOrUpload: "फोटो कैप्चर या अपलोड करें",
     takePhotoLeaf: "प्रभावित पत्ती की तस्वीर लें",
