@@ -216,7 +216,7 @@ const CropAdvisor = () => {
         <div className="flex items-center justify-between mb-2">
           <p className="text-xs font-bold font-display text-foreground flex items-center gap-1.5">
             <span className="h-5 w-5 rounded-full gradient-sky text-sky-foreground flex items-center justify-center text-[10px] font-extrabold">3</span>
-            Weather & Location
+            {t.weatherAndLocation}
           </p>
           {weatherPrefilled && (
             <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium flex items-center gap-1">
