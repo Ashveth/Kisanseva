@@ -225,7 +225,7 @@ const CropAdvisor = () => {
           )}
           {weatherLoading && !weatherPrefilled && (
             <span className="text-[10px] px-2 py-0.5 rounded-full bg-muted text-muted-foreground font-medium flex items-center gap-1">
-              <Loader2 className="h-3 w-3 animate-spin" /> Detecting...
+              <Loader2 className="h-3 w-3 animate-spin" /> {t.detectingLocation}
             </span>
           )}
         </div>
