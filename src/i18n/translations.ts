@@ -2109,6 +2109,8 @@ export const translations: Record<Language, Translations> = {
     chartExpenseBreakdown: "ವೆಚ್ಚ ವಿವರಗಳು",
     chartTotal: "ಒಟ್ಟು",
     chartOfTotal: "ಒಟ್ಟಿನಲ್ಲಿ",
+
+    govSchemes: "ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು",
     govSchemesDesc: "ರೈತರಿಗಾಗಿ ಯೋಜನೆಗಳು ಮತ್ತು ಸಬ್ಸಿಡಿಗಳನ್ನು ಹುಡುಕಿ",
     searchSchemes: "ಯೋಜನೆಗಳನ್ನು ಹುಡುಕಿ...",
     central: "ಕೇಂದ್ರ",
