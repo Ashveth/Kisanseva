@@ -136,10 +136,10 @@ const GovernmentSchemes = () => {
             <div>
               <h1 className="text-xl font-extrabold font-display text-primary-foreground flex items-center gap-2">
                 <Landmark className="h-6 w-6" />
-                Government Schemes
+                {t.govSchemes}
               </h1>
               <p className="text-primary-foreground/70 text-xs mt-1 font-display">
-                {allSchemes.length} schemes • Central & State
+                {allSchemes.length} {t.navSchemes.toLowerCase()} • {t.central} & {t.state}
               </p>
             </div>
             <button
