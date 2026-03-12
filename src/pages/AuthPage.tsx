@@ -163,7 +163,15 @@ const AuthPage = () => {
           </Button>
         </form>
 
-        <p className="text-center text-sm text-muted-foreground mt-4">
+        {isLogin && (
+          <p className="text-center mt-3">
+            <button onClick={() => navigate("/forgot-password")} className="text-sm text-muted-foreground hover:text-primary underline">
+              {t.forgotPassword}
+            </button>
+          </p>
+        )}
+
+        <p className="text-center text-sm text-muted-foreground mt-3">
           {isLogin ? t.noAccount : t.haveAccount}{" "}
           <button onClick={() => setIsLogin(!isLogin)} className="text-primary font-medium underline">
             {isLogin ? t.signUp : t.signIn}
