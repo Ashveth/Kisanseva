@@ -1338,6 +1338,8 @@ export const translations: Record<Language, Translations> = {
     chartExpenseBreakdown: "खर्च तपशील",
     chartTotal: "एकूण",
     chartOfTotal: "एकूणाचे",
+
+    govSchemes: "सरकारी योजना",
     govSchemesDesc: "शेतकऱ्यांसाठी योजना आणि अनुदान शोधा",
     searchSchemes: "योजना शोधा...",
     central: "केंद्र",
