@@ -410,7 +410,7 @@ const SchemeCard = ({ scheme, index, isExpanded, isBookmarked, activeTab, onTogg
                 ? "bg-sky/10 text-sky"
                 : "bg-accent/10 text-accent"
             }`}>
-              {scheme.level === "Central" ? "🇮🇳 Central" : `🏛️ ${scheme.state}`}
+              {scheme.level === "Central" ? `🇮🇳 ${t.central}` : `🏛️ ${scheme.state}`}
             </span>
             {scheme.keyAmount && (
               <span className="text-[10px] font-extrabold text-primary bg-primary/8 px-1.5 py-0.5 rounded-md">
