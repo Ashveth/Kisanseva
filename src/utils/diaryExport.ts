@@ -77,7 +77,7 @@ export function exportPDF(entries: DiaryEntry[], totalExpenses: number, totalInc
   ];
 
   cards.forEach((card, i) => {
-    const x = 14 + i * (cardW + 4);
+    const x = margin + i * (cardW + cardGap);
     doc.setFillColor(card.bg[0], card.bg[1], card.bg[2]);
     doc.roundedRect(x, cardY, cardW, cardH, 3, 3, "F");
     doc.setFontSize(7);
