@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookMarked, Plus, Calendar, Sprout, Droplets, Scissors, DollarSign, Tag, Trash2, Pencil, X, Loader2, ChevronDown } from "lucide-react";
+import { BookMarked, Plus, Calendar, Sprout, Droplets, Scissors, DollarSign, Tag, Trash2, Pencil, X, Loader2, ChevronDown, Download, FileText, FileSpreadsheet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -9,6 +9,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { exportCSV, exportPDF } from "@/utils/diaryExport";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 interface DiaryEntry {
   id: string;
@@ -143,9 +145,28 @@ const FarmDiaryPage = () => {
           </h1>
           <p className="text-sm text-muted-foreground mt-1">Log your daily farming activities</p>
         </div>
-        <Button onClick={() => { resetForm(); setShowForm(true); }} className="gradient-hero text-primary-foreground font-display">
-          <Plus className="h-4 w-4 mr-1" /> Add Entry
-        </Button>
+        <div className="flex gap-2">
+          {entries.length > 0 && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="font-display">
+                  <Download className="h-4 w-4 mr-1" /> Export
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => { exportCSV(filtered); toast.success("CSV downloaded! 📊"); }}>
+                  <FileSpreadsheet className="h-4 w-4 mr-2" /> Export as CSV
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => { exportPDF(filtered, totalExpenses); toast.success("PDF downloaded! 📄"); }}>
+                  <FileText className="h-4 w-4 mr-2" /> Export as PDF
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+          <Button onClick={() => { resetForm(); setShowForm(true); }} className="gradient-hero text-primary-foreground font-display">
+            <Plus className="h-4 w-4 mr-1" /> Add Entry
+          </Button>
+        </div>
       </div>
 
       {/* Summary cards */}
