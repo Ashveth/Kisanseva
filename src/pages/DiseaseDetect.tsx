@@ -1,6 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Camera, AlertTriangle, CheckCircle, Shield, Leaf, X, Loader2, Heart, Pill, Info, BarChart3 } from "lucide-react";
+import { Camera, AlertTriangle, CheckCircle, Shield, Leaf, X, Loader2, Heart, Pill, Info, BarChart3, Upload, ImagePlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
