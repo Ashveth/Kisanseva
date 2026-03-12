@@ -245,6 +245,24 @@ export interface Translations {
   navDiary: string;
   navSchemes: string;
 
+  // Activity types
+  actPlanting: string;
+  actFertilizing: string;
+  actHarvesting: string;
+  actExpense: string;
+  actIrrigation: string;
+  actPestControl: string;
+  actGeneral: string;
+
+  // Diary toasts
+  toastLoadFailed: string;
+  toastUpdateFailed: string;
+  toastEntryUpdated: string;
+  toastSaveFailed: string;
+  toastEntrySaved: string;
+  toastDeleteFailed: string;
+  toastEntryDeleted: string;
+
   // Government Schemes
   govSchemes: string;
   govSchemesDesc: string;
