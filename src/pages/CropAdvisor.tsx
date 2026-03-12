@@ -8,6 +8,7 @@ import { Slider } from "@/components/ui/slider";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { AIErrorCard, ResultCardSkeleton } from "@/components/ui/ai-loading";
 
 interface CropRecommendation {
   name: string;
@@ -20,6 +21,7 @@ interface CropRecommendation {
 
 const CropAdvisor = () => {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [results, setResults] = useState<CropRecommendation[] | null>(null);
   const [nitrogen, setNitrogen] = useState([50]);
   const [phosphorus, setPhosphorus] = useState([40]);
@@ -33,8 +35,9 @@ const CropAdvisor = () => {
   const handleGetRecommendations = async () => {
     setLoading(true);
     setResults(null);
+    setError(null);
     try {
-      const { data, error } = await supabase.functions.invoke("crop-advisor", {
+      const { data, error: fnError } = await supabase.functions.invoke("crop-advisor", {
         body: {
           nitrogen: nitrogen[0],
           phosphorus: phosphorus[0],
@@ -45,11 +48,12 @@ const CropAdvisor = () => {
           location: location || undefined,
         },
       });
-      if (error) throw error;
+      if (fnError) throw fnError;
+      if (data?.error) throw new Error(data.error);
       setResults(data.crops || []);
     } catch (err: any) {
       console.error("Crop advisor error:", err);
-      toast.error(err.message || "Failed to get recommendations");
+      setError(err.message || "Failed to get crop recommendations. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -131,6 +135,10 @@ const CropAdvisor = () => {
           )}
         </Button>
       </div>
+
+      {loading && <ResultCardSkeleton count={3} />}
+
+      {error && <AIErrorCard message={error} onRetry={handleGetRecommendations} />}
 
       <AnimatePresence>
         {results && (
