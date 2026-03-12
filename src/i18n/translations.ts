@@ -213,6 +213,58 @@ export interface Translations {
   noNotificationsDesc: string;
   generateSampleAlerts: string;
   navNotifications: string;
+
+  // Farm Diary
+  farmDiary: string;
+  farmDiaryDesc: string;
+  addEntry: string;
+  editEntry: string;
+  newEntry: string;
+  totalEntries: string;
+  expenses: string;
+  income: string;
+  profit: string;
+  loss: string;
+  exportData: string;
+  exportCSV: string;
+  exportPDF: string;
+  titleRequired: string;
+  entryPlaceholder: string;
+  expensePlaceholder: string;
+  incomePlaceholder: string;
+  detailsPlaceholder: string;
+  update: string;
+  saveEntry: string;
+  noEntriesYet: string;
+  noEntriesDesc: string;
+  showingEntries: string;
+  all: string;
+  from: string;
+  to: string;
+  clear: string;
+  navDiary: string;
+  navSchemes: string;
+
+  // Government Schemes
+  govSchemes: string;
+  govSchemesDesc: string;
+  searchSchemes: string;
+  central: string;
+  state: string;
+  selectState: string;
+  allCategories: string;
+  clearAll: string;
+  savedSchemes: string;
+  schemeSaved: string;
+  schemeRemoved: string;
+  eligibility: string;
+  howToApply: string;
+  requiredDocs: string;
+  benefits: string;
+  checkEligibility: string;
+  applyNow: string;
+  noSchemesFound: string;
+  activeFilters: string;
 }
 
 export const translations: Record<Language, Translations> = {
