@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.reset-phone-password]
 verify_jwt = false
+
+[functions.scheme-eligibility]
+verify_jwt = false
