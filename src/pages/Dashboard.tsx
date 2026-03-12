@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Leaf, Camera, CloudSun, TrendingUp, BookOpen, MessageCircle, Sprout, BarChart3, AlertTriangle, Droplets, Thermometer, Wind, Download, X, BookMarked } from "lucide-react";
+import { Leaf, Camera, CloudSun, TrendingUp, BookOpen, MessageCircle, Sprout, BarChart3, AlertTriangle, Droplets, Thermometer, Wind, Download, X, BookMarked, Landmark } from "lucide-react";
 import StatCard from "@/components/ui/stat-card";
 import heroImage from "@/assets/hero-farm.jpg";
 import { useWeather } from "@/hooks/useWeather";
