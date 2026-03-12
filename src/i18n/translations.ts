@@ -578,6 +578,7 @@ export const translations: Record<Language, Translations> = {
     password: "கடவுச்சொல்",
     fullName: "முழு பெயர்",
     pleaseWait: "காத்திருக்கவும்...",
+    phoneNumber: "தொலைபேசி எண் (எ.கா., 9876543210)",
 
     welcomeBack: "மீண்டும் வரவேற்கிறோம், விவசாயி!",
     joinFarmers: "ஆயிரக்கணக்கான ஸ்மார்ட் விவசாயிகளுடன் இணையுங்கள்",
