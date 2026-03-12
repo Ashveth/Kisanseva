@@ -732,5 +732,14 @@ export const translations: Record<Language, Translations> = {
     langEnglish: "English",
     langHindi: "हिंदी (Hindi)",
     langTamil: "தமிழ் (Tamil)",
+
+    notifications: "அறிவிப்புகள்",
+    unreadNotifications: "படிக்காதவை",
+    markAllRead: "அனைத்தையும் படி",
+    allNotifications: "அனைத்தும்",
+    noNotifications: "இன்னும் அறிவிப்புகள் இல்லை",
+    noNotificationsDesc: "வானிலை எச்சரிக்கைகள், சந்தை புதுப்பிப்புகள் மற்றும் நோய் எச்சரிக்கைகள் இங்கே கிடைக்கும்.",
+    generateSampleAlerts: "மாதிரி அலர்ட்கள் உருவாக்கு",
+    navNotifications: "அலர்ட்",
   },
 };
