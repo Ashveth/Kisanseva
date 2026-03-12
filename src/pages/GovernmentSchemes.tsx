@@ -70,8 +70,9 @@ const GovernmentSchemes = () => {
       (s.state && s.state.toLowerCase().includes(search.toLowerCase()));
     const matchesCategory = activeCategory === "All" || s.category === activeCategory;
     const matchesLevel = activeLevel === "All" || s.level === activeLevel;
+    const matchesState = activeState === "All" || s.state === activeState || (activeState === "Central" && s.level === "Central");
     const matchesBookmark = !showBookmarked || bookmarks.includes(s.id);
-    return matchesSearch && matchesCategory && matchesLevel && matchesBookmark;
+    return matchesSearch && matchesCategory && matchesLevel && matchesState && matchesBookmark;
   });
 
   const checkEligibility = async () => {
