@@ -1072,8 +1072,11 @@ export const translations: Record<Language, Translations> = {
     toastEntrySaved: "பதிவு சேமிக்கப்பட்டது! 🌾",
     toastDeleteFailed: "நீக்க முடியவில்லை",
     toastEntryDeleted: "பதிவு நீக்கப்பட்டது",
-
-    govSchemes: "அரசு திட்டங்கள்",
+    chartIncomeVsExpenses: "வருமானம் vs செலவுகள்",
+    chartMonthlyExpenses: "மாதாந்திர செலவுகள்",
+    chartExpenseBreakdown: "செலவு பிரிவு",
+    chartTotal: "மொத்தம்",
+    chartOfTotal: "மொத்தத்தில்",
     govSchemesDesc: "விவசாயிகளுக்கான திட்டங்கள் மற்றும் மானியங்களைக் கண்டறியுங்கள்",
     searchSchemes: "திட்டங்களைத் தேடுங்கள்...",
     central: "மத்திய",
