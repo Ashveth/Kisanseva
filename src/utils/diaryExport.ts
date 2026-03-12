@@ -63,9 +63,12 @@ export function exportPDF(entries: DiaryEntry[], totalExpenses: number, totalInc
   doc.text(`Generated on ${formatDate(new Date().toISOString())}  |  ${entries.length} ${entries.length === 1 ? "entry" : "entries"}`, 14, 28);
 
   // — Summary cards row —
+  const margin = 14;
+  const usableWidth = pageWidth - margin * 2;
   const cardY = 44;
   const cardH = 22;
-  const cardW = (pageWidth - 28 - 12) / 4; // 4 cards with gaps
+  const cardGap = 3;
+  const cardW = (usableWidth - cardGap * 3) / 4;
   const cards = [
     { label: "Total Entries", value: `${entries.length}`, bg: [240, 249, 255] },
     { label: "Total Expenses", value: `₹${totalExpenses.toLocaleString()}`, bg: [255, 240, 240] },
