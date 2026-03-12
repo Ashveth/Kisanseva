@@ -184,6 +184,16 @@ export interface Translations {
   langEnglish: string;
   langHindi: string;
   langTamil: string;
+
+  // Notifications
+  notifications: string;
+  unreadNotifications: string;
+  markAllRead: string;
+  allNotifications: string;
+  noNotifications: string;
+  noNotificationsDesc: string;
+  generateSampleAlerts: string;
+  navNotifications: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -358,6 +368,15 @@ export const translations: Record<Language, Translations> = {
     langEnglish: "English",
     langHindi: "हिंदी (Hindi)",
     langTamil: "தமிழ் (Tamil)",
+
+    notifications: "Notifications",
+    unreadNotifications: "unread",
+    markAllRead: "Mark all read",
+    allNotifications: "All",
+    noNotifications: "No notifications yet",
+    noNotificationsDesc: "You'll receive weather alerts, market updates, and disease warnings here.",
+    generateSampleAlerts: "Generate Sample Alerts",
+    navNotifications: "Alerts",
   },
 
   hi: {
@@ -531,6 +550,15 @@ export const translations: Record<Language, Translations> = {
     langEnglish: "English",
     langHindi: "हिंदी (Hindi)",
     langTamil: "தமிழ் (Tamil)",
+
+    notifications: "सूचनाएं",
+    unreadNotifications: "अपठित",
+    markAllRead: "सभी पढ़ें",
+    allNotifications: "सभी",
+    noNotifications: "अभी कोई सूचना नहीं",
+    noNotificationsDesc: "आपको यहां मौसम अलर्ट, बाज़ार अपडेट और रोग चेतावनियां मिलेंगी।",
+    generateSampleAlerts: "नमूना अलर्ट बनाएं",
+    navNotifications: "अलर्ट",
   },
 
   ta: {
@@ -704,5 +732,14 @@ export const translations: Record<Language, Translations> = {
     langEnglish: "English",
     langHindi: "हिंदी (Hindi)",
     langTamil: "தமிழ் (Tamil)",
+
+    notifications: "அறிவிப்புகள்",
+    unreadNotifications: "படிக்காதவை",
+    markAllRead: "அனைத்தையும் படி",
+    allNotifications: "அனைத்தும்",
+    noNotifications: "இன்னும் அறிவிப்புகள் இல்லை",
+    noNotificationsDesc: "வானிலை எச்சரிக்கைகள், சந்தை புதுப்பிப்புகள் மற்றும் நோய் எச்சரிக்கைகள் இங்கே கிடைக்கும்.",
+    generateSampleAlerts: "மாதிரி அலர்ட்கள் உருவாக்கு",
+    navNotifications: "அலர்ட்",
   },
 };
