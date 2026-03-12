@@ -1,6 +1,7 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { Leaf, Camera, CloudSun, TrendingUp, BookOpen, MessageCircle, Sprout, BarChart3, AlertTriangle, Droplets, Thermometer, Wind } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Leaf, Camera, CloudSun, TrendingUp, BookOpen, MessageCircle, Sprout, BarChart3, AlertTriangle, Droplets, Thermometer, Wind, Download, X } from "lucide-react";
 import StatCard from "@/components/ui/stat-card";
 import heroImage from "@/assets/hero-farm.jpg";
 import { useWeather } from "@/hooks/useWeather";
@@ -23,6 +24,46 @@ const Dashboard = () => {
   const w = weather?.current ?? mockWeather.current;
   const alerts = weather?.alerts ?? mockWeather.alerts;
   const forecast = weather?.forecast ?? mockWeather.forecast;
+
+  const [showInstallBanner, setShowInstallBanner] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+
+  useEffect(() => {
+    const dismissed = localStorage.getItem("farmwise-install-dismissed");
+    const isStandalone = window.matchMedia("(display-mode: standalone)").matches;
+    if (dismissed || isStandalone) return;
+
+    const handler = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallBanner(true);
+    };
+    window.addEventListener("beforeinstallprompt", handler);
+
+    // Show fallback banner after 3s if no prompt event (iOS)
+    const timer = setTimeout(() => {
+      if (!isStandalone) setShowInstallBanner(true);
+    }, 3000);
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handler);
+      clearTimeout(timer);
+    };
+  }, []);
+
+  const handleInstall = async () => {
+    if (deferredPrompt) {
+      await deferredPrompt.prompt();
+      setShowInstallBanner(false);
+    } else {
+      window.location.href = "/install";
+    }
+  };
+
+  const dismissBanner = () => {
+    setShowInstallBanner(false);
+    localStorage.setItem("farmwise-install-dismissed", "true");
+  };
 
   const quickActions = [
     { path: "/crop-advisor", icon: Leaf, label: t.cropAdvisor, desc: t.cropAdvisorDesc, gradient: "gradient-hero" },
@@ -55,6 +96,29 @@ const Dashboard = () => {
       </div>
 
       <div className="container space-y-6">
+        {/* Install Banner */}
+        <AnimatePresence>
+          {showInstallBanner && (
+            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}
+              className="glass-card p-3 flex items-center gap-3 border border-primary/20 bg-primary/5">
+              <div className="h-10 w-10 rounded-xl gradient-hero flex items-center justify-center flex-shrink-0">
+                <Download className="h-5 w-5 text-primary-foreground" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-display font-bold text-foreground text-sm">Install FarmWise</p>
+                <p className="text-xs text-muted-foreground">Add to home screen for offline access & faster loading</p>
+              </div>
+              <button onClick={handleInstall}
+                className="px-3 py-1.5 rounded-lg gradient-hero text-primary-foreground text-xs font-bold font-display flex-shrink-0">
+                Install
+              </button>
+              <button onClick={dismissBanner} className="p-1 text-muted-foreground hover:text-foreground flex-shrink-0">
+                <X className="h-4 w-4" />
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Stats Row */}
         {isLoading ? (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
