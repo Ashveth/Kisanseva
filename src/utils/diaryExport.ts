@@ -57,7 +57,7 @@ export function exportPDF(entries: DiaryEntry[], totalExpenses: number, totalInc
   doc.rect(0, 0, pageWidth, 36, "F");
   doc.setFontSize(22);
   doc.setTextColor(255, 255, 255);
-  doc.text("🌾 Farm Diary Report", 14, 18);
+  doc.text("🌾 KisanSeva Farm Diary", 14, 18);
   doc.setFontSize(9);
   doc.setTextColor(220, 255, 220);
   doc.text(`Generated on ${formatDate(new Date().toISOString())}  •  ${entries.length} entries`, 14, 28);
