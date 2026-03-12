@@ -1,0 +1,118 @@
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Leaf, Camera, CloudSun, TrendingUp, BookOpen, MessageCircle, Sprout, BarChart3, AlertTriangle, Droplets, Thermometer, Wind } from "lucide-react";
+import StatCard from "@/components/ui/stat-card";
+import heroImage from "@/assets/hero-farm.jpg";
+import { weatherData } from "@/data/mockData";
+
+const quickActions = [
+  { path: "/crop-advisor", icon: Leaf, label: "Crop Advisor", desc: "Get crop recommendations", gradient: "gradient-hero" },
+  { path: "/disease-detect", icon: Camera, label: "Scan Plant", desc: "Detect diseases instantly", gradient: "gradient-earth" },
+  { path: "/weather", icon: CloudSun, label: "Weather", desc: "Check forecasts", gradient: "gradient-sky" },
+  { path: "/market", icon: TrendingUp, label: "Market Prices", desc: "Price trends & forecasts", gradient: "gradient-harvest" },
+  { path: "/knowledge", icon: BookOpen, label: "Pest Guide", desc: "Treatment knowledge", gradient: "gradient-hero" },
+  { path: "/chat", icon: MessageCircle, label: "Ask AI", desc: "Chat with farming AI", gradient: "gradient-earth" },
+];
+
+const container = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.08 } },
+};
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 },
+};
+
+const Dashboard = () => {
+  return (
+    <div className="space-y-6">
+      {/* Hero */}
+      <div className="relative h-48 md:h-64 overflow-hidden">
+        <img src={heroImage} alt="Farm landscape" className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8">
+          <div className="container">
+            <div className="flex items-center gap-2 mb-1">
+              <Sprout className="h-6 w-6 text-harvest" />
+              <h1 className="text-2xl md:text-3xl font-bold font-display text-primary-foreground">
+                FarmWise AI
+              </h1>
+            </div>
+            <p className="text-sm text-primary-foreground/80 max-w-md">
+              Smart farming decisions powered by AI. Get crop recommendations, detect diseases, and track market prices.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="container space-y-6">
+        {/* Stats Row */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <StatCard icon={Thermometer} label="Temperature" value={`${weatherData.current.temp}°C`} gradient="earth" />
+          <StatCard icon={Droplets} label="Humidity" value={`${weatherData.current.humidity}%`} gradient="sky" />
+          <StatCard icon={Wind} label="Wind" value={`${weatherData.current.windSpeed} km/h`} gradient="hero" />
+          <StatCard icon={BarChart3} label="Rain Chance" value={`${weatherData.current.rainChance}%`} gradient="harvest" />
+        </div>
+
+        {/* Alerts */}
+        {weatherData.alerts.length > 0 && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-2">
+            {weatherData.alerts.map((alert, i) => (
+              <div key={i} className={`glass-card p-3 flex items-center gap-3 border-l-4 ${
+                alert.severity === "warning" ? "border-l-harvest" : "border-l-sky"
+              }`}>
+                <AlertTriangle className={`h-5 w-5 flex-shrink-0 ${
+                  alert.severity === "warning" ? "text-harvest" : "text-sky"
+                }`} />
+                <p className="text-sm text-foreground">{alert.message}</p>
+              </div>
+            ))}
+          </motion.div>
+        )}
+
+        {/* Quick Actions */}
+        <div>
+          <h2 className="text-lg font-bold font-display text-foreground mb-3">Quick Actions</h2>
+          <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {quickActions.map((action) => (
+              <motion.div key={action.path} variants={item}>
+                <Link
+                  to={action.path}
+                  className="glass-card p-4 flex flex-col items-center text-center gap-3 hover:shadow-elevated transition-shadow group"
+                >
+                  <div className={`h-14 w-14 rounded-2xl ${action.gradient} flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                    <action.icon className="h-7 w-7 text-primary-foreground" />
+                  </div>
+                  <div>
+                    <p className="font-display font-bold text-foreground text-sm">{action.label}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{action.desc}</p>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* 5-Day Forecast Mini */}
+        <div>
+          <h2 className="text-lg font-bold font-display text-foreground mb-3">5-Day Forecast</h2>
+          <div className="glass-card p-4">
+            <div className="flex justify-between">
+              {weatherData.forecast.map((day) => (
+                <div key={day.day} className="text-center space-y-1">
+                  <p className="text-xs font-medium text-muted-foreground">{day.day}</p>
+                  <p className="text-2xl">{day.icon}</p>
+                  <p className="text-sm font-bold text-foreground">{day.high}°</p>
+                  <p className="text-xs text-muted-foreground">{day.low}°</p>
+                  <p className="text-xs text-sky">{day.rain}%💧</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;
