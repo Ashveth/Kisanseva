@@ -26,16 +26,37 @@ const DiseaseDetect = () => {
   const fileRef = useRef<HTMLInputElement>(null);
   const { t } = useLanguage();
 
-  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const compressImage = (file: File, maxWidth = 800, quality = 0.7): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        let w = img.width, h = img.height;
+        if (w > maxWidth) { h = (maxWidth / w) * h; w = maxWidth; }
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext("2d")!;
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL("image/jpeg", quality));
+      };
+      img.onerror = reject;
+      img.src = URL.createObjectURL(file);
+    });
+  };
+
+  const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("Image too large. Please use an image under 5MB.");
+    if (file.size > 10 * 1024 * 1024) {
+      toast.error("Image too large. Please use an image under 10MB.");
       return;
     }
-    const reader = new FileReader();
-    reader.onload = (ev) => setImage(ev.target?.result as string);
-    reader.readAsDataURL(file);
+    try {
+      const compressed = await compressImage(file);
+      setImage(compressed);
+    } catch {
+      toast.error("Failed to process image.");
+    }
   };
 
   const handleAnalyze = async () => {
