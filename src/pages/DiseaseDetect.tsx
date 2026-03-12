@@ -153,116 +153,95 @@ const DiseaseDetect = () => {
 
       <AnimatePresence>
         {result && disease && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
             
-            {/* Status Banner */}
+            {/* Diagnosis Card — compact header + confidence */}
             {result.healthy ? (
-              <div className="glass-card p-5 border-l-4 border-l-primary bg-primary/5">
+              <div className="glass-card p-4 border-l-4 border-l-primary bg-primary/5">
                 <div className="flex items-center gap-3">
-                  <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <Heart className="h-6 w-6 text-primary" />
-                  </div>
+                  <Heart className="h-6 w-6 text-primary flex-shrink-0" />
                   <div>
-                    <h3 className="font-display font-bold text-lg text-foreground">Plant looks healthy! 🌱</h3>
-                    {disease.description && <p className="text-sm text-muted-foreground mt-1 leading-relaxed">{disease.description}</p>}
+                    <h3 className="font-display font-bold text-foreground">Plant looks healthy! 🌱</h3>
+                    {disease.description && <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{disease.description}</p>}
                   </div>
                 </div>
               </div>
             ) : (
-              <div className="glass-card overflow-hidden">
-                <div className="bg-destructive/8 p-5 border-b border-destructive/10">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex items-center gap-3">
-                      <div className="h-12 w-12 rounded-full bg-destructive/10 flex items-center justify-center flex-shrink-0">
-                        <AlertTriangle className="h-6 w-6 text-destructive" />
-                      </div>
-                      <div>
-                        <h3 className="font-display font-bold text-lg text-foreground">{disease.name}</h3>
-                        <p className="text-sm text-muted-foreground mt-0.5">{t.crop}: <strong className="text-foreground">{disease.crop}</strong></p>
-                      </div>
-                    </div>
-                    <span className={`text-xs font-bold px-3 py-1.5 rounded-full flex-shrink-0 ${
-                      disease.severity === "High" 
-                        ? "bg-destructive/10 text-destructive" 
-                        : disease.severity === "Medium"
-                        ? "bg-harvest/10 text-harvest"
-                        : "bg-primary/10 text-primary"
-                    }`}>
-                      {disease.severity}
-                    </span>
+              <div className="glass-card p-4 space-y-3">
+                {/* Disease name + severity inline */}
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <AlertTriangle className="h-5 w-5 text-destructive flex-shrink-0" />
+                    <h3 className="font-display font-bold text-foreground text-[15px] truncate">{disease.name}</h3>
                   </div>
+                  <span className={`text-[10px] font-bold px-2 py-1 rounded-full flex-shrink-0 ${
+                    disease.severity === "High" 
+                      ? "bg-destructive/10 text-destructive" 
+                      : disease.severity === "Medium"
+                      ? "bg-harvest/10 text-harvest"
+                      : "bg-primary/10 text-primary"
+                  }`}>
+                    {disease.severity}
+                  </span>
                 </div>
-                <div className="p-5 space-y-3">
-                  {disease.description && (
-                    <div className="flex items-start gap-3">
-                      <Info className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
-                      <p className="text-sm text-muted-foreground leading-relaxed">{disease.description}</p>
-                    </div>
-                  )}
-                  <div className="flex items-center gap-3 bg-muted/50 rounded-lg px-4 py-3">
-                    <BarChart3 className="h-4 w-4 text-primary flex-shrink-0" />
-                    <span className="text-sm text-foreground">{t.confidence}:</span>
-                    <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
-                      <motion.div 
-                        initial={{ width: 0 }} 
-                        animate={{ width: `${disease.confidence}%` }} 
-                        transition={{ duration: 1, ease: "easeOut" }}
-                        className="h-full bg-primary rounded-full" 
-                      />
-                    </div>
-                    <span className="text-sm font-bold text-primary">{disease.confidence}%</span>
+
+                {/* Crop + description compact */}
+                <p className="text-xs text-muted-foreground">
+                  <strong className="text-foreground">{disease.crop}</strong>
+                  {disease.description && <> — {disease.description}</>}
+                </p>
+
+                {/* Confidence bar */}
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-muted-foreground">{t.confidence}</span>
+                  <div className="flex-1 h-1.5 bg-muted rounded-full overflow-hidden">
+                    <motion.div 
+                      initial={{ width: 0 }} 
+                      animate={{ width: `${disease.confidence}%` }} 
+                      transition={{ duration: 0.8, ease: "easeOut" }}
+                      className="h-full bg-primary rounded-full" 
+                    />
                   </div>
+                  <span className="text-xs font-bold text-primary">{disease.confidence}%</span>
                 </div>
               </div>
             )}
 
-            {/* Treatment Section */}
-            <div className="glass-card overflow-hidden">
-              <div className="px-5 py-3 border-b border-border/50 bg-muted/30">
-                <h3 className="font-display font-bold text-foreground flex items-center gap-2">
-                  <Pill className="h-4 w-4 text-primary" />
-                  {t.treatment}
-                </h3>
+            {/* Treatment — two compact side-by-side cards on larger screens */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="glass-card p-3 border-t-2 border-t-primary">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-primary mb-1.5">💊 {t.chemicalTreatment}</p>
+                <p className="text-xs text-foreground leading-relaxed">{disease.treatment}</p>
               </div>
-              <div className="p-4 space-y-3">
-                <div className="rounded-xl border border-primary/15 bg-primary/5 p-4">
-                  <p className="text-xs font-bold uppercase tracking-wider text-primary mb-2">💊 {t.chemicalTreatment}</p>
-                  <p className="text-sm text-foreground leading-relaxed">{disease.treatment}</p>
-                </div>
-                <div className="rounded-xl border border-leaf/15 bg-leaf/5 p-4">
-                  <p className="text-xs font-bold uppercase tracking-wider text-leaf mb-2">🌿 {t.organicAlternative}</p>
-                  <p className="text-sm text-foreground leading-relaxed">{disease.organic}</p>
-                </div>
+              <div className="glass-card p-3 border-t-2 border-t-leaf">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-leaf mb-1.5">🌿 {t.organicAlternative}</p>
+                <p className="text-xs text-foreground leading-relaxed">{disease.organic}</p>
               </div>
             </div>
 
-            {/* Prevention Section */}
-            <div className="glass-card overflow-hidden">
-              <div className="px-5 py-3 border-b border-border/50 bg-muted/30">
-                <h3 className="font-display font-bold text-foreground flex items-center gap-2">
-                  <Shield className="h-4 w-4 text-primary" />
-                  {t.preventionTips}
-                </h3>
-              </div>
-              <div className="p-4 space-y-2.5">
+            {/* Prevention — compact list */}
+            <div className="glass-card p-3">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2 flex items-center gap-1.5">
+                <Shield className="h-3.5 w-3.5 text-primary" />
+                {t.preventionTips}
+              </p>
+              <div className="space-y-1.5">
                 {disease.prevention.map((tip, i) => (
                   <motion.div 
                     key={i} 
-                    initial={{ opacity: 0, x: -10 }} 
-                    animate={{ opacity: 1, x: 0 }} 
-                    transition={{ delay: i * 0.1 }}
-                    className="flex items-start gap-3 bg-muted/30 rounded-lg px-4 py-3"
+                    initial={{ opacity: 0 }} 
+                    animate={{ opacity: 1 }} 
+                    transition={{ delay: i * 0.08 }}
+                    className="flex items-start gap-2"
                   >
-                    <div className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <CheckCircle className="h-3 w-3 text-primary" />
-                    </div>
-                    <p className="text-sm text-foreground leading-relaxed">{tip}</p>
+                    <CheckCircle className="h-3 w-3 text-primary mt-0.5 flex-shrink-0" />
+                    <p className="text-xs text-foreground leading-relaxed">{tip}</p>
                   </motion.div>
                 ))}
               </div>
             </div>
 
-            <Button onClick={handleReset} variant="outline" className="w-full font-display h-12 text-base">
+            <Button onClick={handleReset} variant="outline" className="w-full font-display h-10">
               <Camera className="h-4 w-4 mr-2" />
               {t.scanAnother}
             </Button>
