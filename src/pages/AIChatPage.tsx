@@ -149,30 +149,30 @@ const AIChatPage = () => {
         </div>
       </div>
 
-      <div ref={scrollRef} className="flex-1 overflow-y-auto space-y-3 mb-4 pr-1">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto space-y-4 mb-4 pr-1">
         {messages.map((msg, i) => (
-          <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-            className={`flex gap-2 ${msg.role === "user" ? "justify-end" : ""}`}>
+          <motion.div key={i} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+            className={`flex gap-2.5 ${msg.role === "user" ? "justify-end" : ""}`}>
             {msg.role === "assistant" && (
-              <div className="h-7 w-7 rounded-lg gradient-hero flex items-center justify-center flex-shrink-0 mt-1">
+              <div className="h-8 w-8 rounded-full gradient-hero flex items-center justify-center flex-shrink-0 mt-0.5">
                 <Bot className="h-4 w-4 text-primary-foreground" />
               </div>
             )}
-            <div className={`rounded-2xl text-sm ${
-              msg.role === "user" 
-                ? "max-w-[80%] gradient-hero text-primary-foreground rounded-br-sm p-3" 
-                : "max-w-[90%] glass-card text-foreground rounded-bl-sm p-4"
+            <div className={`text-sm ${
+              msg.role === "user"
+                ? "max-w-[75%] gradient-hero text-primary-foreground rounded-2xl rounded-br-md px-4 py-2.5"
+                : "max-w-[88%] bg-card border border-border text-foreground rounded-2xl rounded-bl-md px-4 py-3"
             }`}>
               {msg.role === "assistant" ? (
-                <div className="ai-response prose prose-sm max-w-none dark:prose-invert">
+                <div className="ai-response">
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown>
                 </div>
               ) : (
-                <p className="whitespace-pre-line">{msg.content}</p>
+                <p className="whitespace-pre-line leading-relaxed">{msg.content}</p>
               )}
             </div>
             {msg.role === "user" && (
-              <div className="h-7 w-7 rounded-lg bg-muted flex items-center justify-center flex-shrink-0 mt-1">
+              <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center flex-shrink-0 mt-0.5">
                 <User className="h-4 w-4 text-muted-foreground" />
               </div>
             )}

@@ -109,64 +109,83 @@
   }
 }
 
-/* AI Response Styling */
-.ai-response h2,
-.ai-response h3 {
-  font-family: var(--font-display);
-  font-weight: 700;
+/* AI Response Styling — Clean ChatGPT-like */
+.ai-response {
+  font-size: 0.875rem;
+  line-height: 1.7;
   color: hsl(var(--foreground));
-  border-bottom: 1px solid hsl(var(--border));
-  padding-bottom: 0.35rem;
-  margin-top: 1.25rem !important;
-  margin-bottom: 0.5rem !important;
 }
 
-.ai-response h2:first-child,
-.ai-response h3:first-child {
+.ai-response > *:first-child {
   margin-top: 0 !important;
 }
 
+.ai-response h1 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: hsl(var(--foreground));
+  margin-top: 1.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
 .ai-response h2 {
-  font-size: 1rem;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  margin-top: 1.25rem !important;
+  margin-bottom: 0.4rem !important;
 }
 
 .ai-response h3 {
-  font-size: 0.9rem;
-  border-bottom: none;
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  margin-top: 1rem !important;
+  margin-bottom: 0.3rem !important;
 }
 
 .ai-response p {
-  margin-top: 0.35rem !important;
-  margin-bottom: 0.35rem !important;
-  line-height: 1.6;
+  margin-top: 0.3rem !important;
+  margin-bottom: 0.5rem !important;
+  line-height: 1.7;
 }
 
 .ai-response ul,
 .ai-response ol {
-  margin-top: 0.35rem !important;
-  margin-bottom: 0.5rem !important;
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.6rem !important;
   padding-left: 1.25rem !important;
 }
 
 .ai-response li {
-  margin-top: 0.15rem !important;
-  margin-bottom: 0.15rem !important;
+  margin-top: 0.2rem !important;
+  margin-bottom: 0.2rem !important;
+  line-height: 1.65;
+}
+
+.ai-response li::marker {
+  color: hsl(var(--primary));
 }
 
 .ai-response strong {
-  color: hsl(var(--primary));
+  color: hsl(var(--foreground));
   font-weight: 700;
-  background: hsl(var(--primary) / 0.08);
-  padding: 0.05rem 0.3rem;
-  border-radius: 0.25rem;
+}
+
+.ai-response em {
+  color: hsl(var(--muted-foreground));
 }
 
 .ai-response table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 0.5rem !important;
+  margin-top: 0.6rem !important;
   margin-bottom: 0.75rem !important;
   font-size: 0.8rem;
+  border: 1px solid hsl(var(--border));
   border-radius: 0.5rem;
   overflow: hidden;
 }
@@ -178,26 +197,59 @@
   font-family: var(--font-display);
   padding: 0.5rem 0.75rem !important;
   text-align: left;
-  border-bottom: 2px solid hsl(var(--border));
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
 .ai-response tbody td {
   padding: 0.4rem 0.75rem !important;
-  border-bottom: 1px solid hsl(var(--border));
+  border-top: 1px solid hsl(var(--border));
 }
 
-.ai-response tbody tr:last-child td {
-  border-bottom: none;
+.ai-response tbody tr:hover {
+  background: hsl(var(--muted) / 0.5);
 }
 
 .ai-response hr {
-  border-color: hsl(var(--border));
-  margin: 0.75rem 0 !important;
+  border: none;
+  border-top: 1px solid hsl(var(--border));
+  margin: 1rem 0 !important;
 }
 
 .ai-response blockquote {
   border-left: 3px solid hsl(var(--primary));
-  padding-left: 0.75rem;
+  background: hsl(var(--primary) / 0.04);
+  padding: 0.5rem 0.75rem;
+  border-radius: 0 0.375rem 0.375rem 0;
   color: hsl(var(--muted-foreground));
   margin: 0.5rem 0 !important;
+}
+
+.ai-response code {
+  background: hsl(var(--muted));
+  padding: 0.15rem 0.35rem;
+  border-radius: 0.25rem;
+  font-size: 0.8rem;
+  font-family: ui-monospace, monospace;
+}
+
+.ai-response pre {
+  background: hsl(var(--muted));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
+  margin: 0.5rem 0 !important;
+}
+
+.ai-response pre code {
+  background: none;
+  padding: 0;
+}
+
+/* Knowledge base AI response - same base + extra width */
+.ai-response-content {
+  font-size: 0.875rem;
+  line-height: 1.7;
 }
