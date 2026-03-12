@@ -15,6 +15,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { exportCSV, exportPDF } from "@/utils/diaryExport";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import MonthlyExpenseChart from "@/components/diary/MonthlyExpenseChart";
 
 interface DiaryEntry {
   id: string;
