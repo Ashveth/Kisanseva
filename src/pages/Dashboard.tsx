@@ -3,7 +3,9 @@ import { motion } from "framer-motion";
 import { Leaf, Camera, CloudSun, TrendingUp, BookOpen, MessageCircle, Sprout, BarChart3, AlertTriangle, Droplets, Thermometer, Wind } from "lucide-react";
 import StatCard from "@/components/ui/stat-card";
 import heroImage from "@/assets/hero-farm.jpg";
-import { weatherData } from "@/data/mockData";
+import { useWeather } from "@/hooks/useWeather";
+import { weatherData as mockWeather } from "@/data/mockData";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const quickActions = [
   { path: "/crop-advisor", icon: Leaf, label: "Crop Advisor", desc: "Get crop recommendations", gradient: "gradient-hero" },
@@ -24,6 +26,11 @@ const item = {
 };
 
 const Dashboard = () => {
+  const { data: weather, isLoading } = useWeather();
+  const w = weather?.current ?? mockWeather.current;
+  const alerts = weather?.alerts ?? mockWeather.alerts;
+  const forecast = weather?.forecast ?? mockWeather.forecast;
+
   return (
     <div className="space-y-6">
       {/* Hero */}
@@ -47,17 +54,23 @@ const Dashboard = () => {
 
       <div className="container space-y-6">
         {/* Stats Row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <StatCard icon={Thermometer} label="Temperature" value={`${weatherData.current.temp}°C`} gradient="earth" />
-          <StatCard icon={Droplets} label="Humidity" value={`${weatherData.current.humidity}%`} gradient="sky" />
-          <StatCard icon={Wind} label="Wind" value={`${weatherData.current.windSpeed} km/h`} gradient="hero" />
-          <StatCard icon={BarChart3} label="Rain Chance" value={`${weatherData.current.rainChance}%`} gradient="harvest" />
-        </div>
+        {isLoading ? (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-20 rounded-xl" />)}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <StatCard icon={Thermometer} label="Temperature" value={`${w.temp}°C`} gradient="earth" />
+            <StatCard icon={Droplets} label="Humidity" value={`${w.humidity}%`} gradient="sky" />
+            <StatCard icon={Wind} label="Wind" value={`${w.windSpeed} km/h`} gradient="hero" />
+            <StatCard icon={BarChart3} label="Rain Chance" value={`${w.rainChance}%`} gradient="harvest" />
+          </div>
+        )}
 
         {/* Alerts */}
-        {weatherData.alerts.length > 0 && (
+        {alerts.length > 0 && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-2">
-            {weatherData.alerts.map((alert, i) => (
+            {alerts.map((alert, i) => (
               <div key={i} className={`glass-card p-3 flex items-center gap-3 border-l-4 ${
                 alert.severity === "warning" ? "border-l-harvest" : "border-l-sky"
               }`}>
@@ -98,7 +111,7 @@ const Dashboard = () => {
           <h2 className="text-lg font-bold font-display text-foreground mb-3">5-Day Forecast</h2>
           <div className="glass-card p-4">
             <div className="flex justify-between">
-              {weatherData.forecast.map((day) => (
+              {forecast.map((day) => (
                 <div key={day.day} className="text-center space-y-1">
                   <p className="text-xs font-medium text-muted-foreground">{day.day}</p>
                   <p className="text-2xl">{day.icon}</p>
