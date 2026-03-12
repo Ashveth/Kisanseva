@@ -23,6 +23,20 @@ export interface Translations {
   createAccount: string;
   noAccount: string;
   haveAccount: string;
+  forgotPassword: string;
+  forgotPasswordDesc: string;
+  resetPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+  passwordResetSent: string;
+  passwordResetPhoneInfo: string;
+  passwordResetSuccess: string;
+  passwordsDoNotMatch: string;
+  backToLogin: string;
+  setNewPassword: string;
+  setNewPasswordDesc: string;
+  invalidResetLink: string;
+  invalidResetLinkDesc: string;
 
   // Nav
   navHome: string;
