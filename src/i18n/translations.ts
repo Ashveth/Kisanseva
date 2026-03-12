@@ -245,6 +245,24 @@ export interface Translations {
   navDiary: string;
   navSchemes: string;
 
+  // Activity types
+  actPlanting: string;
+  actFertilizing: string;
+  actHarvesting: string;
+  actExpense: string;
+  actIrrigation: string;
+  actPestControl: string;
+  actGeneral: string;
+
+  // Diary toasts
+  toastLoadFailed: string;
+  toastUpdateFailed: string;
+  toastEntryUpdated: string;
+  toastSaveFailed: string;
+  toastEntrySaved: string;
+  toastDeleteFailed: string;
+  toastEntryDeleted: string;
+
   // Government Schemes
   govSchemes: string;
   govSchemesDesc: string;
@@ -497,6 +515,20 @@ export const translations: Record<Language, Translations> = {
     clear: "Clear",
     navDiary: "Diary",
     navSchemes: "Schemes",
+    actPlanting: "🌱 Planting",
+    actFertilizing: "💧 Fertilizing",
+    actHarvesting: "✂️ Harvesting",
+    actExpense: "💰 Expense",
+    actIrrigation: "🚿 Irrigation",
+    actPestControl: "🛡️ Pest Control",
+    actGeneral: "📝 General",
+    toastLoadFailed: "Failed to load diary entries",
+    toastUpdateFailed: "Failed to update entry",
+    toastEntryUpdated: "Entry updated",
+    toastSaveFailed: "Failed to save entry",
+    toastEntrySaved: "Entry saved! 🌾",
+    toastDeleteFailed: "Failed to delete",
+    toastEntryDeleted: "Entry deleted",
 
     govSchemes: "Government Schemes",
     govSchemesDesc: "Find schemes and subsidies for farmers",
@@ -748,6 +780,20 @@ export const translations: Record<Language, Translations> = {
     clear: "साफ़",
     navDiary: "डायरी",
     navSchemes: "योजनाएं",
+    actPlanting: "🌱 रोपण",
+    actFertilizing: "💧 उर्वरक",
+    actHarvesting: "✂️ कटाई",
+    actExpense: "💰 खर्च",
+    actIrrigation: "🚿 सिंचाई",
+    actPestControl: "🛡️ कीट नियंत्रण",
+    actGeneral: "📝 सामान्य",
+    toastLoadFailed: "डायरी प्रविष्टियाँ लोड करने में विफल",
+    toastUpdateFailed: "प्रविष्टि अपडेट करने में विफल",
+    toastEntryUpdated: "प्रविष्टि अपडेट हुई",
+    toastSaveFailed: "प्रविष्टि सहेजने में विफल",
+    toastEntrySaved: "प्रविष्टि सहेजी गई! 🌾",
+    toastDeleteFailed: "हटाने में विफल",
+    toastEntryDeleted: "प्रविष्टि हटाई गई",
 
     govSchemes: "सरकारी योजनाएं",
     govSchemesDesc: "किसानों के लिए योजनाएं और सब्सिडी खोजें",
@@ -999,6 +1045,20 @@ export const translations: Record<Language, Translations> = {
     clear: "அழி",
     navDiary: "நாட்குறிப்பு",
     navSchemes: "திட்டங்கள்",
+    actPlanting: "🌱 நடவு",
+    actFertilizing: "💧 உரமிடுதல்",
+    actHarvesting: "✂️ அறுவடை",
+    actExpense: "💰 செலவு",
+    actIrrigation: "🚿 பாசனம்",
+    actPestControl: "🛡️ பூச்சி கட்டுப்பாடு",
+    actGeneral: "📝 பொது",
+    toastLoadFailed: "நாட்குறிப்புகள் ஏற்ற முடியவில்லை",
+    toastUpdateFailed: "பதிவை புதுப்பிக்க முடியவில்லை",
+    toastEntryUpdated: "பதிவு புதுப்பிக்கப்பட்டது",
+    toastSaveFailed: "பதிவை சேமிக்க முடியவில்லை",
+    toastEntrySaved: "பதிவு சேமிக்கப்பட்டது! 🌾",
+    toastDeleteFailed: "நீக்க முடியவில்லை",
+    toastEntryDeleted: "பதிவு நீக்கப்பட்டது",
 
     govSchemes: "அரசு திட்டங்கள்",
     govSchemesDesc: "விவசாயிகளுக்கான திட்டங்கள் மற்றும் மானியங்களைக் கண்டறியுங்கள்",
@@ -1237,6 +1297,20 @@ export const translations: Record<Language, Translations> = {
     clear: "साफ करा",
     navDiary: "डायरी",
     navSchemes: "योजना",
+    actPlanting: "🌱 लागवड",
+    actFertilizing: "💧 खत घालणे",
+    actHarvesting: "✂️ कापणी",
+    actExpense: "💰 खर्च",
+    actIrrigation: "🚿 सिंचन",
+    actPestControl: "🛡️ कीड नियंत्रण",
+    actGeneral: "📝 सामान्य",
+    toastLoadFailed: "डायरी नोंदी लोड करता आल्या नाहीत",
+    toastUpdateFailed: "नोंद अपडेट करता आली नाही",
+    toastEntryUpdated: "नोंद अपडेट झाली",
+    toastSaveFailed: "नोंद जतन करता आली नाही",
+    toastEntrySaved: "नोंद जतन झाली! 🌾",
+    toastDeleteFailed: "हटवता आले नाही",
+    toastEntryDeleted: "नोंद हटवली",
 
     govSchemes: "सरकारी योजना",
     govSchemesDesc: "शेतकऱ्यांसाठी योजना आणि अनुदान शोधा",
@@ -1475,6 +1549,20 @@ export const translations: Record<Language, Translations> = {
     clear: "తుడిచివేయి",
     navDiary: "డైరీ",
     navSchemes: "పథకాలు",
+    actPlanting: "🌱 నాటడం",
+    actFertilizing: "💧 ఎరువులు",
+    actHarvesting: "✂️ కోత",
+    actExpense: "💰 ఖర్చు",
+    actIrrigation: "🚿 నీటిపారుదల",
+    actPestControl: "🛡️ చీడ నియంత్రణ",
+    actGeneral: "📝 సాధారణ",
+    toastLoadFailed: "డైరీ ఎంట్రీలు లోడ్ చేయడం విఫలమైంది",
+    toastUpdateFailed: "ఎంట్రీ అప్‌డేట్ విఫలమైంది",
+    toastEntryUpdated: "ఎంట్రీ అప్‌డేట్ అయింది",
+    toastSaveFailed: "ఎంట్రీ సేవ్ చేయడం విఫలమైంది",
+    toastEntrySaved: "ఎంట్రీ సేవ్ అయింది! 🌾",
+    toastDeleteFailed: "తొలగించడం విఫలమైంది",
+    toastEntryDeleted: "ఎంట్రీ తొలగించబడింది",
 
     govSchemes: "ప్రభుత్వ పథకాలు",
     govSchemesDesc: "రైతుల కోసం పథకాలు మరియు సబ్సిడీలు కనుగొనండి",
@@ -1713,6 +1801,20 @@ export const translations: Record<Language, Translations> = {
     clear: "മായ്ക്കുക",
     navDiary: "ഡയറി",
     navSchemes: "പദ്ധതികൾ",
+    actPlanting: "🌱 നടീൽ",
+    actFertilizing: "💧 വളപ്രയോഗം",
+    actHarvesting: "✂️ വിളവെടുപ്പ്",
+    actExpense: "💰 ചെലവ്",
+    actIrrigation: "🚿 ജലസേചനം",
+    actPestControl: "🛡️ കീട നിയന്ത്രണം",
+    actGeneral: "📝 പൊതു",
+    toastLoadFailed: "ഡയറി എൻട്രികൾ ലോഡ് ചെയ്യാനായില്ല",
+    toastUpdateFailed: "എൻട്രി അപ്‌ഡേറ്റ് ചെയ്യാനായില്ല",
+    toastEntryUpdated: "എൻട്രി അപ്‌ഡേറ്റ് ചെയ്തു",
+    toastSaveFailed: "എൻട്രി സേവ് ചെയ്യാനായില്ല",
+    toastEntrySaved: "എൻട്രി സേവ് ചെയ്തു! 🌾",
+    toastDeleteFailed: "ഇല്ലാതാക്കാനായില്ല",
+    toastEntryDeleted: "എൻട്രി ഇല്ലാതാക്കി",
 
     govSchemes: "സർക്കാർ പദ്ധതികൾ",
     govSchemesDesc: "കർഷകർക്കുള്ള പദ്ധതികളും സബ്‌സിഡികളും കണ്ടെത്തുക",
@@ -1951,6 +2053,20 @@ export const translations: Record<Language, Translations> = {
     clear: "ಅಳಿಸಿ",
     navDiary: "ಡೈರಿ",
     navSchemes: "ಯೋಜನೆಗಳು",
+    actPlanting: "🌱 ನಾಟಿ",
+    actFertilizing: "💧 ಗೊಬ್ಬರ",
+    actHarvesting: "✂️ ಕೊಯ್ಲು",
+    actExpense: "💰 ಖರ್ಚು",
+    actIrrigation: "🚿 ನೀರಾವರಿ",
+    actPestControl: "🛡️ ಕೀಟ ನಿಯಂತ್ರಣ",
+    actGeneral: "📝 ಸಾಮಾನ್ಯ",
+    toastLoadFailed: "ಡೈರಿ ನಮೂನೆಗಳನ್ನು ಲೋಡ್ ಮಾಡಲು ವಿಫಲವಾಯಿತು",
+    toastUpdateFailed: "ನಮೂನೆ ಅಪ್‌ಡೇಟ್ ವಿಫಲವಾಯಿತು",
+    toastEntryUpdated: "ನಮೂನೆ ಅಪ್‌ಡೇಟ್ ಆಯಿತು",
+    toastSaveFailed: "ನಮೂನೆ ಉಳಿಸಲು ವಿಫಲವಾಯಿತು",
+    toastEntrySaved: "ನಮೂನೆ ಉಳಿಸಲಾಗಿದೆ! 🌾",
+    toastDeleteFailed: "ಅಳಿಸಲು ವಿಫಲವಾಯಿತು",
+    toastEntryDeleted: "ನಮೂನೆ ಅಳಿಸಲಾಗಿದೆ",
 
     govSchemes: "ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು",
     govSchemesDesc: "ರೈತರಿಗಾಗಿ ಯೋಜನೆಗಳು ಮತ್ತು ಸಬ್ಸಿಡಿಗಳನ್ನು ಹುಡುಕಿ",

@@ -30,14 +30,14 @@ interface DiaryEntry {
   created_at: string;
 }
 
-const ACTIVITY_TYPES = [
-  { value: "planting", label: "🌱 Planting", icon: Sprout, color: "text-primary" },
-  { value: "fertilizing", label: "💧 Fertilizing", icon: Droplets, color: "text-sky" },
-  { value: "harvesting", label: "✂️ Harvesting", icon: Scissors, color: "text-harvest" },
-  { value: "expense", label: "💰 Expense", icon: DollarSign, color: "text-earth" },
-  { value: "irrigation", label: "🚿 Irrigation", icon: Droplets, color: "text-sky" },
-  { value: "pest_control", label: "🛡️ Pest Control", icon: Tag, color: "text-destructive" },
-  { value: "general", label: "📝 General", icon: BookMarked, color: "text-muted-foreground" },
+const ACTIVITY_TYPES_KEYS = [
+  { value: "planting", tKey: "actPlanting" as const, icon: Sprout, color: "text-primary" },
+  { value: "fertilizing", tKey: "actFertilizing" as const, icon: Droplets, color: "text-sky" },
+  { value: "harvesting", tKey: "actHarvesting" as const, icon: Scissors, color: "text-harvest" },
+  { value: "expense", tKey: "actExpense" as const, icon: DollarSign, color: "text-earth" },
+  { value: "irrigation", tKey: "actIrrigation" as const, icon: Droplets, color: "text-sky" },
+  { value: "pest_control", tKey: "actPestControl" as const, icon: Tag, color: "text-destructive" },
+  { value: "general", tKey: "actGeneral" as const, icon: BookMarked, color: "text-muted-foreground" },
 ];
 
 const FarmDiaryPage = () => {
@@ -71,7 +71,7 @@ const FarmDiaryPage = () => {
       .order("created_at", { ascending: false });
 
     if (error) {
-      toast.error("Failed to load diary entries");
+      toast.error(t.toastLoadFailed);
       console.error(error);
     } else {
       setEntries((data as unknown as DiaryEntry[]) || []);
@@ -109,12 +109,12 @@ const FarmDiaryPage = () => {
 
     if (editingId) {
       const { error } = await supabase.from("farm_diary").update(payload).eq("id", editingId);
-      if (error) { toast.error("Failed to update entry"); console.error(error); }
-      else { toast.success("Entry updated"); }
+      if (error) { toast.error(t.toastUpdateFailed); console.error(error); }
+      else { toast.success(t.toastEntryUpdated); }
     } else {
       const { error } = await supabase.from("farm_diary").insert(payload);
-      if (error) { toast.error("Failed to save entry"); console.error(error); }
-      else { toast.success("Entry saved! 🌾"); }
+      if (error) { toast.error(t.toastSaveFailed); console.error(error); }
+      else { toast.success(t.toastEntrySaved); }
     }
 
     setSaving(false);
@@ -135,8 +135,8 @@ const FarmDiaryPage = () => {
 
   const handleDelete = async (id: string) => {
     const { error } = await supabase.from("farm_diary").delete().eq("id", id);
-    if (error) { toast.error("Failed to delete"); console.error(error); }
-    else { toast.success("Entry deleted"); fetchEntries(); }
+    if (error) { toast.error(t.toastDeleteFailed); console.error(error); }
+    else { toast.success(t.toastEntryDeleted); fetchEntries(); }
   };
 
   const filtered = useMemo(() => {
@@ -152,7 +152,7 @@ const FarmDiaryPage = () => {
     return result;
   }, [entries, filterType, dateFrom, dateTo]);
 
-  const getActivityInfo = (type: string) => ACTIVITY_TYPES.find((a) => a.value === type) || ACTIVITY_TYPES[6];
+  const getActivityInfo = (type: string) => ACTIVITY_TYPES_KEYS.find((a) => a.value === type) || ACTIVITY_TYPES_KEYS[6];
 
   const totalExpenses = entries.filter((e) => e.expense_amount).reduce((sum, e) => sum + (e.expense_amount || 0), 0);
   const totalIncome = entries.filter((e) => e.income_amount).reduce((sum, e) => sum + (e.income_amount || 0), 0);
@@ -253,8 +253,8 @@ const FarmDiaryPage = () => {
               <Select value={activityType} onValueChange={setActivityType}>
                 <SelectTrigger className="bg-background"><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  {ACTIVITY_TYPES.map((a) => (
-                    <SelectItem key={a.value} value={a.value}>{a.label}</SelectItem>
+                  {ACTIVITY_TYPES_KEYS.map((a) => (
+                    <SelectItem key={a.value} value={a.value}>{t[a.tKey]}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -324,10 +324,10 @@ const FarmDiaryPage = () => {
           className={`px-3 py-1.5 rounded-full text-xs font-medium font-display whitespace-nowrap transition-colors ${filterType === "all" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:text-foreground"}`}>
           {t.all}
         </button>
-        {ACTIVITY_TYPES.map((a) => (
+        {ACTIVITY_TYPES_KEYS.map((a) => (
           <button key={a.value} onClick={() => setFilterType(a.value)}
             className={`px-3 py-1.5 rounded-full text-xs font-medium font-display whitespace-nowrap transition-colors ${filterType === a.value ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:text-foreground"}`}>
-            {a.label}
+            {t[a.tKey]}
           </button>
         ))}
       </div>
@@ -361,7 +361,7 @@ const FarmDiaryPage = () => {
                           <CalendarIcon className="h-3 w-3" />
                           {new Date(entry.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
                           <span className="mx-1">•</span>
-                          {info.label}
+                          {t[info.tKey]}
                         </p>
                       </div>
                       <div className="flex gap-1 flex-shrink-0">
