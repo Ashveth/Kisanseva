@@ -199,7 +199,7 @@ const FarmDiaryPage = () => {
                   });
                   toast.success("PDF downloaded! 📄");
                 }}>
-                  <FileText className="h-4 w-4 mr-2" /> Export as PDF
+                  <FileText className="h-4 w-4 mr-2" /> {t.exportPDF}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
