@@ -221,20 +221,19 @@ const GovernmentSchemes = () => {
             </button>
           ))}
         </div>
-        {/* State filter pills */}
-        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-          <MapPin className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0 mt-0.5" />
-          {schemeStates.map(st => (
-            <button
-              key={st}
-              onClick={() => setActiveState(st)}
-              className={`px-3 py-1 rounded-full text-[11px] font-display font-bold whitespace-nowrap transition-colors ${
-                activeState === st ? "bg-primary/15 text-primary border border-primary/30" : "bg-muted/60 text-muted-foreground"
-              }`}
-            >
-              {st}
-            </button>
-          ))}
+        {/* State dropdown */}
+        <div className="flex items-center gap-2">
+          <MapPin className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
+          <Select value={activeState} onValueChange={setActiveState}>
+            <SelectTrigger className="h-8 w-48 text-xs font-display font-bold">
+              <SelectValue placeholder="All States" />
+            </SelectTrigger>
+            <SelectContent>
+              {schemeStates.map(st => (
+                <SelectItem key={st} value={st} className="text-xs">{st}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         {/* Category pills */}
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
