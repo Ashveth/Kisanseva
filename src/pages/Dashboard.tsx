@@ -96,6 +96,29 @@ const Dashboard = () => {
       </div>
 
       <div className="container space-y-6">
+        {/* Install Banner */}
+        <AnimatePresence>
+          {showInstallBanner && (
+            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}
+              className="glass-card p-3 flex items-center gap-3 border border-primary/20 bg-primary/5">
+              <div className="h-10 w-10 rounded-xl gradient-hero flex items-center justify-center flex-shrink-0">
+                <Download className="h-5 w-5 text-primary-foreground" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-display font-bold text-foreground text-sm">Install FarmWise</p>
+                <p className="text-xs text-muted-foreground">Add to home screen for offline access & faster loading</p>
+              </div>
+              <button onClick={handleInstall}
+                className="px-3 py-1.5 rounded-lg gradient-hero text-primary-foreground text-xs font-bold font-display flex-shrink-0">
+                Install
+              </button>
+              <button onClick={dismissBanner} className="p-1 text-muted-foreground hover:text-foreground flex-shrink-0">
+                <X className="h-4 w-4" />
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Stats Row */}
         {isLoading ? (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
