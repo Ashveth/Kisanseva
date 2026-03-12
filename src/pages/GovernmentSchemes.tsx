@@ -344,6 +344,7 @@ const GovernmentSchemes = () => {
                 onToggle={() => { setExpanded(expanded === scheme.id ? null : scheme.id); setActiveTab("details"); }}
                 onBookmark={() => handleBookmark(scheme.id)}
                 onTabChange={setActiveTab}
+                t={t}
               />
             ))}
           </AnimatePresence>
