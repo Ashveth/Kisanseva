@@ -135,8 +135,8 @@ const FarmDiaryPage = () => {
 
   const handleDelete = async (id: string) => {
     const { error } = await supabase.from("farm_diary").delete().eq("id", id);
-    if (error) { toast.error("Failed to delete"); console.error(error); }
-    else { toast.success("Entry deleted"); fetchEntries(); }
+    if (error) { toast.error(t.toastDeleteFailed); console.error(error); }
+    else { toast.success(t.toastEntryDeleted); fetchEntries(); }
   };
 
   const filtered = useMemo(() => {
