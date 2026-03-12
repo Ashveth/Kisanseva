@@ -1852,6 +1852,8 @@ export const translations: Record<Language, Translations> = {
     chartExpenseBreakdown: "ചെലവ് വിശദാംശങ്ങൾ",
     chartTotal: "ആകെ",
     chartOfTotal: "ആകെയുടെ",
+
+    govSchemes: "സർക്കാർ പദ്ധതികൾ",
     govSchemesDesc: "കർഷകർക്കുള്ള പദ്ധതികളും സബ്‌സിഡികളും കണ്ടെത്തുക",
     searchSchemes: "പദ്ധതികൾ തിരയുക...",
     central: "കേന്ദ്ര",
