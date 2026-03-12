@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { AIErrorCard, YieldSkeleton } from "@/components/ui/ai-loading";
 
 const crops = ["Rice", "Wheat", "Maize", "Cotton", "Soybean", "Groundnut", "Sugarcane"];
 const fertilizers = ["Urea", "DAP", "MOP", "NPK Complex", "Organic Compost"];
@@ -32,6 +33,7 @@ const YieldPredictor = () => {
   const [rainfall, setRainfall] = useState([200]);
   const [fertilizer, setFertilizer] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<YieldResult | null>(null);
   const { t } = useLanguage();
 
@@ -39,8 +41,9 @@ const YieldPredictor = () => {
     if (!crop) { toast.error("Please select a crop"); return; }
     setLoading(true);
     setResult(null);
+    setError(null);
     try {
-      const { data, error } = await supabase.functions.invoke("yield-predict", {
+      const { data, error: fnError } = await supabase.functions.invoke("yield-predict", {
         body: {
           crop,
           nitrogen: nitrogen[0],
@@ -51,11 +54,12 @@ const YieldPredictor = () => {
           fertilizer: fertilizer || "None",
         },
       });
-      if (error) throw error;
+      if (fnError) throw fnError;
+      if (data?.error) throw new Error(data.error);
       setResult(data);
     } catch (err: any) {
       console.error("Yield predict error:", err);
-      toast.error(err.message || "Failed to predict yield");
+      setError(err.message || "Failed to predict yield. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -140,6 +144,10 @@ const YieldPredictor = () => {
           )}
         </Button>
       </div>
+
+      {loading && <YieldSkeleton />}
+
+      {error && <AIErrorCard message={error} onRetry={handlePredict} />}
 
       {result && (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">

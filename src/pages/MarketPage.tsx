@@ -5,6 +5,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { AIErrorCard, MarketSkeleton } from "@/components/ui/ai-loading";
 
 const cropList = ["Rice", "Wheat", "Maize", "Cotton", "Soybean", "Groundnut", "Sugarcane", "Mustard"];
 
@@ -36,22 +37,26 @@ interface MarketData {
 const MarketPage = () => {
   const [selectedCrop, setSelectedCrop] = useState("Rice");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<MarketData | null>(null);
   const { t } = useLanguage();
 
-  const fetchMarketData = async (crop: string) => {
-    setSelectedCrop(crop);
+  const fetchMarketData = async (crop?: string) => {
+    const cropToFetch = crop || selectedCrop;
+    setSelectedCrop(cropToFetch);
     setLoading(true);
     setData(null);
+    setError(null);
     try {
-      const { data: result, error } = await supabase.functions.invoke("market-intelligence", {
-        body: { crop },
+      const { data: result, error: fnError } = await supabase.functions.invoke("market-intelligence", {
+        body: { crop: cropToFetch },
       });
-      if (error) throw error;
+      if (fnError) throw fnError;
+      if (result?.error) throw new Error(result.error);
       setData(result);
     } catch (err: any) {
       console.error("Market error:", err);
-      toast.error(err.message || "Failed to fetch market data");
+      setError(err.message || "Failed to fetch market data. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -70,14 +75,14 @@ const MarketPage = () => {
         {cropList.map((crop) => (
           <button key={crop} onClick={() => fetchMarketData(crop)}
             className={`px-4 py-2 rounded-xl text-sm font-display font-bold whitespace-nowrap transition-colors ${
-              selectedCrop === crop && data ? "gradient-hero text-primary-foreground" : "bg-muted text-muted-foreground hover:text-foreground"
+              selectedCrop === crop && (data || loading) ? "gradient-hero text-primary-foreground" : "bg-muted text-muted-foreground hover:text-foreground"
             }`}>
             {crop}
           </button>
         ))}
       </div>
 
-      {!data && !loading && (
+      {!data && !loading && !error && (
         <div className="glass-card p-8 text-center">
           <BarChart3 className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
           <p className="font-display font-bold text-foreground">Select a crop to get AI-powered market intelligence</p>
@@ -85,12 +90,9 @@ const MarketPage = () => {
         </div>
       )}
 
-      {loading && (
-        <div className="glass-card p-8 flex flex-col items-center gap-3">
-          <Loader2 className="h-8 w-8 text-primary animate-spin" />
-          <p className="text-sm text-muted-foreground">Fetching market intelligence for {selectedCrop}...</p>
-        </div>
-      )}
+      {loading && <MarketSkeleton />}
+
+      {error && <AIErrorCard message={error} onRetry={() => fetchMarketData()} />}
 
       {data && (
         <motion.div key={selectedCrop} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">

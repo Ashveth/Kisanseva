@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookOpen, Search, ChevronDown, ChevronUp, Shield, Leaf, Bug, MessageCircle, Loader2, Send } from "lucide-react";
+import { BookOpen, Search, ChevronDown, ChevronUp, Shield, Leaf, Bug, MessageCircle, Loader2, Send, AlertCircle, RefreshCw } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { pests } from "@/data/mockData";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import ReactMarkdown from "react-markdown";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const KnowledgeBase = () => {
   const [search, setSearch] = useState("");
@@ -15,6 +15,8 @@ const KnowledgeBase = () => {
   const [aiQuery, setAiQuery] = useState("");
   const [aiAnswer, setAiAnswer] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
+  const [lastQuery, setLastQuery] = useState("");
   const { t } = useLanguage();
 
   const filtered = pests.filter(
@@ -23,42 +25,13 @@ const KnowledgeBase = () => {
       p.crops.some((c) => c.toLowerCase().includes(search.toLowerCase()))
   );
 
-  const askAI = async (query: string) => {
-    if (!query.trim()) return;
+  const askAIDirect = async (query?: string) => {
+    const q = query || lastQuery;
+    if (!q.trim()) return;
     setAiLoading(true);
     setAiAnswer("");
-    try {
-      const { data, error } = await supabase.functions.invoke("farm-chat", {
-        body: {
-          messages: [
-            { role: "user", content: `As a pest and disease expert, answer this: ${query}. Be specific with treatment dosages and prevention methods.` },
-          ],
-        },
-      });
-      
-      if (error) throw error;
-      
-      // Handle streaming response
-      if (data) {
-        // If it's a non-streaming text response
-        if (typeof data === "string") {
-          setAiAnswer(data);
-        }
-      }
-    } catch (err: any) {
-      // Try reading as stream
-      console.error("AI query error:", err);
-      toast.error("Failed to get AI response");
-    } finally {
-      setAiLoading(false);
-    }
-  };
-
-  // Use non-streaming fetch for knowledge base queries
-  const askAIDirect = async (query: string) => {
-    if (!query.trim()) return;
-    setAiLoading(true);
-    setAiAnswer("");
+    setAiError(null);
+    setLastQuery(q);
     try {
       const resp = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/farm-chat`, {
         method: "POST",
@@ -68,7 +41,7 @@ const KnowledgeBase = () => {
         },
         body: JSON.stringify({
           messages: [
-            { role: "user", content: `As a pest and disease expert for Indian agriculture, answer: ${query}. Include specific treatment dosages, organic alternatives, and prevention methods.` },
+            { role: "user", content: `As a pest and disease expert for Indian agriculture, answer: ${q}. Include specific treatment dosages, organic alternatives, and prevention methods.` },
           ],
         }),
       });
@@ -104,9 +77,11 @@ const KnowledgeBase = () => {
           } catch { /* skip */ }
         }
       }
+
+      if (!fullText) throw new Error("No response received");
     } catch (err: any) {
       console.error("AI error:", err);
-      toast.error("Failed to get AI response");
+      setAiError(err.message || "Failed to get AI response. Please try again.");
     } finally {
       setAiLoading(false);
     }
@@ -139,6 +114,32 @@ const KnowledgeBase = () => {
             {aiLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
           </Button>
         </div>
+
+        {/* AI Loading skeleton */}
+        {aiLoading && !aiAnswer && (
+          <div className="bg-muted/50 rounded-lg p-4 space-y-2">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-4/5" />
+            <Skeleton className="h-4 w-3/5" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-2/3" />
+          </div>
+        )}
+
+        {/* AI Error */}
+        {aiError && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-destructive/5 rounded-lg p-4 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <AlertCircle className="h-4 w-4 text-destructive" />
+              <p className="text-sm text-destructive">{aiError}</p>
+            </div>
+            <Button onClick={() => askAIDirect()} size="sm" variant="outline" className="flex-shrink-0">
+              <RefreshCw className="h-3.5 w-3.5 mr-1" /> Retry
+            </Button>
+          </motion.div>
+        )}
+
+        {/* AI Answer */}
         <AnimatePresence>
           {aiAnswer && (
             <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="bg-muted/50 rounded-lg p-4">

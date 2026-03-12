@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { AIErrorCard, AnalysisSkeleton } from "@/components/ui/ai-loading";
 
 interface DiseaseResult {
   name: string;
@@ -20,6 +21,7 @@ interface DiseaseResult {
 const DiseaseDetect = () => {
   const [image, setImage] = useState<string | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<{ healthy: boolean; disease: DiseaseResult } | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const { t } = useLanguage();
@@ -40,15 +42,17 @@ const DiseaseDetect = () => {
     if (!image) return;
     setAnalyzing(true);
     setResult(null);
+    setError(null);
     try {
-      const { data, error } = await supabase.functions.invoke("disease-detect", {
+      const { data, error: fnError } = await supabase.functions.invoke("disease-detect", {
         body: { image },
       });
-      if (error) throw error;
+      if (fnError) throw fnError;
+      if (data?.error) throw new Error(data.error);
       setResult(data);
     } catch (err: any) {
       console.error("Disease detect error:", err);
-      toast.error(err.message || "Failed to analyze image");
+      setError(err.message || "Failed to analyze image. Please try again.");
     } finally {
       setAnalyzing(false);
     }
@@ -57,6 +61,7 @@ const DiseaseDetect = () => {
   const handleReset = () => {
     setImage(null);
     setResult(null);
+    setError(null);
   };
 
   const disease = result?.disease;
@@ -105,23 +110,25 @@ const DiseaseDetect = () => {
               <X className="h-4 w-4 text-primary-foreground" />
             </button>
           </div>
-          {!result && (
-            <Button onClick={handleAnalyze} disabled={analyzing} className="w-full gradient-earth text-earth-foreground font-display font-bold h-12">
-              {analyzing ? (
-                <span className="flex items-center gap-2">
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                  AI is analyzing your plant...
-                </span>
-              ) : (
-                <>
-                  <Shield className="h-5 w-5 mr-2" />
-                  {t.analyzeImage}
-                </>
-              )}
+          {!result && !analyzing && !error && (
+            <Button onClick={handleAnalyze} className="w-full gradient-earth text-earth-foreground font-display font-bold h-12">
+              <Shield className="h-5 w-5 mr-2" />
+              {t.analyzeImage}
             </Button>
+          )}
+          {analyzing && (
+            <>
+              <div className="flex items-center justify-center gap-2 py-2">
+                <Loader2 className="h-5 w-5 animate-spin text-primary" />
+                <span className="text-sm text-muted-foreground font-medium">AI is analyzing your plant...</span>
+              </div>
+              <AnalysisSkeleton />
+            </>
           )}
         </div>
       )}
+
+      {error && <AIErrorCard message={error} onRetry={handleAnalyze} />}
 
       <AnimatePresence>
         {result && disease && (
