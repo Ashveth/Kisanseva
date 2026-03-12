@@ -217,7 +217,7 @@ export interface Translations {
 
 export const translations: Record<Language, Translations> = {
   en: {
-    appName: "FarmWise AI",
+    appName: "KisanSeva",
     loading: "Loading...",
     save: "Save",
     saving: "Saving...",
