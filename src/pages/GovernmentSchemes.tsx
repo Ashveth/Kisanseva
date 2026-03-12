@@ -453,13 +453,13 @@ const SchemeCard = ({ scheme, index, isExpanded, isBookmarked, activeTab, onTogg
             <Tabs value={activeTab} onValueChange={onTabChange}>
               <TabsList className="w-full h-8 p-0.5 bg-muted/50 rounded-xl">
                 <TabsTrigger value="details" className="flex-1 text-[10px] gap-1 rounded-lg data-[state=active]:shadow-sm">
-                  <Users className="h-3 w-3" /> Eligibility
+                  <Users className="h-3 w-3" /> {t.eligibility}
                 </TabsTrigger>
                 <TabsTrigger value="apply" className="flex-1 text-[10px] gap-1 rounded-lg data-[state=active]:shadow-sm">
-                  <ClipboardList className="h-3 w-3" /> Steps
+                  <ClipboardList className="h-3 w-3" /> {t.howToApply}
                 </TabsTrigger>
                 <TabsTrigger value="documents" className="flex-1 text-[10px] gap-1 rounded-lg data-[state=active]:shadow-sm">
-                  <FileText className="h-3 w-3" /> Docs
+                  <FileText className="h-3 w-3" /> {t.requiredDocs}
                 </TabsTrigger>
               </TabsList>
 
