@@ -159,7 +159,7 @@ const GovernmentSchemes = () => {
           <div className="relative mt-4">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search schemes by name, state, or category..."
+              placeholder={t.searchSchemes}
               value={search}
               onChange={e => setSearch(e.target.value)}
               className="pl-10 h-11 bg-card/95 backdrop-blur-sm border-0 shadow-elevated rounded-xl text-sm"
