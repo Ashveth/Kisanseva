@@ -93,7 +93,64 @@ const WeatherPage = () => {
             </div>
           )}
 
-          <div>
+          {/* Hourly Forecast - 24h */}
+          {data.hourly && data.hourly.length > 0 && (
+            <div>
+              <h2 className="text-lg font-bold font-display text-foreground mb-3 flex items-center gap-2">
+                <Clock className="h-5 w-5 text-sky" />
+                24-Hour Forecast
+              </h2>
+
+              {/* Scrollable hourly cards */}
+              <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide mb-4">
+                {data.hourly.map((h, i) => (
+                  <motion.div key={i} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.02 }}
+                    className="glass-card p-3 min-w-[72px] flex flex-col items-center gap-1.5 flex-shrink-0">
+                    <span className="text-[10px] font-medium text-muted-foreground">{h.time}</span>
+                    <span className="text-xl">{h.icon}</span>
+                    <span className="text-sm font-bold text-foreground">{h.temp}°</span>
+                    <div className="flex items-center gap-0.5">
+                      <Droplets className="h-3 w-3 text-sky" />
+                      <span className="text-[10px] text-sky">{h.humidity}%</span>
+                    </div>
+                    <div className="flex items-center gap-0.5">
+                      <Wind className="h-3 w-3 text-muted-foreground" />
+                      <span className="text-[10px] text-muted-foreground">{h.windSpeed}</span>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Humidity & Wind trend chart */}
+              <div className="glass-card p-4">
+                <p className="text-sm font-display font-bold text-foreground mb-3">Humidity & Wind Trends</p>
+                <ResponsiveContainer width="100%" height={200}>
+                  <AreaChart data={data.hourly} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
+                    <defs>
+                      <linearGradient id="humidityGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="hsl(var(--sky))" stopOpacity={0.3} />
+                        <stop offset="95%" stopColor="hsl(var(--sky))" stopOpacity={0} />
+                      </linearGradient>
+                      <linearGradient id="windGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="hsl(var(--harvest))" stopOpacity={0.3} />
+                        <stop offset="95%" stopColor="hsl(var(--harvest))" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <XAxis dataKey="time" tick={{ fontSize: 10 }} stroke="hsl(var(--muted-foreground))" interval={3} />
+                    <YAxis tick={{ fontSize: 10 }} stroke="hsl(var(--muted-foreground))" />
+                    <Tooltip
+                      contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, fontSize: 12 }}
+                      labelStyle={{ color: "hsl(var(--foreground))" }}
+                    />
+                    <Area type="monotone" dataKey="humidity" name="Humidity %" stroke="hsl(var(--sky))" fill="url(#humidityGrad)" strokeWidth={2} />
+                    <Area type="monotone" dataKey="windSpeed" name="Wind km/h" stroke="hsl(var(--harvest))" fill="url(#windGrad)" strokeWidth={2} />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          )}
+
             <h2 className="text-lg font-bold font-display text-foreground mb-3">{t.fiveDayForecast}</h2>
             <div className="space-y-2">
               {data.forecast.map((day, i) => (
