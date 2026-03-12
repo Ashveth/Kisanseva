@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Leaf, Droplets, Thermometer, CloudRain, MapPin, Sprout, ChevronRight, Loader2, Zap } from "lucide-react";
+import { Leaf, Droplets, Thermometer, CloudRain, MapPin, Sprout, ChevronRight, Loader2, Zap, LocateFixed } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { AIErrorCard, ResultCardSkeleton } from "@/components/ui/ai-loading";
 import { Progress } from "@/components/ui/progress";
+import { useWeather } from "@/hooks/useWeather";
 
 interface CropRecommendation {
   name: string;
@@ -39,7 +40,20 @@ const CropAdvisor = () => {
   const [rainfall, setRainfall] = useState([200]);
   const [location, setLocation] = useState("");
   const [activePreset, setActivePreset] = useState<string | null>(null);
+  const [weatherPrefilled, setWeatherPrefilled] = useState(false);
   const { t } = useLanguage();
+  const { data: weatherData, isLoading: weatherLoading } = useWeather();
+
+  // Auto-fill temperature and rainfall from live weather
+  useEffect(() => {
+    if (weatherData && !weatherPrefilled) {
+      setTemp([Math.round(weatherData.current.temp)]);
+      // Use rain chance as approximate monthly rainfall indicator (scaled)
+      const estimatedRainfall = Math.round(weatherData.current.rainChance * 5);
+      setRainfall([Math.min(500, Math.max(0, estimatedRainfall))]);
+      setWeatherPrefilled(true);
+    }
+  }, [weatherData, weatherPrefilled]);
 
   const applyPreset = (preset: typeof soilPresets[0]) => {
     setActivePreset(preset.label);
@@ -199,10 +213,22 @@ const CropAdvisor = () => {
 
       {/* Step 3: Weather & Location */}
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
-        <p className="text-xs font-bold font-display text-foreground mb-2 flex items-center gap-1.5">
-          <span className="h-5 w-5 rounded-full gradient-sky text-sky-foreground flex items-center justify-center text-[10px] font-extrabold">3</span>
-          Weather & Location
-        </p>
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-xs font-bold font-display text-foreground flex items-center gap-1.5">
+            <span className="h-5 w-5 rounded-full gradient-sky text-sky-foreground flex items-center justify-center text-[10px] font-extrabold">3</span>
+            Weather & Location
+          </p>
+          {weatherPrefilled && (
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium flex items-center gap-1">
+              <LocateFixed className="h-3 w-3" /> Auto-detected
+            </span>
+          )}
+          {weatherLoading && !weatherPrefilled && (
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-muted text-muted-foreground font-medium flex items-center gap-1">
+              <Loader2 className="h-3 w-3 animate-spin" /> Detecting...
+            </span>
+          )}
+        </div>
         <div className="glass-card p-4 space-y-4">
           <div className="grid grid-cols-2 gap-4">
             {/* Temperature */}
