@@ -23,6 +23,10 @@ const DiseaseDetect = () => {
   const [analyzing, setAnalyzing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<{ healthy: boolean; disease: DiseaseResult } | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
+  const { t } = useLanguage();
+  const [result, setResult] = useState<{ healthy: boolean; disease: DiseaseResult } | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const { t } = useLanguage();
 
