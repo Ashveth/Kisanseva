@@ -264,12 +264,12 @@ const FarmDiaryPage = () => {
                 <Input type="number" placeholder={t.incomePlaceholder} value={incomeAmount} onChange={(e) => setIncomeAmount(e.target.value)} className="bg-background" />
               </div>
             </div>
-            <Textarea placeholder="Add details... (optional)" value={description} onChange={(e) => setDescription(e.target.value)} className="bg-background min-h-[80px]" />
+            <Textarea placeholder={t.detailsPlaceholder} value={description} onChange={(e) => setDescription(e.target.value)} className="bg-background min-h-[80px]" />
             <div className="flex gap-2 justify-end">
-              <Button variant="outline" onClick={resetForm}>Cancel</Button>
+              <Button variant="outline" onClick={resetForm}>{t.cancel}</Button>
               <Button onClick={handleSave} disabled={saving} className="gradient-hero text-primary-foreground">
                 {saving ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : null}
-                {editingId ? "Update" : "Save Entry"}
+                {editingId ? t.update : t.saveEntry}
               </Button>
             </div>
           </motion.div>
