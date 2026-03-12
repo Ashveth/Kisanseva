@@ -129,21 +129,21 @@ const CropAdvisor = () => {
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}>
         <p className="text-xs font-bold font-display text-foreground mb-2 flex items-center gap-1.5">
           <span className="h-5 w-5 rounded-full gradient-hero text-primary-foreground flex items-center justify-center text-[10px] font-extrabold">1</span>
-          Select Your Soil Type
+          {t.selectSoilType}
         </p>
         <div className="grid grid-cols-3 gap-2">
           {soilPresets.map((preset) => (
             <button
-              key={preset.label}
+              key={preset.key}
               onClick={() => applyPreset(preset)}
               className={`p-3 rounded-xl border-2 text-center transition-all active:scale-95 ${
-                activePreset === preset.label
+                activePreset === preset.key
                   ? "border-primary bg-primary/10 shadow-card"
                   : "border-border bg-card/80 hover:border-primary/40"
               }`}
             >
-              <span className="text-2xl block mb-1">{preset.label.split(" ")[0]}</span>
-              <span className="text-[11px] font-bold font-display text-foreground block">{preset.label.split(" ")[1]}</span>
+              <span className="text-2xl block mb-1">{preset.emoji}</span>
+              <span className="text-[11px] font-bold font-display text-foreground block">{t[preset.key]}</span>
             </button>
           ))}
         </div>
