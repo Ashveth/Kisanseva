@@ -26,9 +26,6 @@ const DiseaseDetect = () => {
   const [isDragging, setIsDragging] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const { t } = useLanguage();
-  const [result, setResult] = useState<{ healthy: boolean; disease: DiseaseResult } | null>(null);
-  const fileRef = useRef<HTMLInputElement>(null);
-  const { t } = useLanguage();
 
   const compressImage = (file: File, maxWidth = 800, quality = 0.7): Promise<string> => {
     return new Promise((resolve, reject) => {
