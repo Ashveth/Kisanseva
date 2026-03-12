@@ -255,8 +255,8 @@ const GovernmentSchemes = () => {
                 <Sparkles className="h-4 w-4 text-primary-foreground" />
               </div>
               <div className="text-left">
-                <span className="font-display font-extrabold text-foreground text-sm">AI Eligibility Checker</span>
-                <p className="text-[10px] text-muted-foreground">Find schemes you qualify for</p>
+                <span className="font-display font-extrabold text-foreground text-sm">{t.checkEligibility}</span>
+                <p className="text-[10px] text-muted-foreground">{t.govSchemesDesc}</p>
               </div>
             </div>
             <ChevronRight className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${showEligibility ? "rotate-90" : "group-hover:translate-x-0.5"}`} />
