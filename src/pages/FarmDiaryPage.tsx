@@ -152,7 +152,7 @@ const FarmDiaryPage = () => {
     return result;
   }, [entries, filterType, dateFrom, dateTo]);
 
-  const getActivityInfo = (type: string) => ACTIVITY_TYPES.find((a) => a.value === type) || ACTIVITY_TYPES[6];
+  const getActivityInfo = (type: string) => ACTIVITY_TYPES_KEYS.find((a) => a.value === type) || ACTIVITY_TYPES_KEYS[6];
 
   const totalExpenses = entries.filter((e) => e.expense_amount).reduce((sum, e) => sum + (e.expense_amount || 0), 0);
   const totalIncome = entries.filter((e) => e.income_amount).reduce((sum, e) => sum + (e.income_amount || 0), 0);
