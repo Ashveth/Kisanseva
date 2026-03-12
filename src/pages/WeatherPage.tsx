@@ -151,6 +151,7 @@ const WeatherPage = () => {
             </div>
           )}
 
+          <div>
             <h2 className="text-lg font-bold font-display text-foreground mb-3">{t.fiveDayForecast}</h2>
             <div className="space-y-2">
               {data.forecast.map((day, i) => (
