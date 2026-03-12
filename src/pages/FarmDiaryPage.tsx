@@ -322,7 +322,7 @@ const FarmDiaryPage = () => {
                       <div>
                         <p className="font-display font-bold text-foreground text-sm">{entry.title}</p>
                         <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
-                          <Calendar className="h-3 w-3" />
+                          <CalendarIcon className="h-3 w-3" />
                           {new Date(entry.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
                           <span className="mx-1">•</span>
                           {info.label}
