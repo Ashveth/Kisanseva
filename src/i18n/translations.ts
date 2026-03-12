@@ -541,6 +541,8 @@ export const translations: Record<Language, Translations> = {
     chartExpenseBreakdown: "Expense Breakdown",
     chartTotal: "Total",
     chartOfTotal: "of total",
+
+    govSchemes: "Government Schemes",
     govSchemesDesc: "Find schemes and subsidies for farmers",
     searchSchemes: "Search schemes...",
     central: "Central",
