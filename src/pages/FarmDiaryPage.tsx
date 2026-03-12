@@ -170,9 +170,9 @@ const FarmDiaryPage = () => {
         <div>
           <h1 className="text-2xl font-bold font-display text-foreground flex items-center gap-2">
             <BookMarked className="h-7 w-7 text-primary" />
-            Farm Diary
+            {t.farmDiary}
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">Log your daily farming activities</p>
+          <p className="text-sm text-muted-foreground mt-1">{t.farmDiaryDesc}</p>
         </div>
         <div className="flex gap-2">
           {entries.length > 0 && (
