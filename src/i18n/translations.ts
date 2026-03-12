@@ -23,6 +23,20 @@ export interface Translations {
   createAccount: string;
   noAccount: string;
   haveAccount: string;
+  forgotPassword: string;
+  forgotPasswordDesc: string;
+  resetPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+  passwordResetSent: string;
+  passwordResetPhoneInfo: string;
+  passwordResetSuccess: string;
+  passwordsDoNotMatch: string;
+  backToLogin: string;
+  setNewPassword: string;
+  setNewPasswordDesc: string;
+  invalidResetLink: string;
+  invalidResetLinkDesc: string;
 
   // Nav
   navHome: string;
@@ -219,6 +233,20 @@ export const translations: Record<Language, Translations> = {
     createAccount: "Create Account",
     noAccount: "Don't have an account?",
     haveAccount: "Already have an account?",
+    forgotPassword: "Forgot Password?",
+    forgotPasswordDesc: "Enter your details and set a new password",
+    resetPassword: "Reset Password",
+    newPassword: "New Password",
+    confirmPassword: "Confirm Password",
+    passwordResetSent: "Password reset link sent to your email!",
+    passwordResetPhoneInfo: "Your password has been updated successfully!",
+    passwordResetSuccess: "Password updated successfully! 🌾",
+    passwordsDoNotMatch: "Passwords do not match",
+    backToLogin: "Back to login",
+    setNewPassword: "Set New Password",
+    setNewPasswordDesc: "Enter your new password below",
+    invalidResetLink: "Invalid Reset Link",
+    invalidResetLinkDesc: "This password reset link is invalid or expired.",
 
     navHome: "Home",
     navCrops: "Crops",
@@ -402,6 +430,20 @@ export const translations: Record<Language, Translations> = {
     createAccount: "खाता बनाएं",
     noAccount: "खाता नहीं है?",
     haveAccount: "पहले से खाता है?",
+    forgotPassword: "पासवर्ड भूल गए?",
+    forgotPasswordDesc: "अपनी जानकारी दर्ज करें और नया पासवर्ड सेट करें",
+    resetPassword: "पासवर्ड रीसेट करें",
+    newPassword: "नया पासवर्ड",
+    confirmPassword: "पासवर्ड की पुष्टि करें",
+    passwordResetSent: "पासवर्ड रीसेट लिंक आपके ईमेल पर भेजा गया!",
+    passwordResetPhoneInfo: "आपका पासवर्ड सफलतापूर्वक अपडेट किया गया!",
+    passwordResetSuccess: "पासवर्ड सफलतापूर्वक अपडेट किया गया! 🌾",
+    passwordsDoNotMatch: "पासवर्ड मेल नहीं खाते",
+    backToLogin: "लॉगिन पर वापस जाएं",
+    setNewPassword: "नया पासवर्ड सेट करें",
+    setNewPasswordDesc: "नीचे अपना नया पासवर्ड दर्ज करें",
+    invalidResetLink: "अमान्य रीसेट लिंक",
+    invalidResetLinkDesc: "यह पासवर्ड रीसेट लिंक अमान्य या समाप्त हो गया है।",
 
     navHome: "होम",
     navCrops: "फसलें",
@@ -585,6 +627,20 @@ export const translations: Record<Language, Translations> = {
     createAccount: "கணக்கை உருவாக்கு",
     noAccount: "கணக்கு இல்லையா?",
     haveAccount: "ஏற்கனவே கணக்கு உள்ளதா?",
+    forgotPassword: "கடவுச்சொல் மறந்துவிட்டதா?",
+    forgotPasswordDesc: "உங்கள் விவரங்களை உள்ளிட்டு புதிய கடவுச்சொல்லை அமைக்கவும்",
+    resetPassword: "கடவுச்சொல்லை மீட்டமை",
+    newPassword: "புதிய கடவுச்சொல்",
+    confirmPassword: "கடவுச்சொல்லை உறுதிப்படுத்தவும்",
+    passwordResetSent: "கடவுச்சொல் மீட்டமைப்பு இணைப்பு உங்கள் மின்னஞ்சலுக்கு அனுப்பப்பட்டது!",
+    passwordResetPhoneInfo: "உங்கள் கடவுச்சொல் வெற்றிகரமாக புதுப்பிக்கப்பட்டது!",
+    passwordResetSuccess: "கடவுச்சொல் வெற்றிகரமாக புதுப்பிக்கப்பட்டது! 🌾",
+    passwordsDoNotMatch: "கடவுச்சொற்கள் பொருந்தவில்லை",
+    backToLogin: "உள்நுழைவுக்குத் திரும்பு",
+    setNewPassword: "புதிய கடவுச்சொல்லை அமைக்கவும்",
+    setNewPasswordDesc: "கீழே உங்கள் புதிய கடவுச்சொல்லை உள்ளிடவும்",
+    invalidResetLink: "தவறான மீட்டமைப்பு இணைப்பு",
+    invalidResetLinkDesc: "இந்த கடவுச்சொல் மீட்டமைப்பு இணைப்பு தவறானது அல்லது காலாவதியானது.",
 
     navHome: "முகப்பு",
     navCrops: "பயிர்கள்",
