@@ -221,7 +221,7 @@ const FarmDiaryPage = () => {
             <TrendingDown className="h-4 w-4" />
             ₹{totalExpenses.toLocaleString()}
           </p>
-          <p className="text-xs text-muted-foreground font-display">Expenses</p>
+          <p className="text-xs text-muted-foreground font-display">{t.expenses}</p>
         </div>
         <div className="glass-card p-3 text-center">
           <p className="text-2xl font-bold text-primary flex items-center justify-center gap-1">
