@@ -135,30 +135,31 @@ export function exportPDF(entries: DiaryEntry[], totalExpenses: number, totalInc
 
   autoTable(doc, {
     startY: detailY + 4,
-    head: [["#", "Date", "Activity", "Title", "Description", "Expense (₹)", "Income (₹)"]],
+    head: [["#", "Date", "Activity", "Title", "Description", "Expense", "Income"]],
     body: entries.map((e, i) => [
       `${i + 1}`,
       formatDate(e.date),
       ACTIVITY_LABELS[e.activity_type] || e.activity_type,
       e.title,
       e.description || "—",
-      e.expense_amount ? `₹${e.expense_amount.toLocaleString()}` : "—",
-      e.income_amount ? `₹${e.income_amount.toLocaleString()}` : "—",
+      e.expense_amount ? `Rs.${e.expense_amount.toLocaleString()}` : "—",
+      e.income_amount ? `Rs.${e.income_amount.toLocaleString()}` : "—",
     ]),
-    styles: { fontSize: 8, cellPadding: 2.5 },
-    headStyles: { fillColor: [34, 120, 60], textColor: 255, fontStyle: "bold" },
+    styles: { fontSize: 7.5, cellPadding: 2, overflow: "linebreak" },
+    headStyles: { fillColor: [34, 120, 60], textColor: 255, fontStyle: "bold", fontSize: 7.5 },
     alternateRowStyles: { fillColor: [248, 252, 248] },
     columnStyles: {
-      0: { cellWidth: 10, halign: "center" },
-      1: { cellWidth: 24 },
+      0: { cellWidth: 8, halign: "center" },
+      1: { cellWidth: 22 },
       2: { cellWidth: 22 },
-      4: { cellWidth: 42 },
+      3: { cellWidth: "auto" },
+      4: { cellWidth: "auto" },
       5: { cellWidth: 22, halign: "right" },
       6: { cellWidth: 22, halign: "right" },
     },
     theme: "grid",
-    tableWidth: pageWidth - 28,
-    margin: { left: 14 },
+    tableWidth: usableWidth,
+    margin: { left: margin, right: margin },
   });
 
   // — Footer on every page —
