@@ -54,9 +54,9 @@ const InstallPage = () => {
     <div className="container py-6 space-y-6 max-w-lg mx-auto">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center space-y-2">
         <div className="h-20 w-20 mx-auto rounded-2xl overflow-hidden shadow-elevated">
-          <img src="/pwa-icon-192.png" alt="FarmWise" className="h-full w-full object-cover" />
+          <img src="/pwa-icon-192.png" alt="KisanSeva" className="h-full w-full object-cover" />
         </div>
-        <h1 className="text-2xl font-bold font-display text-foreground">Install FarmWise</h1>
+        <h1 className="text-2xl font-bold font-display text-foreground">Install KisanSeva</h1>
         <div className="flex items-center justify-center gap-2 text-sm">
           {isOnline ? (
             <span className="flex items-center gap-1 text-primary"><Wifi className="h-4 w-4" /> Online</span>
