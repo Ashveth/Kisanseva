@@ -217,7 +217,7 @@ export interface Translations {
 
 export const translations: Record<Language, Translations> = {
   en: {
-    appName: "FarmWise AI",
+    appName: "KisanSeva",
     loading: "Loading...",
     save: "Save",
     saving: "Saving...",
@@ -418,7 +418,7 @@ export const translations: Record<Language, Translations> = {
   },
 
   hi: {
-    appName: "FarmWise AI",
+    appName: "KisanSeva",
     loading: "लोड हो रहा है...",
     save: "सहेजें",
     saving: "सहेज रहे हैं...",
@@ -619,7 +619,7 @@ export const translations: Record<Language, Translations> = {
   },
 
   ta: {
-    appName: "FarmWise AI",
+    appName: "KisanSeva",
     loading: "ஏற்றுகிறது...",
     save: "சேமி",
     saving: "சேமிக்கிறது...",
@@ -820,7 +820,7 @@ export const translations: Record<Language, Translations> = {
   },
 
   mr: {
-    appName: "FarmWise AI",
+    appName: "KisanSeva",
     loading: "लोड होत आहे...",
     save: "जतन करा",
     saving: "जतन करत आहे...",
@@ -1008,7 +1008,7 @@ export const translations: Record<Language, Translations> = {
   },
 
   te: {
-    appName: "FarmWise AI",
+    appName: "KisanSeva",
     loading: "లోడ్ అవుతోంది...",
     save: "సేవ్ చేయండి",
     saving: "సేవ్ చేస్తోంది...",
@@ -1196,7 +1196,7 @@ export const translations: Record<Language, Translations> = {
   },
 
   ml: {
-    appName: "FarmWise AI",
+    appName: "KisanSeva",
     loading: "ലോഡ് ചെയ്യുന്നു...",
     save: "സേവ് ചെയ്യുക",
     saving: "സേവ് ചെയ്യുന്നു...",
@@ -1384,7 +1384,7 @@ export const translations: Record<Language, Translations> = {
   },
 
   kn: {
-    appName: "FarmWise AI",
+    appName: "KisanSeva",
     loading: "ಲೋಡ್ ಆಗುತ್ತಿದೆ...",
     save: "ಉಳಿಸಿ",
     saving: "ಉಳಿಸುತ್ತಿದೆ...",

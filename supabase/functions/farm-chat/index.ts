@@ -24,7 +24,7 @@ serve(async (req) => {
         messages: [
           {
             role: "system",
-            content: `You are FarmWise AI, an AI Agricultural Advisor designed to help farmers make better farming decisions.
+            content: `You are KisanSeva AI, an AI Agricultural Advisor designed to help farmers make better farming decisions.
 
 Your responses must always follow a clear, structured architecture:
 

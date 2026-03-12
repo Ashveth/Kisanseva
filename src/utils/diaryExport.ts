@@ -57,7 +57,7 @@ export function exportPDF(entries: DiaryEntry[], totalExpenses: number, totalInc
   doc.rect(0, 0, pageWidth, 36, "F");
   doc.setFontSize(22);
   doc.setTextColor(255, 255, 255);
-  doc.text("🌾 Farm Diary Report", 14, 18);
+  doc.text("🌾 KisanSeva Farm Diary", 14, 18);
   doc.setFontSize(9);
   doc.setTextColor(220, 255, 220);
   doc.text(`Generated on ${formatDate(new Date().toISOString())}  •  ${entries.length} entries`, 14, 28);
@@ -166,7 +166,7 @@ export function exportPDF(entries: DiaryEntry[], totalExpenses: number, totalInc
     doc.rect(0, pageHeight - 12, pageWidth, 12, "F");
     doc.setFontSize(7);
     doc.setTextColor(150, 150, 150);
-    doc.text("Farm Diary — KisanSeva", 14, pageHeight - 4);
+    doc.text("KisanSeva — Farm Diary", 14, pageHeight - 4);
     doc.text(`Page ${i} of ${totalPages}`, pageWidth - 14, pageHeight - 4, { align: "right" });
   }
 

@@ -19,8 +19,8 @@ export default defineConfig(({ mode }) => ({
       registerType: "autoUpdate",
       includeAssets: ["favicon.ico", "pwa-icon-192.png", "pwa-icon-512.png"],
       manifest: {
-        name: "FarmWise - Smart Farming Assistant",
-        short_name: "FarmWise",
+        name: "KisanSeva - Smart Farming Assistant",
+        short_name: "KisanSeva",
         description: "AI-powered farming assistant for crop advice, disease detection, weather forecasts, and market prices",
         theme_color: "#2D6A4F",
         background_color: "#F5F0E8",
