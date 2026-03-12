@@ -1582,8 +1582,11 @@ export const translations: Record<Language, Translations> = {
     toastEntrySaved: "ఎంట్రీ సేవ్ అయింది! 🌾",
     toastDeleteFailed: "తొలగించడం విఫలమైంది",
     toastEntryDeleted: "ఎంట్రీ తొలగించబడింది",
-
-    govSchemes: "ప్రభుత్వ పథకాలు",
+    chartIncomeVsExpenses: "ఆదాయం vs ఖర్చులు",
+    chartMonthlyExpenses: "నెలవారీ ఖర్చులు",
+    chartExpenseBreakdown: "ఖర్చు వివరాలు",
+    chartTotal: "మొత్తం",
+    chartOfTotal: "మొత్తంలో",
     govSchemesDesc: "రైతుల కోసం పథకాలు మరియు సబ్సిడీలు కనుగొనండి",
     searchSchemes: "పథకాలు శోధించండి...",
     central: "కేంద్ర",
