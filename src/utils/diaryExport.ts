@@ -47,20 +47,40 @@ export function exportCSV(entries: DiaryEntry[]) {
   URL.revokeObjectURL(url);
 }
 
-export function exportPDF(entries: DiaryEntry[], totalExpenses: number, totalIncome: number = 0) {
+interface ExportOptions {
+  farmerName?: string;
+  dateFrom?: string;
+  dateTo?: string;
+}
+
+export function exportPDF(entries: DiaryEntry[], totalExpenses: number, totalIncome: number = 0, options: ExportOptions = {}) {
   const doc = new jsPDF();
   const profit = totalIncome - totalExpenses;
   const pageWidth = doc.internal.pageSize.getWidth();
 
   // — Header band —
+  const headerH = options.farmerName ? 42 : 36;
   doc.setFillColor(34, 120, 60);
-  doc.rect(0, 0, pageWidth, 36, "F");
+  doc.rect(0, 0, pageWidth, headerH, "F");
   doc.setFontSize(22);
   doc.setTextColor(255, 255, 255);
   doc.text("KisanSeva Farm Diary", 14, 18);
   doc.setFontSize(9);
   doc.setTextColor(220, 255, 220);
-  doc.text(`Generated on ${formatDate(new Date().toISOString())}  |  ${entries.length} ${entries.length === 1 ? "entry" : "entries"}`, 14, 28);
+
+  let subLine = `Generated on ${formatDate(new Date().toISOString())}  |  ${entries.length} ${entries.length === 1 ? "entry" : "entries"}`;
+  if (options.dateFrom || options.dateTo) {
+    const from = options.dateFrom ? formatDate(options.dateFrom) : "Start";
+    const to = options.dateTo ? formatDate(options.dateTo) : "Present";
+    subLine += `  |  Period: ${from} - ${to}`;
+  }
+  doc.text(subLine, 14, 28);
+
+  if (options.farmerName) {
+    doc.setFontSize(10);
+    doc.setTextColor(255, 255, 255);
+    doc.text(`Farmer: ${options.farmerName}`, 14, 37);
+  }
 
   // — Summary cards row —
   const margin = 14;
