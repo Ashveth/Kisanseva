@@ -321,7 +321,7 @@ const GovernmentSchemes = () => {
         {/* ── Results Count ── */}
         <div className="flex items-center justify-between">
           <p className="text-xs text-muted-foreground font-display font-bold">
-            {filtered.length} scheme{filtered.length !== 1 ? "s" : ""} found
+            {filtered.length} {t.navSchemes.toLowerCase()}
           </p>
           {showBookmarked && (
             <Badge variant="outline" className="text-[10px] gap-1 border-harvest/30 text-harvest">
