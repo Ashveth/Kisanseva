@@ -55,6 +55,7 @@ const App = () => (
                 <Route path="/chat" element={<AIChatPage />} />
                 <Route path="/yield-predictor" element={<YieldPredictor />} />
                 <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/notifications" element={<NotificationsPage />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>

@@ -1,10 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, Leaf, Camera, CloudSun, TrendingUp, BookOpen, MessageCircle, Sprout, User } from "lucide-react";
+import { Home, Leaf, Camera, CloudSun, TrendingUp, BookOpen, MessageCircle, Sprout, User, Bell } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useNotifications } from "@/hooks/useNotifications";
 
 const TopBar = () => {
   const location = useLocation();
   const { t } = useLanguage();
+  const { unreadCount } = useNotifications();
 
   const navItems = [
     { path: "/", icon: Home, label: t.navDashboard },
@@ -44,16 +46,33 @@ const TopBar = () => {
             );
           })}
         </nav>
-        <Link
-          to="/profile"
-          className={`p-2 rounded-lg transition-colors ${
-            location.pathname === "/profile"
-              ? "bg-primary text-primary-foreground"
-              : "text-muted-foreground hover:text-foreground hover:bg-muted"
-          }`}
-        >
-          <User className="h-5 w-5" />
-        </Link>
+        <div className="flex items-center gap-1">
+          <Link
+            to="/notifications"
+            className={`p-2 rounded-lg transition-colors relative ${
+              location.pathname === "/notifications"
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground hover:text-foreground hover:bg-muted"
+            }`}
+          >
+            <Bell className="h-5 w-5" />
+            {unreadCount > 0 && (
+              <span className="absolute -top-0.5 -right-0.5 h-4 min-w-[16px] px-1 rounded-full bg-destructive text-destructive-foreground text-[10px] font-bold flex items-center justify-center">
+                {unreadCount > 9 ? "9+" : unreadCount}
+              </span>
+            )}
+          </Link>
+          <Link
+            to="/profile"
+            className={`p-2 rounded-lg transition-colors ${
+              location.pathname === "/profile"
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground hover:text-foreground hover:bg-muted"
+            }`}
+          >
+            <User className="h-5 w-5" />
+          </Link>
+        </div>
       </div>
     </header>
   );
