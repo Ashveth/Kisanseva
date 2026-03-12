@@ -93,7 +93,7 @@ const FarmDiaryPage = () => {
   };
 
   const handleSave = async () => {
-    if (!title.trim()) { toast.error("Title is required"); return; }
+    if (!title.trim()) { toast.error(t.titleRequired); return; }
     if (!user) return;
     setSaving(true);
 
@@ -170,21 +170,21 @@ const FarmDiaryPage = () => {
         <div>
           <h1 className="text-2xl font-bold font-display text-foreground flex items-center gap-2">
             <BookMarked className="h-7 w-7 text-primary" />
-            Farm Diary
+            {t.farmDiary}
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">Log your daily farming activities</p>
+          <p className="text-sm text-muted-foreground mt-1">{t.farmDiaryDesc}</p>
         </div>
         <div className="flex gap-2">
           {entries.length > 0 && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="font-display">
-                  <Download className="h-4 w-4 mr-1" /> Export
+                  <Download className="h-4 w-4 mr-1" /> {t.exportData}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem onClick={() => { exportCSV(filtered); toast.success("CSV downloaded! 📊"); }}>
-                  <FileSpreadsheet className="h-4 w-4 mr-2" /> Export as CSV
+                  <FileSpreadsheet className="h-4 w-4 mr-2" /> {t.exportCSV}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={async () => {
                   let farmerName: string | undefined;
@@ -199,13 +199,13 @@ const FarmDiaryPage = () => {
                   });
                   toast.success("PDF downloaded! 📄");
                 }}>
-                  <FileText className="h-4 w-4 mr-2" /> Export as PDF
+                  <FileText className="h-4 w-4 mr-2" /> {t.exportPDF}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           )}
           <Button onClick={() => { resetForm(); setShowForm(true); }} className="gradient-hero text-primary-foreground font-display">
-            <Plus className="h-4 w-4 mr-1" /> Add Entry
+            <Plus className="h-4 w-4 mr-1" /> {t.addEntry}
           </Button>
         </div>
       </div>
@@ -214,28 +214,28 @@ const FarmDiaryPage = () => {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <div className="glass-card p-3 text-center">
           <p className="text-2xl font-bold text-foreground">{entries.length}</p>
-          <p className="text-xs text-muted-foreground font-display">Total Entries</p>
+          <p className="text-xs text-muted-foreground font-display">{t.totalEntries}</p>
         </div>
         <div className="glass-card p-3 text-center">
           <p className="text-2xl font-bold text-destructive flex items-center justify-center gap-1">
             <TrendingDown className="h-4 w-4" />
             ₹{totalExpenses.toLocaleString()}
           </p>
-          <p className="text-xs text-muted-foreground font-display">Expenses</p>
+          <p className="text-xs text-muted-foreground font-display">{t.expenses}</p>
         </div>
         <div className="glass-card p-3 text-center">
           <p className="text-2xl font-bold text-primary flex items-center justify-center gap-1">
             <TrendingUp className="h-4 w-4" />
             ₹{totalIncome.toLocaleString()}
           </p>
-          <p className="text-xs text-muted-foreground font-display">Income</p>
+          <p className="text-xs text-muted-foreground font-display">{t.income}</p>
         </div>
         <div className="glass-card p-3 text-center">
           <p className={`text-2xl font-bold flex items-center justify-center gap-1 ${netProfit >= 0 ? "text-primary" : "text-destructive"}`}>
             <ArrowUpDown className="h-4 w-4" />
             {netProfit >= 0 ? "+" : "-"}₹{Math.abs(netProfit).toLocaleString()}
           </p>
-          <p className="text-xs text-muted-foreground font-display">{netProfit >= 0 ? "Profit" : "Loss"}</p>
+          <p className="text-xs text-muted-foreground font-display">{netProfit >= 0 ? t.profit : t.loss}</p>
         </div>
       </div>
 
@@ -245,11 +245,11 @@ const FarmDiaryPage = () => {
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}
             className="glass-card p-4 space-y-4 overflow-hidden">
             <div className="flex items-center justify-between">
-              <h2 className="font-display font-bold text-foreground">{editingId ? "Edit Entry" : "New Entry"}</h2>
+              <h2 className="font-display font-bold text-foreground">{editingId ? t.editEntry : t.newEntry}</h2>
               <button onClick={resetForm} className="p-1 text-muted-foreground hover:text-foreground"><X className="h-4 w-4" /></button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <Input placeholder="What did you do? e.g., Planted rice seedlings" value={title} onChange={(e) => setTitle(e.target.value)} className="bg-background" />
+              <Input placeholder={t.entryPlaceholder} value={title} onChange={(e) => setTitle(e.target.value)} className="bg-background" />
               <Select value={activityType} onValueChange={setActivityType}>
                 <SelectTrigger className="bg-background"><SelectValue /></SelectTrigger>
                 <SelectContent>
@@ -260,16 +260,16 @@ const FarmDiaryPage = () => {
               </Select>
               <Input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="bg-background" />
               <div className="grid grid-cols-2 gap-2">
-                <Input type="number" placeholder="Expense ₹" value={expenseAmount} onChange={(e) => setExpenseAmount(e.target.value)} className="bg-background" />
-                <Input type="number" placeholder="Income ₹" value={incomeAmount} onChange={(e) => setIncomeAmount(e.target.value)} className="bg-background" />
+                <Input type="number" placeholder={t.expensePlaceholder} value={expenseAmount} onChange={(e) => setExpenseAmount(e.target.value)} className="bg-background" />
+                <Input type="number" placeholder={t.incomePlaceholder} value={incomeAmount} onChange={(e) => setIncomeAmount(e.target.value)} className="bg-background" />
               </div>
             </div>
-            <Textarea placeholder="Add details... (optional)" value={description} onChange={(e) => setDescription(e.target.value)} className="bg-background min-h-[80px]" />
+            <Textarea placeholder={t.detailsPlaceholder} value={description} onChange={(e) => setDescription(e.target.value)} className="bg-background min-h-[80px]" />
             <div className="flex gap-2 justify-end">
-              <Button variant="outline" onClick={resetForm}>Cancel</Button>
+              <Button variant="outline" onClick={resetForm}>{t.cancel}</Button>
               <Button onClick={handleSave} disabled={saving} className="gradient-hero text-primary-foreground">
                 {saving ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : null}
-                {editingId ? "Update" : "Save Entry"}
+                {editingId ? t.update : t.saveEntry}
               </Button>
             </div>
           </motion.div>
@@ -286,7 +286,7 @@ const FarmDiaryPage = () => {
             <PopoverTrigger asChild>
               <Button variant="outline" size="sm" className={cn("text-xs font-display gap-1.5", dateFrom && "border-primary text-primary")}>
                 <CalendarRange className="h-3.5 w-3.5" />
-                {dateFrom ? format(dateFrom, "dd MMM yyyy") : "From"}
+                {dateFrom ? format(dateFrom, "dd MMM yyyy") : t.from}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
@@ -298,7 +298,7 @@ const FarmDiaryPage = () => {
             <PopoverTrigger asChild>
               <Button variant="outline" size="sm" className={cn("text-xs font-display gap-1.5", dateTo && "border-primary text-primary")}>
                 <CalendarRange className="h-3.5 w-3.5" />
-                {dateTo ? format(dateTo, "dd MMM yyyy") : "To"}
+                {dateTo ? format(dateTo, "dd MMM yyyy") : t.to}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
@@ -307,13 +307,13 @@ const FarmDiaryPage = () => {
           </Popover>
           {hasDateFilter && (
             <Button variant="ghost" size="sm" onClick={clearDateFilter} className="text-xs text-muted-foreground hover:text-foreground h-7 px-2">
-              <X className="h-3 w-3 mr-1" /> Clear
+              <X className="h-3 w-3 mr-1" /> {t.clear}
             </Button>
           )}
         </div>
         {hasDateFilter && (
           <span className="text-xs text-muted-foreground font-display">
-            Showing {filtered.length} entries • ₹{filteredExpenses.toLocaleString()} expenses • ₹{filteredIncome.toLocaleString()} income
+            {t.showingEntries} {filtered.length} • ₹{filteredExpenses.toLocaleString()} {t.expenses.toLowerCase()} • ₹{filteredIncome.toLocaleString()} {t.income.toLowerCase()}
           </span>
         )}
       </div>
@@ -322,7 +322,7 @@ const FarmDiaryPage = () => {
       <div className="flex gap-2 overflow-x-auto pb-1">
         <button onClick={() => setFilterType("all")}
           className={`px-3 py-1.5 rounded-full text-xs font-medium font-display whitespace-nowrap transition-colors ${filterType === "all" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:text-foreground"}`}>
-          All
+          {t.all}
         </button>
         {ACTIVITY_TYPES.map((a) => (
           <button key={a.value} onClick={() => setFilterType(a.value)}
@@ -338,8 +338,8 @@ const FarmDiaryPage = () => {
       ) : filtered.length === 0 ? (
         <div className="glass-card p-8 text-center space-y-2">
           <BookMarked className="h-10 w-10 text-muted-foreground mx-auto" />
-          <p className="font-display font-bold text-foreground">No entries yet</p>
-          <p className="text-sm text-muted-foreground">Start logging your daily farming activities!</p>
+          <p className="font-display font-bold text-foreground">{t.noEntriesYet}</p>
+          <p className="text-sm text-muted-foreground">{t.noEntriesDesc}</p>
         </div>
       ) : (
         <div className="space-y-3">

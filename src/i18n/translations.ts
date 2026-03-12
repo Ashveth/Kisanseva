@@ -213,6 +213,58 @@ export interface Translations {
   noNotificationsDesc: string;
   generateSampleAlerts: string;
   navNotifications: string;
+
+  // Farm Diary
+  farmDiary: string;
+  farmDiaryDesc: string;
+  addEntry: string;
+  editEntry: string;
+  newEntry: string;
+  totalEntries: string;
+  expenses: string;
+  income: string;
+  profit: string;
+  loss: string;
+  exportData: string;
+  exportCSV: string;
+  exportPDF: string;
+  titleRequired: string;
+  entryPlaceholder: string;
+  expensePlaceholder: string;
+  incomePlaceholder: string;
+  detailsPlaceholder: string;
+  update: string;
+  saveEntry: string;
+  noEntriesYet: string;
+  noEntriesDesc: string;
+  showingEntries: string;
+  all: string;
+  from: string;
+  to: string;
+  clear: string;
+  navDiary: string;
+  navSchemes: string;
+
+  // Government Schemes
+  govSchemes: string;
+  govSchemesDesc: string;
+  searchSchemes: string;
+  central: string;
+  state: string;
+  selectState: string;
+  allCategories: string;
+  clearAll: string;
+  savedSchemes: string;
+  schemeSaved: string;
+  schemeRemoved: string;
+  eligibility: string;
+  howToApply: string;
+  requiredDocs: string;
+  benefits: string;
+  checkEligibility: string;
+  applyNow: string;
+  noSchemesFound: string;
+  activeFilters: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -415,6 +467,56 @@ export const translations: Record<Language, Translations> = {
     noNotificationsDesc: "You'll receive weather alerts, market updates, and disease warnings here.",
     generateSampleAlerts: "Generate Sample Alerts",
     navNotifications: "Alerts",
+
+    farmDiary: "Farm Diary",
+    farmDiaryDesc: "Log your daily farming activities",
+    addEntry: "Add Entry",
+    editEntry: "Edit Entry",
+    newEntry: "New Entry",
+    totalEntries: "Total Entries",
+    expenses: "Expenses",
+    income: "Income",
+    profit: "Profit",
+    loss: "Loss",
+    exportData: "Export",
+    exportCSV: "Export as CSV",
+    exportPDF: "Export as PDF",
+    titleRequired: "Title is required",
+    entryPlaceholder: "What did you do? e.g., Planted rice seedlings",
+    expensePlaceholder: "Expense ₹",
+    incomePlaceholder: "Income ₹",
+    detailsPlaceholder: "Add details... (optional)",
+    update: "Update",
+    saveEntry: "Save Entry",
+    noEntriesYet: "No entries yet",
+    noEntriesDesc: "Start logging your daily farming activities!",
+    showingEntries: "Showing",
+    all: "All",
+    from: "From",
+    to: "To",
+    clear: "Clear",
+    navDiary: "Diary",
+    navSchemes: "Schemes",
+
+    govSchemes: "Government Schemes",
+    govSchemesDesc: "Find schemes and subsidies for farmers",
+    searchSchemes: "Search schemes...",
+    central: "Central",
+    state: "State",
+    selectState: "Select State",
+    allCategories: "All Categories",
+    clearAll: "Clear all",
+    savedSchemes: "Saved",
+    schemeSaved: "Scheme saved!",
+    schemeRemoved: "Scheme removed",
+    eligibility: "Eligibility",
+    howToApply: "How to Apply",
+    requiredDocs: "Documents",
+    benefits: "Benefits",
+    checkEligibility: "Check Eligibility",
+    applyNow: "Apply Now",
+    noSchemesFound: "No schemes found",
+    activeFilters: "filters",
   },
 
   hi: {
@@ -616,6 +718,56 @@ export const translations: Record<Language, Translations> = {
     noNotificationsDesc: "आपको यहां मौसम अलर्ट, बाज़ार अपडेट और रोग चेतावनियां मिलेंगी।",
     generateSampleAlerts: "नमूना अलर्ट बनाएं",
     navNotifications: "अलर्ट",
+
+    farmDiary: "खेत डायरी",
+    farmDiaryDesc: "अपनी दैनिक खेती गतिविधियों को दर्ज करें",
+    addEntry: "प्रविष्टि जोड़ें",
+    editEntry: "प्रविष्टि संपादित करें",
+    newEntry: "नई प्रविष्टि",
+    totalEntries: "कुल प्रविष्टियां",
+    expenses: "व्यय",
+    income: "आय",
+    profit: "लाभ",
+    loss: "हानि",
+    exportData: "निर्यात",
+    exportCSV: "CSV में निर्यात",
+    exportPDF: "PDF में निर्यात",
+    titleRequired: "शीर्षक आवश्यक है",
+    entryPlaceholder: "आपने क्या किया? जैसे, धान की रोपाई",
+    expensePlaceholder: "व्यय ₹",
+    incomePlaceholder: "आय ₹",
+    detailsPlaceholder: "विवरण जोड़ें... (वैकल्पिक)",
+    update: "अपडेट",
+    saveEntry: "प्रविष्टि सहेजें",
+    noEntriesYet: "अभी कोई प्रविष्टि नहीं",
+    noEntriesDesc: "अपनी दैनिक खेती गतिविधियों को दर्ज करना शुरू करें!",
+    showingEntries: "दिखा रहे हैं",
+    all: "सभी",
+    from: "से",
+    to: "तक",
+    clear: "साफ़",
+    navDiary: "डायरी",
+    navSchemes: "योजनाएं",
+
+    govSchemes: "सरकारी योजनाएं",
+    govSchemesDesc: "किसानों के लिए योजनाएं और सब्सिडी खोजें",
+    searchSchemes: "योजनाएं खोजें...",
+    central: "केंद्र",
+    state: "राज्य",
+    selectState: "राज्य चुनें",
+    allCategories: "सभी श्रेणियां",
+    clearAll: "सभी साफ़ करें",
+    savedSchemes: "सहेजी गई",
+    schemeSaved: "योजना सहेजी गई!",
+    schemeRemoved: "योजना हटाई गई",
+    eligibility: "पात्रता",
+    howToApply: "आवेदन कैसे करें",
+    requiredDocs: "दस्तावेज़",
+    benefits: "लाभ",
+    checkEligibility: "पात्रता जांचें",
+    applyNow: "अभी आवेदन करें",
+    noSchemesFound: "कोई योजना नहीं मिली",
+    activeFilters: "फ़िल्टर",
   },
 
   ta: {
@@ -817,6 +969,56 @@ export const translations: Record<Language, Translations> = {
     noNotificationsDesc: "வானிலை எச்சரிக்கைகள், சந்தை புதுப்பிப்புகள் மற்றும் நோய் எச்சரிக்கைகள் இங்கே கிடைக்கும்.",
     generateSampleAlerts: "மாதிரி அலர்ட்கள் உருவாக்கு",
     navNotifications: "அலர்ட்",
+
+    farmDiary: "பண்ணை நாட்குறிப்பு",
+    farmDiaryDesc: "உங்கள் தினசரி விவசாய நடவடிக்கைகளை பதிவு செய்யுங்கள்",
+    addEntry: "பதிவு சேர்",
+    editEntry: "பதிவு திருத்து",
+    newEntry: "புதிய பதிவு",
+    totalEntries: "மொத்த பதிவுகள்",
+    expenses: "செலவுகள்",
+    income: "வருமானம்",
+    profit: "லாபம்",
+    loss: "நஷ்டம்",
+    exportData: "ஏற்றுமதி",
+    exportCSV: "CSV ஆக ஏற்றுமதி",
+    exportPDF: "PDF ஆக ஏற்றுமதி",
+    titleRequired: "தலைப்பு தேவை",
+    entryPlaceholder: "என்ன செய்தீர்கள்? எ.கா., நெல் நாற்று நட்டேன்",
+    expensePlaceholder: "செலவு ₹",
+    incomePlaceholder: "வருமானம் ₹",
+    detailsPlaceholder: "விவரங்களைச் சேர்க்கவும்... (விருப்பம்)",
+    update: "புதுப்பி",
+    saveEntry: "பதிவு சேமி",
+    noEntriesYet: "இன்னும் பதிவுகள் இல்லை",
+    noEntriesDesc: "உங்கள் தினசரி விவசாய நடவடிக்கைகளை பதிவு செய்யத் தொடங்குங்கள்!",
+    showingEntries: "காட்டுகிறது",
+    all: "அனைத்தும்",
+    from: "இருந்து",
+    to: "வரை",
+    clear: "அழி",
+    navDiary: "நாட்குறிப்பு",
+    navSchemes: "திட்டங்கள்",
+
+    govSchemes: "அரசு திட்டங்கள்",
+    govSchemesDesc: "விவசாயிகளுக்கான திட்டங்கள் மற்றும் மானியங்களைக் கண்டறியுங்கள்",
+    searchSchemes: "திட்டங்களைத் தேடுங்கள்...",
+    central: "மத்திய",
+    state: "மாநிலம்",
+    selectState: "மாநிலத்தைத் தேர்வு செய்",
+    allCategories: "அனைத்து வகைகள்",
+    clearAll: "அனைத்தையும் அழி",
+    savedSchemes: "சேமிக்கப்பட்டவை",
+    schemeSaved: "திட்டம் சேமிக்கப்பட்டது!",
+    schemeRemoved: "திட்டம் நீக்கப்பட்டது",
+    eligibility: "தகுதி",
+    howToApply: "விண்ணப்பிப்பது எப்படி",
+    requiredDocs: "ஆவணங்கள்",
+    benefits: "நன்மைகள்",
+    checkEligibility: "தகுதியை சரிபார்",
+    applyNow: "இப்போது விண்ணப்பி",
+    noSchemesFound: "திட்டங்கள் எதுவும் காணப்படவில்லை",
+    activeFilters: "வடிகட்டிகள்",
   },
 
   mr: {
@@ -1005,6 +1207,56 @@ export const translations: Record<Language, Translations> = {
     noNotificationsDesc: "तुम्हाला येथे हवामान सूचना, बाजार अपडेट्स आणि रोग इशारे मिळतील.",
     generateSampleAlerts: "नमुना सूचना तयार करा",
     navNotifications: "सूचना",
+
+    farmDiary: "शेत डायरी",
+    farmDiaryDesc: "तुमच्या दैनंदिन शेतीच्या क्रिया नोंदवा",
+    addEntry: "नोंद जोडा",
+    editEntry: "नोंद संपादित करा",
+    newEntry: "नवीन नोंद",
+    totalEntries: "एकूण नोंदी",
+    expenses: "खर्च",
+    income: "उत्पन्न",
+    profit: "नफा",
+    loss: "तोटा",
+    exportData: "निर्यात",
+    exportCSV: "CSV मध्ये निर्यात",
+    exportPDF: "PDF मध्ये निर्यात",
+    titleRequired: "शीर्षक आवश्यक आहे",
+    entryPlaceholder: "काय केलं? उदा., भात लावणी",
+    expensePlaceholder: "खर्च ₹",
+    incomePlaceholder: "उत्पन्न ₹",
+    detailsPlaceholder: "तपशील जोडा... (पर्यायी)",
+    update: "अपडेट",
+    saveEntry: "नोंद जतन करा",
+    noEntriesYet: "अद्याप नोंदी नाहीत",
+    noEntriesDesc: "तुमच्या दैनंदिन शेतीच्या क्रिया नोंदवणे सुरू करा!",
+    showingEntries: "दाखवत आहे",
+    all: "सर्व",
+    from: "पासून",
+    to: "पर्यंत",
+    clear: "साफ करा",
+    navDiary: "डायरी",
+    navSchemes: "योजना",
+
+    govSchemes: "सरकारी योजना",
+    govSchemesDesc: "शेतकऱ्यांसाठी योजना आणि अनुदान शोधा",
+    searchSchemes: "योजना शोधा...",
+    central: "केंद्र",
+    state: "राज्य",
+    selectState: "राज्य निवडा",
+    allCategories: "सर्व श्रेणी",
+    clearAll: "सर्व साफ करा",
+    savedSchemes: "जतन केलेल्या",
+    schemeSaved: "योजना जतन झाली!",
+    schemeRemoved: "योजना काढली",
+    eligibility: "पात्रता",
+    howToApply: "अर्ज कसा करावा",
+    requiredDocs: "कागदपत्रे",
+    benefits: "फायदे",
+    checkEligibility: "पात्रता तपासा",
+    applyNow: "आता अर्ज करा",
+    noSchemesFound: "कोणतीही योजना सापडली नाही",
+    activeFilters: "फिल्टर",
   },
 
   te: {
@@ -1193,6 +1445,56 @@ export const translations: Record<Language, Translations> = {
     noNotificationsDesc: "మీకు ఇక్కడ వాతావరణ హెచ్చరికలు, మార్కెట్ అప్‌డేట్‌లు మరియు వ్యాధి హెచ్చరికలు అందుతాయి.",
     generateSampleAlerts: "నమూనా అలర్ట్‌లు సృష్టించండి",
     navNotifications: "అలర్ట్‌లు",
+
+    farmDiary: "పొలం డైరీ",
+    farmDiaryDesc: "మీ రోజువారీ వ్యవసాయ కార్యకలాపాలను నమోదు చేయండి",
+    addEntry: "ఎంట్రీ జోడించు",
+    editEntry: "ఎంట్రీ సవరించు",
+    newEntry: "కొత్త ఎంట్రీ",
+    totalEntries: "మొత్తం ఎంట్రీలు",
+    expenses: "ఖర్చులు",
+    income: "ఆదాయం",
+    profit: "లాభం",
+    loss: "నష్టం",
+    exportData: "ఎగుమతి",
+    exportCSV: "CSV గా ఎగుమతి",
+    exportPDF: "PDF గా ఎగుమతి",
+    titleRequired: "శీర్షిక అవసరం",
+    entryPlaceholder: "ఏం చేసారు? ఉదా., వరి నాట్లు వేసాను",
+    expensePlaceholder: "ఖర్చు ₹",
+    incomePlaceholder: "ఆదాయం ₹",
+    detailsPlaceholder: "వివరాలు జోడించండి... (ఐచ్ఛికం)",
+    update: "నవీకరించు",
+    saveEntry: "ఎంట్రీ సేవ్ చేయి",
+    noEntriesYet: "ఇంకా ఎంట్రీలు లేవు",
+    noEntriesDesc: "మీ రోజువారీ వ్యవసాయ కార్యకలాపాలను నమోదు చేయడం ప్రారంభించండి!",
+    showingEntries: "చూపిస్తోంది",
+    all: "అన్నీ",
+    from: "నుండి",
+    to: "వరకు",
+    clear: "తుడిచివేయి",
+    navDiary: "డైరీ",
+    navSchemes: "పథకాలు",
+
+    govSchemes: "ప్రభుత్వ పథకాలు",
+    govSchemesDesc: "రైతుల కోసం పథకాలు మరియు సబ్సిడీలు కనుగొనండి",
+    searchSchemes: "పథకాలు శోధించండి...",
+    central: "కేంద్ర",
+    state: "రాష్ట్రం",
+    selectState: "రాష్ట్రం ఎంచుకోండి",
+    allCategories: "అన్ని వర్గాలు",
+    clearAll: "అన్నీ తుడిచివేయి",
+    savedSchemes: "సేవ్ చేసినవి",
+    schemeSaved: "పథకం సేవ్ చేయబడింది!",
+    schemeRemoved: "పథకం తొలగించబడింది",
+    eligibility: "అర్హత",
+    howToApply: "ఎలా దరఖాస్తు చేయాలి",
+    requiredDocs: "పత్రాలు",
+    benefits: "ప్రయోజనాలు",
+    checkEligibility: "అర్హత తనిఖీ చేయండి",
+    applyNow: "ఇప్పుడు దరఖాస్తు చేయండి",
+    noSchemesFound: "పథకాలు కనుగొనబడలేదు",
+    activeFilters: "ఫిల్టర్‌లు",
   },
 
   ml: {
@@ -1381,6 +1683,56 @@ export const translations: Record<Language, Translations> = {
     noNotificationsDesc: "കാലാവസ്ഥ മുന്നറിയിപ്പുകൾ, വിപണി അപ്‌ഡേറ്റുകൾ, രോഗ മുന്നറിയിപ്പുകൾ ഇവിടെ ലഭിക്കും.",
     generateSampleAlerts: "സാമ്പിൾ അലർട്ടുകൾ സൃഷ്ടിക്കുക",
     navNotifications: "അലർട്ടുകൾ",
+
+    farmDiary: "ഫാം ഡയറി",
+    farmDiaryDesc: "നിങ്ങളുടെ ദൈനംദിന കൃഷി പ്രവർത്തനങ്ങൾ രേഖപ്പെടുത്തുക",
+    addEntry: "എൻട്രി ചേർക്കുക",
+    editEntry: "എൻട്രി എഡിറ്റ് ചെയ്യുക",
+    newEntry: "പുതിയ എൻട്രി",
+    totalEntries: "ആകെ എൻട്രികൾ",
+    expenses: "ചെലവുകൾ",
+    income: "വരുമാനം",
+    profit: "ലാഭം",
+    loss: "നഷ്ടം",
+    exportData: "എക്സ്പോർട്ട്",
+    exportCSV: "CSV ആയി എക്സ്പോർട്ട്",
+    exportPDF: "PDF ആയി എക്സ്പോർട്ട്",
+    titleRequired: "ശീർഷകം ആവശ്യമാണ്",
+    entryPlaceholder: "എന്ത് ചെയ്തു? ഉദാ., നെൽ നാറ്റുകൾ നട്ടു",
+    expensePlaceholder: "ചെലവ് ₹",
+    incomePlaceholder: "വരുമാനം ₹",
+    detailsPlaceholder: "വിശദാംശങ്ങൾ ചേർക്കുക... (ഓപ്ഷണൽ)",
+    update: "അപ്ഡേറ്റ്",
+    saveEntry: "എൻട്രി സേവ് ചെയ്യുക",
+    noEntriesYet: "ഇതുവരെ എൻട്രികൾ ഇല്ല",
+    noEntriesDesc: "നിങ്ങളുടെ ദൈനംദിന കൃഷി പ്രവർത്തനങ്ങൾ രേഖപ്പെടുത്താൻ ആരംഭിക്കൂ!",
+    showingEntries: "കാണിക്കുന്നു",
+    all: "എല്ലാം",
+    from: "മുതൽ",
+    to: "വരെ",
+    clear: "മായ്ക്കുക",
+    navDiary: "ഡയറി",
+    navSchemes: "പദ്ധതികൾ",
+
+    govSchemes: "സർക്കാർ പദ്ധതികൾ",
+    govSchemesDesc: "കർഷകർക്കുള്ള പദ്ധതികളും സബ്‌സിഡികളും കണ്ടെത്തുക",
+    searchSchemes: "പദ്ധതികൾ തിരയുക...",
+    central: "കേന്ദ്ര",
+    state: "സംസ്ഥാനം",
+    selectState: "സംസ്ഥാനം തിരഞ്ഞെടുക്കുക",
+    allCategories: "എല്ലാ വിഭാഗങ്ങളും",
+    clearAll: "എല്ലാം മായ്ക്കുക",
+    savedSchemes: "സേവ് ചെയ്തവ",
+    schemeSaved: "പദ്ധതി സേവ് ചെയ്തു!",
+    schemeRemoved: "പദ്ധതി നീക്കം ചെയ്തു",
+    eligibility: "യോഗ്യത",
+    howToApply: "എങ്ങനെ അപേക്ഷിക്കാം",
+    requiredDocs: "രേഖകൾ",
+    benefits: "ആനുകൂല്യങ്ങൾ",
+    checkEligibility: "യോഗ്യത പരിശോധിക്കുക",
+    applyNow: "ഇപ്പോൾ അപേക്ഷിക്കുക",
+    noSchemesFound: "പദ്ധതികൾ കണ്ടെത്തിയില്ല",
+    activeFilters: "ഫിൽട്ടറുകൾ",
   },
 
   kn: {
@@ -1569,5 +1921,55 @@ export const translations: Record<Language, Translations> = {
     noNotificationsDesc: "ಹವಾಮಾನ ಎಚ್ಚರಿಕೆಗಳು, ಮಾರುಕಟ್ಟೆ ಅಪ್‌ಡೇಟ್‌ಗಳು ಮತ್ತು ರೋಗ ಎಚ್ಚರಿಕೆಗಳು ಇಲ್ಲಿ ಲಭ್ಯವಾಗುತ್ತವೆ.",
     generateSampleAlerts: "ಮಾದರಿ ಎಚ್ಚರಿಕೆಗಳನ್ನು ರಚಿಸಿ",
     navNotifications: "ಎಚ್ಚರಿಕೆಗಳು",
+
+    farmDiary: "ಹೊಲದ ಡೈರಿ",
+    farmDiaryDesc: "ನಿಮ್ಮ ದೈನಂದಿನ ಕೃಷಿ ಚಟುವಟಿಕೆಗಳನ್ನು ದಾಖಲಿಸಿ",
+    addEntry: "ನಮೂನೆ ಸೇರಿಸಿ",
+    editEntry: "ನಮೂನೆ ಸಂಪಾದಿಸಿ",
+    newEntry: "ಹೊಸ ನಮೂನೆ",
+    totalEntries: "ಒಟ್ಟು ನಮೂನೆಗಳು",
+    expenses: "ಖರ್ಚುಗಳು",
+    income: "ಆದಾಯ",
+    profit: "ಲಾಭ",
+    loss: "ನಷ್ಟ",
+    exportData: "ರಫ್ತು",
+    exportCSV: "CSV ಆಗಿ ರಫ್ತು",
+    exportPDF: "PDF ಆಗಿ ರಫ್ತು",
+    titleRequired: "ಶೀರ್ಷಿಕೆ ಅಗತ್ಯ",
+    entryPlaceholder: "ಏನು ಮಾಡಿದಿರಿ? ಉದಾ., ಭತ್ತದ ಸಸಿಗಳನ್ನು ನೆಟ್ಟೆ",
+    expensePlaceholder: "ಖರ್ಚು ₹",
+    incomePlaceholder: "ಆದಾಯ ₹",
+    detailsPlaceholder: "ವಿವರಗಳನ್ನು ಸೇರಿಸಿ... (ಐಚ್ಛಿಕ)",
+    update: "ನವೀಕರಿಸಿ",
+    saveEntry: "ನಮೂನೆ ಉಳಿಸಿ",
+    noEntriesYet: "ಇನ್ನೂ ನಮೂನೆಗಳಿಲ್ಲ",
+    noEntriesDesc: "ನಿಮ್ಮ ದೈನಂದಿನ ಕೃಷಿ ಚಟುವಟಿಕೆಗಳನ್ನು ದಾಖಲಿಸಲು ಪ್ರಾರಂಭಿಸಿ!",
+    showingEntries: "ತೋರಿಸುತ್ತಿದೆ",
+    all: "ಎಲ್ಲಾ",
+    from: "ಇಂದ",
+    to: "ವರೆಗೆ",
+    clear: "ಅಳಿಸಿ",
+    navDiary: "ಡೈರಿ",
+    navSchemes: "ಯೋಜನೆಗಳು",
+
+    govSchemes: "ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು",
+    govSchemesDesc: "ರೈತರಿಗಾಗಿ ಯೋಜನೆಗಳು ಮತ್ತು ಸಬ್ಸಿಡಿಗಳನ್ನು ಹುಡುಕಿ",
+    searchSchemes: "ಯೋಜನೆಗಳನ್ನು ಹುಡುಕಿ...",
+    central: "ಕೇಂದ್ರ",
+    state: "ರಾಜ್ಯ",
+    selectState: "ರಾಜ್ಯ ಆಯ್ಕೆ ಮಾಡಿ",
+    allCategories: "ಎಲ್ಲಾ ವರ್ಗಗಳು",
+    clearAll: "ಎಲ್ಲಾ ಅಳಿಸಿ",
+    savedSchemes: "ಉಳಿಸಿದವು",
+    schemeSaved: "ಯೋಜನೆ ಉಳಿಸಲಾಗಿದೆ!",
+    schemeRemoved: "ಯೋಜನೆ ತೆಗೆದುಹಾಕಲಾಗಿದೆ",
+    eligibility: "ಅರ್ಹತೆ",
+    howToApply: "ಅರ್ಜಿ ಹೇಗೆ ಸಲ್ಲಿಸುವುದು",
+    requiredDocs: "ದಾಖಲೆಗಳು",
+    benefits: "ಪ್ರಯೋಜನಗಳು",
+    checkEligibility: "ಅರ್ಹತೆ ಪರಿಶೀಲಿಸಿ",
+    applyNow: "ಈಗ ಅರ್ಜಿ ಸಲ್ಲಿಸಿ",
+    noSchemesFound: "ಯೋಜನೆಗಳು ಕಂಡುಬಂದಿಲ್ಲ",
+    activeFilters: "ಫಿಲ್ಟರ್‌ಗಳು",
   },
 };
