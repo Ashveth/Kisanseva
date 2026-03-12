@@ -178,7 +178,7 @@ const GovernmentSchemes = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1.5">
               <Filter className="h-3.5 w-3.5 text-primary" />
-              <span className="text-[11px] font-display font-bold text-foreground uppercase tracking-wider">Filters</span>
+              <span className="text-[11px] font-display font-bold text-foreground uppercase tracking-wider">{t.filters}</span>
               {activeFiltersCount > 0 && (
                 <Badge className="h-4 w-4 p-0 flex items-center justify-center text-[9px] bg-accent text-accent-foreground">
                   {activeFiltersCount}
