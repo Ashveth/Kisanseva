@@ -529,7 +529,7 @@ const SchemeCard = ({ scheme, index, isExpanded, isBookmarked, activeTab, onTogg
                 className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl gradient-hero text-primary-foreground font-display font-bold text-xs hover:opacity-90 transition-opacity shadow-sm"
               >
                 <Globe className="h-3.5 w-3.5" />
-                Visit Official Website
+                {t.applyNow}
                 <ArrowRight className="h-3 w-3" />
               </a>
             )}
