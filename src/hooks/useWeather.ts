@@ -2,6 +2,14 @@ import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
+export interface HourlyData {
+  time: string;
+  temp: number;
+  humidity: number;
+  windSpeed: number;
+  icon: string;
+}
+
 export interface WeatherData {
   current: {
     temp: number;
@@ -13,6 +21,7 @@ export interface WeatherData {
   };
   alerts: { type: string; message: string; severity: "warning" | "info" }[];
   forecast: { day: string; high: number; low: number; rain: number; icon: string }[];
+  hourly: HourlyData[];
 }
 
 const CACHE_KEY = "farmwise-weather-cache";
