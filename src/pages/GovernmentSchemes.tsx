@@ -16,6 +16,8 @@ import { toast } from "sonner";
 import { allSchemes, schemeCategories, schemeLevels, schemeStates, type Scheme } from "@/data/governmentSchemes";
 import { AIErrorCard } from "@/components/ui/ai-loading";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useLanguage } from "@/contexts/LanguageContext";
+import type { Translations } from "@/i18n/translations";
 
 // ── Bookmark helpers ──
 const BOOKMARKS_KEY = "farmwise-scheme-bookmarks";
@@ -51,6 +53,7 @@ interface EligibilityResult {
 }
 
 const GovernmentSchemes = () => {
+  const { t } = useLanguage();
   const [search, setSearch] = useState("");
   const [expanded, setExpanded] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState("All");
@@ -72,7 +75,7 @@ const GovernmentSchemes = () => {
   const handleBookmark = (id: string) => {
     const next = toggleBookmark(id);
     setBookmarks(next);
-    toast.success(next.includes(id) ? "Scheme saved!" : "Scheme removed");
+    toast.success(next.includes(id) ? t.schemeSaved : t.schemeRemoved);
   };
 
   const activeFiltersCount = [activeCategory !== "All", activeLevel !== "All", activeState !== "All", showBookmarked].filter(Boolean).length;
@@ -132,10 +135,10 @@ const GovernmentSchemes = () => {
             <div>
               <h1 className="text-xl font-extrabold font-display text-primary-foreground flex items-center gap-2">
                 <Landmark className="h-6 w-6" />
-                Government Schemes
+                {t.govSchemes}
               </h1>
               <p className="text-primary-foreground/70 text-xs mt-1 font-display">
-                {allSchemes.length} schemes • Central & State
+                {allSchemes.length} {t.navSchemes.toLowerCase()} • {t.central} & {t.state}
               </p>
             </div>
             <button
@@ -155,7 +158,7 @@ const GovernmentSchemes = () => {
           <div className="relative mt-4">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search schemes by name, state, or category..."
+              placeholder={t.searchSchemes}
               value={search}
               onChange={e => setSearch(e.target.value)}
               className="pl-10 h-11 bg-card/95 backdrop-blur-sm border-0 shadow-elevated rounded-xl text-sm"
@@ -184,7 +187,7 @@ const GovernmentSchemes = () => {
             </div>
             {activeFiltersCount > 0 && (
               <button onClick={clearFilters} className="text-[10px] text-primary font-bold flex items-center gap-1">
-                <X className="h-3 w-3" /> Clear all
+                <X className="h-3 w-3" /> {t.clearAll}
               </button>
             )}
           </div>
@@ -202,7 +205,7 @@ const GovernmentSchemes = () => {
                       : "bg-card text-muted-foreground hover:bg-muted"
                   }`}
                 >
-                  {level === "All" ? "All" : level === "Central" ? "🇮🇳 Central" : "🏛️ State"}
+                  {level === "All" ? t.all : level === "Central" ? `🇮🇳 ${t.central}` : `🏛️ ${t.state}`}
                 </button>
               ))}
             </div>
@@ -211,7 +214,7 @@ const GovernmentSchemes = () => {
             <Select value={activeState} onValueChange={setActiveState}>
               <SelectTrigger className="h-8 w-auto min-w-[140px] text-[11px] font-display font-bold border-border bg-card gap-1">
                 <MapPin className="h-3 w-3 text-primary flex-shrink-0" />
-                <SelectValue placeholder="All States" />
+                <SelectValue placeholder={t.selectState} />
               </SelectTrigger>
               <SelectContent>
                 {schemeStates.map(st => (
@@ -251,8 +254,8 @@ const GovernmentSchemes = () => {
                 <Sparkles className="h-4 w-4 text-primary-foreground" />
               </div>
               <div className="text-left">
-                <span className="font-display font-extrabold text-foreground text-sm">AI Eligibility Checker</span>
-                <p className="text-[10px] text-muted-foreground">Find schemes you qualify for</p>
+                <span className="font-display font-extrabold text-foreground text-sm">{t.checkEligibility}</span>
+                <p className="text-[10px] text-muted-foreground">{t.govSchemesDesc}</p>
               </div>
             </div>
             <ChevronRight className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${showEligibility ? "rotate-90" : "group-hover:translate-x-0.5"}`} />
@@ -268,7 +271,7 @@ const GovernmentSchemes = () => {
                   </div>
                   <Button onClick={checkEligibility} disabled={eligibilityLoading} size="sm" className="w-full gradient-hero text-primary-foreground font-display font-bold h-9 rounded-xl">
                     {eligibilityLoading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Sparkles className="h-4 w-4 mr-2" />}
-                    Check My Eligibility
+                    {t.checkEligibility}
                   </Button>
 
                   {eligibilityLoading && (
@@ -317,11 +320,11 @@ const GovernmentSchemes = () => {
         {/* ── Results Count ── */}
         <div className="flex items-center justify-between">
           <p className="text-xs text-muted-foreground font-display font-bold">
-            {filtered.length} scheme{filtered.length !== 1 ? "s" : ""} found
+            {filtered.length} {t.navSchemes.toLowerCase()}
           </p>
           {showBookmarked && (
             <Badge variant="outline" className="text-[10px] gap-1 border-harvest/30 text-harvest">
-              <BookmarkCheck className="h-3 w-3" /> Saved only
+              <BookmarkCheck className="h-3 w-3" /> {t.savedSchemes}
             </Badge>
           )}
         </div>
@@ -340,6 +343,7 @@ const GovernmentSchemes = () => {
                 onToggle={() => { setExpanded(expanded === scheme.id ? null : scheme.id); setActiveTab("details"); }}
                 onBookmark={() => handleBookmark(scheme.id)}
                 onTabChange={setActiveTab}
+                t={t}
               />
             ))}
           </AnimatePresence>
@@ -348,10 +352,10 @@ const GovernmentSchemes = () => {
               <div className="h-16 w-16 rounded-2xl bg-muted/50 flex items-center justify-center mx-auto mb-4">
                 <Landmark className="h-8 w-8 text-muted-foreground/40" />
               </div>
-              <p className="text-muted-foreground font-display font-bold text-sm">No schemes found</p>
-              <p className="text-muted-foreground text-xs mt-1">Try adjusting your filters</p>
+              <p className="text-muted-foreground font-display font-bold text-sm">{t.noSchemesFound}</p>
+              <p className="text-muted-foreground text-xs mt-1">{t.clearAll}</p>
               <Button variant="outline" size="sm" className="mt-3 text-xs" onClick={clearFilters}>
-                Clear all filters
+                {t.clearAll}
               </Button>
             </motion.div>
           )}
@@ -371,9 +375,10 @@ interface SchemeCardProps {
   onToggle: () => void;
   onBookmark: () => void;
   onTabChange: (tab: string) => void;
+  t: Translations;
 }
 
-const SchemeCard = ({ scheme, index, isExpanded, isBookmarked, activeTab, onToggle, onBookmark, onTabChange }: SchemeCardProps) => (
+const SchemeCard = ({ scheme, index, isExpanded, isBookmarked, activeTab, onToggle, onBookmark, onTabChange, t }: SchemeCardProps) => (
   <motion.div
     layout
     initial={{ opacity: 0, y: 12 }}
@@ -447,19 +452,19 @@ const SchemeCard = ({ scheme, index, isExpanded, isBookmarked, activeTab, onTogg
             <Tabs value={activeTab} onValueChange={onTabChange}>
               <TabsList className="w-full h-8 p-0.5 bg-muted/50 rounded-xl">
                 <TabsTrigger value="details" className="flex-1 text-[10px] gap-1 rounded-lg data-[state=active]:shadow-sm">
-                  <Users className="h-3 w-3" /> Eligibility
+                  <Users className="h-3 w-3" /> {t.eligibility}
                 </TabsTrigger>
                 <TabsTrigger value="apply" className="flex-1 text-[10px] gap-1 rounded-lg data-[state=active]:shadow-sm">
-                  <ClipboardList className="h-3 w-3" /> Steps
+                  <ClipboardList className="h-3 w-3" /> {t.howToApply}
                 </TabsTrigger>
                 <TabsTrigger value="documents" className="flex-1 text-[10px] gap-1 rounded-lg data-[state=active]:shadow-sm">
-                  <FileText className="h-3 w-3" /> Docs
+                  <FileText className="h-3 w-3" /> {t.requiredDocs}
                 </TabsTrigger>
               </TabsList>
 
               <TabsContent value="details" className="space-y-3 mt-3">
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2">Who Can Apply</p>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2">{t.eligibility}</p>
                   <div className="space-y-1.5">
                     {scheme.eligibility.map((item, j) => (
                       <div key={j} className="flex items-start gap-2">
@@ -470,7 +475,7 @@ const SchemeCard = ({ scheme, index, isExpanded, isBookmarked, activeTab, onTogg
                   </div>
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2">Key Benefits</p>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2">{t.benefits}</p>
                   <div className="grid gap-1.5">
                     {scheme.benefits.map((item, j) => (
                       <div key={j} className="flex items-start gap-2 bg-primary/5 rounded-xl px-3 py-2">
@@ -523,7 +528,7 @@ const SchemeCard = ({ scheme, index, isExpanded, isBookmarked, activeTab, onTogg
                 className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl gradient-hero text-primary-foreground font-display font-bold text-xs hover:opacity-90 transition-opacity shadow-sm"
               >
                 <Globe className="h-3.5 w-3.5" />
-                Visit Official Website
+                {t.applyNow}
                 <ArrowRight className="h-3 w-3" />
               </a>
             )}
