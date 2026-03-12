@@ -188,7 +188,7 @@ const GovernmentSchemes = () => {
             </div>
             {activeFiltersCount > 0 && (
               <button onClick={clearFilters} className="text-[10px] text-primary font-bold flex items-center gap-1">
-                <X className="h-3 w-3" /> Clear all
+                <X className="h-3 w-3" /> {t.clearAll}
               </button>
             )}
           </div>
