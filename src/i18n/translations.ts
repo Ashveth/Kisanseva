@@ -263,6 +263,13 @@ export interface Translations {
   toastDeleteFailed: string;
   toastEntryDeleted: string;
 
+  // Chart labels
+  chartIncomeVsExpenses: string;
+  chartMonthlyExpenses: string;
+  chartExpenseBreakdown: string;
+  chartTotal: string;
+  chartOfTotal: string;
+
   // Government Schemes
   govSchemes: string;
   govSchemesDesc: string;
@@ -529,6 +536,11 @@ export const translations: Record<Language, Translations> = {
     toastEntrySaved: "Entry saved! 🌾",
     toastDeleteFailed: "Failed to delete",
     toastEntryDeleted: "Entry deleted",
+    chartIncomeVsExpenses: "Income vs Expenses",
+    chartMonthlyExpenses: "Monthly Expenses",
+    chartExpenseBreakdown: "Expense Breakdown",
+    chartTotal: "Total",
+    chartOfTotal: "of total",
 
     govSchemes: "Government Schemes",
     govSchemesDesc: "Find schemes and subsidies for farmers",
@@ -794,6 +806,11 @@ export const translations: Record<Language, Translations> = {
     toastEntrySaved: "प्रविष्टि सहेजी गई! 🌾",
     toastDeleteFailed: "हटाने में विफल",
     toastEntryDeleted: "प्रविष्टि हटाई गई",
+    chartIncomeVsExpenses: "आय बनाम व्यय",
+    chartMonthlyExpenses: "मासिक व्यय",
+    chartExpenseBreakdown: "व्यय विवरण",
+    chartTotal: "कुल",
+    chartOfTotal: "कुल का",
 
     govSchemes: "सरकारी योजनाएं",
     govSchemesDesc: "किसानों के लिए योजनाएं और सब्सिडी खोजें",
@@ -1059,6 +1076,11 @@ export const translations: Record<Language, Translations> = {
     toastEntrySaved: "பதிவு சேமிக்கப்பட்டது! 🌾",
     toastDeleteFailed: "நீக்க முடியவில்லை",
     toastEntryDeleted: "பதிவு நீக்கப்பட்டது",
+    chartIncomeVsExpenses: "வருமானம் vs செலவுகள்",
+    chartMonthlyExpenses: "மாதாந்திர செலவுகள்",
+    chartExpenseBreakdown: "செலவு பிரிவு",
+    chartTotal: "மொத்தம்",
+    chartOfTotal: "மொத்தத்தில்",
 
     govSchemes: "அரசு திட்டங்கள்",
     govSchemesDesc: "விவசாயிகளுக்கான திட்டங்கள் மற்றும் மானியங்களைக் கண்டறியுங்கள்",
@@ -1311,6 +1333,11 @@ export const translations: Record<Language, Translations> = {
     toastEntrySaved: "नोंद जतन झाली! 🌾",
     toastDeleteFailed: "हटवता आले नाही",
     toastEntryDeleted: "नोंद हटवली",
+    chartIncomeVsExpenses: "उत्पन्न विरुद्ध खर्च",
+    chartMonthlyExpenses: "मासिक खर्च",
+    chartExpenseBreakdown: "खर्च तपशील",
+    chartTotal: "एकूण",
+    chartOfTotal: "एकूणाचे",
 
     govSchemes: "सरकारी योजना",
     govSchemesDesc: "शेतकऱ्यांसाठी योजना आणि अनुदान शोधा",
@@ -1563,6 +1590,11 @@ export const translations: Record<Language, Translations> = {
     toastEntrySaved: "ఎంట్రీ సేవ్ అయింది! 🌾",
     toastDeleteFailed: "తొలగించడం విఫలమైంది",
     toastEntryDeleted: "ఎంట్రీ తొలగించబడింది",
+    chartIncomeVsExpenses: "ఆదాయం vs ఖర్చులు",
+    chartMonthlyExpenses: "నెలవారీ ఖర్చులు",
+    chartExpenseBreakdown: "ఖర్చు వివరాలు",
+    chartTotal: "మొత్తం",
+    chartOfTotal: "మొత్తంలో",
 
     govSchemes: "ప్రభుత్వ పథకాలు",
     govSchemesDesc: "రైతుల కోసం పథకాలు మరియు సబ్సిడీలు కనుగొనండి",
@@ -1815,6 +1847,11 @@ export const translations: Record<Language, Translations> = {
     toastEntrySaved: "എൻട്രി സേവ് ചെയ്തു! 🌾",
     toastDeleteFailed: "ഇല്ലാതാക്കാനായില്ല",
     toastEntryDeleted: "എൻട്രി ഇല്ലാതാക്കി",
+    chartIncomeVsExpenses: "വരുമാനം vs ചെലവുകൾ",
+    chartMonthlyExpenses: "പ്രതിമാസ ചെലവുകൾ",
+    chartExpenseBreakdown: "ചെലവ് വിശദാംശങ്ങൾ",
+    chartTotal: "ആകെ",
+    chartOfTotal: "ആകെയുടെ",
 
     govSchemes: "സർക്കാർ പദ്ധതികൾ",
     govSchemesDesc: "കർഷകർക്കുള്ള പദ്ധതികളും സബ്‌സിഡികളും കണ്ടെത്തുക",
@@ -2067,6 +2104,11 @@ export const translations: Record<Language, Translations> = {
     toastEntrySaved: "ನಮೂನೆ ಉಳಿಸಲಾಗಿದೆ! 🌾",
     toastDeleteFailed: "ಅಳಿಸಲು ವಿಫಲವಾಯಿತು",
     toastEntryDeleted: "ನಮೂನೆ ಅಳಿಸಲಾಗಿದೆ",
+    chartIncomeVsExpenses: "ಆದಾಯ vs ವೆಚ್ಚಗಳು",
+    chartMonthlyExpenses: "ಮಾಸಿಕ ವೆಚ್ಚಗಳು",
+    chartExpenseBreakdown: "ವೆಚ್ಚ ವಿವರಗಳು",
+    chartTotal: "ಒಟ್ಟು",
+    chartOfTotal: "ಒಟ್ಟಿನಲ್ಲಿ",
 
     govSchemes: "ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು",
     govSchemesDesc: "ರೈತರಿಗಾಗಿ ಯೋಜನೆಗಳು ಮತ್ತು ಸಬ್ಸಿಡಿಗಳನ್ನು ಹುಡುಕಿ",

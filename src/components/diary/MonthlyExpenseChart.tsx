@@ -5,6 +5,7 @@ import {
   PieChart, Pie, Cell, Legend,
 } from "recharts";
 import { TrendingUp, PieChart as PieIcon } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface DiaryEntry {
   date: string;
@@ -27,17 +28,19 @@ const ACTIVITY_COLORS: Record<string, string> = {
   general: "hsl(220, 10%, 55%)",
 };
 
-const ACTIVITY_LABELS: Record<string, string> = {
-  planting: "🌱 Planting",
-  fertilizing: "💧 Fertilizing",
-  harvesting: "✂️ Harvesting",
-  expense: "💰 Expense",
-  irrigation: "🚿 Irrigation",
-  pest_control: "🛡️ Pest Control",
-  general: "📝 General",
+const ACTIVITY_TKEYS: Record<string, "actPlanting" | "actFertilizing" | "actHarvesting" | "actExpense" | "actIrrigation" | "actPestControl" | "actGeneral"> = {
+  planting: "actPlanting",
+  fertilizing: "actFertilizing",
+  harvesting: "actHarvesting",
+  expense: "actExpense",
+  irrigation: "actIrrigation",
+  pest_control: "actPestControl",
+  general: "actGeneral",
 };
 
 const MonthlyExpenseChart = ({ entries }: MonthlyExpenseChartProps) => {
+  const { t } = useLanguage();
+
   const monthlyData = useMemo(() => {
     const monthMap = new Map<string, { expense: number; income: number }>();
     entries.forEach((entry) => {
@@ -67,9 +70,9 @@ const MonthlyExpenseChart = ({ entries }: MonthlyExpenseChartProps) => {
       }
     });
     return Array.from(typeMap.entries())
-      .map(([type, value]) => ({ name: ACTIVITY_LABELS[type] || type, value, type }))
+      .map(([type, value]) => ({ name: t[ACTIVITY_TKEYS[type]] || type, value, type }))
       .sort((a, b) => b.value - a.value);
-  }, [entries]);
+  }, [entries, t]);
 
   const hasData = monthlyData.length > 0 || pieData.length > 0;
   if (!hasData) return null;
@@ -79,24 +82,23 @@ const MonthlyExpenseChart = ({ entries }: MonthlyExpenseChartProps) => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {/* Monthly Income vs Expense Bar Chart */}
       {monthlyData.length > 0 && (
         <div className="glass-card p-4 space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <TrendingUp className="h-5 w-5 text-primary" />
               <h3 className="font-display font-bold text-foreground text-sm">
-                {hasIncome ? "Income vs Expenses" : "Monthly Expenses"}
+                {hasIncome ? t.chartIncomeVsExpenses : t.chartMonthlyExpenses}
               </h3>
             </div>
             <div className="flex gap-3 text-xs text-muted-foreground font-display">
               {hasIncome && (
                 <span className="flex items-center gap-1">
-                  <span className="w-2 h-2 rounded-full bg-primary inline-block" /> Income
+                  <span className="w-2 h-2 rounded-full bg-primary inline-block" /> {t.income}
                 </span>
               )}
               <span className="flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-destructive inline-block" /> Expense
+                <span className="w-2 h-2 rounded-full bg-destructive inline-block" /> {t.expenses}
               </span>
             </div>
           </div>
@@ -113,10 +115,10 @@ const MonthlyExpenseChart = ({ entries }: MonthlyExpenseChartProps) => {
                     return (
                       <div className="rounded-lg border border-border/50 bg-background px-3 py-2 shadow-xl space-y-1">
                         <p className="text-xs font-display font-bold text-foreground">{d.month}</p>
-                        {d.income > 0 && <p className="text-sm font-bold text-primary">Income: ₹{d.income.toLocaleString()}</p>}
-                        {d.expense > 0 && <p className="text-sm font-bold text-destructive">Expense: ₹{d.expense.toLocaleString()}</p>}
+                        {d.income > 0 && <p className="text-sm font-bold text-primary">{t.income}: ₹{d.income.toLocaleString()}</p>}
+                        {d.expense > 0 && <p className="text-sm font-bold text-destructive">{t.expenses}: ₹{d.expense.toLocaleString()}</p>}
                         <p className={`text-xs font-semibold ${d.profit >= 0 ? "text-primary" : "text-destructive"}`}>
-                          {d.profit >= 0 ? "Profit" : "Loss"}: ₹{Math.abs(d.profit).toLocaleString()}
+                          {d.profit >= 0 ? t.profit : t.loss}: ₹{Math.abs(d.profit).toLocaleString()}
                         </p>
                       </div>
                     );
@@ -130,16 +132,15 @@ const MonthlyExpenseChart = ({ entries }: MonthlyExpenseChartProps) => {
         </div>
       )}
 
-      {/* Activity Breakdown Pie Chart */}
       {pieData.length > 0 && (
         <div className="glass-card p-4 space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <PieIcon className="h-5 w-5 text-primary" />
-              <h3 className="font-display font-bold text-foreground text-sm">Expense Breakdown</h3>
+              <h3 className="font-display font-bold text-foreground text-sm">{t.chartExpenseBreakdown}</h3>
             </div>
             <span className="text-xs text-muted-foreground font-display">
-              Total: ₹{totalExpenseByType.toLocaleString()}
+              {t.chartTotal}: ₹{totalExpenseByType.toLocaleString()}
             </span>
           </div>
           <div className="h-48">
@@ -159,7 +160,7 @@ const MonthlyExpenseChart = ({ entries }: MonthlyExpenseChartProps) => {
                       <div className="rounded-lg border border-border/50 bg-background px-3 py-2 shadow-xl">
                         <p className="text-xs font-display font-bold text-foreground">{d.name}</p>
                         <p className="text-sm font-bold text-primary">₹{d.value.toLocaleString()}</p>
-                        <p className="text-xs text-muted-foreground">{pct}% of total</p>
+                        <p className="text-xs text-muted-foreground">{pct}% {t.chartOfTotal}</p>
                       </div>
                     );
                   }}
