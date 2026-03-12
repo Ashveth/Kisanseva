@@ -206,7 +206,7 @@ const GovernmentSchemes = () => {
                       : "bg-card text-muted-foreground hover:bg-muted"
                   }`}
                 >
-                  {level === "All" ? "All" : level === "Central" ? "🇮🇳 Central" : "🏛️ State"}
+                  {level === "All" ? t.all : level === "Central" ? `🇮🇳 ${t.central}` : `🏛️ ${t.state}`}
                 </button>
               ))}
             </div>
