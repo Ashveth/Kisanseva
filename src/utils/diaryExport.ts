@@ -100,7 +100,7 @@ export function exportPDF(entries: DiaryEntry[], totalExpenses: number, totalInc
 
   doc.setFontSize(11);
   doc.setTextColor(34, 120, 60);
-  doc.text("Activity Summary", 14, breakdownY);
+  doc.text("Activity Summary", margin, breakdownY);
 
   const summaryData = Object.entries(activityCounts).map(([type, data]) => [
     ACTIVITY_LABELS[type] || type,
