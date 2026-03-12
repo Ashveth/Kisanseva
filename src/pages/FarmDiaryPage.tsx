@@ -243,7 +243,46 @@ const FarmDiaryPage = () => {
         )}
       </AnimatePresence>
 
-      {/* Filter */}
+      {/* Date Range Filter */}
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="flex items-center gap-2">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" size="sm" className={cn("text-xs font-display gap-1.5", dateFrom && "border-primary text-primary")}>
+                <CalendarRange className="h-3.5 w-3.5" />
+                {dateFrom ? format(dateFrom, "dd MMM yyyy") : "From"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar mode="single" selected={dateFrom} onSelect={setDateFrom} initialFocus className={cn("p-3 pointer-events-auto")} />
+            </PopoverContent>
+          </Popover>
+          <span className="text-xs text-muted-foreground">→</span>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" size="sm" className={cn("text-xs font-display gap-1.5", dateTo && "border-primary text-primary")}>
+                <CalendarRange className="h-3.5 w-3.5" />
+                {dateTo ? format(dateTo, "dd MMM yyyy") : "To"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar mode="single" selected={dateTo} onSelect={setDateTo} disabled={(d) => dateFrom ? d < dateFrom : false} initialFocus className={cn("p-3 pointer-events-auto")} />
+            </PopoverContent>
+          </Popover>
+          {hasDateFilter && (
+            <Button variant="ghost" size="sm" onClick={clearDateFilter} className="text-xs text-muted-foreground hover:text-foreground h-7 px-2">
+              <X className="h-3 w-3 mr-1" /> Clear
+            </Button>
+          )}
+        </div>
+        {hasDateFilter && (
+          <span className="text-xs text-muted-foreground font-display">
+            Showing {filtered.length} entries • ₹{filteredExpenses.toLocaleString()} expenses
+          </span>
+        )}
+      </div>
+
+      {/* Activity Filter */}
       <div className="flex gap-2 overflow-x-auto pb-1">
         <button onClick={() => setFilterType("all")}
           className={`px-3 py-1.5 rounded-full text-xs font-medium font-display whitespace-nowrap transition-colors ${filterType === "all" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:text-foreground"}`}>
