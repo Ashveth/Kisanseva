@@ -199,6 +199,10 @@ export interface Translations {
   langEnglish: string;
   langHindi: string;
   langTamil: string;
+  langMarathi: string;
+  langTelugu: string;
+  langMalayalam: string;
+  langKannada: string;
 
   // Notifications
   notifications: string;
