@@ -265,9 +265,9 @@ const GovernmentSchemes = () => {
               <motion.div initial={{ height: 0 }} animate={{ height: "auto" }} exit={{ height: 0 }} className="overflow-hidden">
                 <div className="px-4 pb-4 space-y-3 border-t border-border/50">
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-3">
-                    <Input placeholder="Farm size (e.g., 2 acres)" value={farmSize} onChange={e => setFarmSize(e.target.value)} className="h-9 text-xs bg-card" />
-                    <Input placeholder="State (e.g., Maharashtra)" value={state} onChange={e => setState(e.target.value)} className="h-9 text-xs bg-card" />
-                    <Input placeholder="Crops (e.g., Rice, Wheat)" value={crops} onChange={e => setCrops(e.target.value)} className="h-9 text-xs bg-card" />
+                     <Input placeholder={t.farmSizePlaceholderScheme} value={farmSize} onChange={e => setFarmSize(e.target.value)} className="h-9 text-xs bg-card" />
+                     <Input placeholder={t.statePlaceholder} value={state} onChange={e => setState(e.target.value)} className="h-9 text-xs bg-card" />
+                     <Input placeholder={t.cropsPlaceholder} value={crops} onChange={e => setCrops(e.target.value)} className="h-9 text-xs bg-card" />
                   </div>
                   <Button onClick={checkEligibility} disabled={eligibilityLoading} size="sm" className="w-full gradient-hero text-primary-foreground font-display font-bold h-9 rounded-xl">
                     {eligibilityLoading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Sparkles className="h-4 w-4 mr-2" />}
