@@ -322,7 +322,7 @@ const FarmDiaryPage = () => {
       <div className="flex gap-2 overflow-x-auto pb-1">
         <button onClick={() => setFilterType("all")}
           className={`px-3 py-1.5 rounded-full text-xs font-medium font-display whitespace-nowrap transition-colors ${filterType === "all" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:text-foreground"}`}>
-          All
+          {t.all}
         </button>
         {ACTIVITY_TYPES.map((a) => (
           <button key={a.value} onClick={() => setFilterType(a.value)}
