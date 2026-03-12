@@ -158,11 +158,15 @@ const AIChatPage = () => {
                 <Bot className="h-4 w-4 text-primary-foreground" />
               </div>
             )}
-            <div className={`max-w-[80%] rounded-2xl p-3 text-sm ${
-              msg.role === "user" ? "gradient-hero text-primary-foreground rounded-br-sm" : "glass-card text-foreground rounded-bl-sm"
+            <div className={`rounded-2xl text-sm ${
+              msg.role === "user" 
+                ? "max-w-[80%] gradient-hero text-primary-foreground rounded-br-sm p-3" 
+                : "max-w-[90%] glass-card text-foreground rounded-bl-sm p-4"
             }`}>
               {msg.role === "assistant" ? (
-                <div className="prose prose-sm max-w-none dark:prose-invert prose-headings:mt-3 prose-headings:mb-1 prose-table:text-xs prose-th:bg-muted prose-th:px-2 prose-th:py-1 prose-td:px-2 prose-td:py-1 prose-table:border prose-th:border prose-td:border"><ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown></div>
+                <div className="ai-response prose prose-sm max-w-none dark:prose-invert">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown>
+                </div>
               ) : (
                 <p className="whitespace-pre-line">{msg.content}</p>
               )}
