@@ -93,7 +93,7 @@ const FarmDiaryPage = () => {
   };
 
   const handleSave = async () => {
-    if (!title.trim()) { toast.error("Title is required"); return; }
+    if (!title.trim()) { toast.error(t.titleRequired); return; }
     if (!user) return;
     setSaving(true);
 
