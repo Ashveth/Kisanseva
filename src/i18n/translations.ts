@@ -290,6 +290,19 @@ export interface Translations {
   applyNow: string;
   noSchemesFound: string;
   activeFilters: string;
+  filters: string;
+  catIncomeSupport: string;
+  catCropInsurance: string;
+  catCreditLoans: string;
+  catSoilFertilizer: string;
+  catIrrigation: string;
+  catMarketAccess: string;
+  catOrganicFarming: string;
+  catInfrastructure: string;
+  farmSizePlaceholderScheme: string;
+  statePlaceholder: string;
+  cropsPlaceholder: string;
+  fillAtLeastOne: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -561,6 +574,19 @@ export const translations: Record<Language, Translations> = {
     applyNow: "Apply Now",
     noSchemesFound: "No schemes found",
     activeFilters: "filters",
+    filters: "Filters",
+    catIncomeSupport: "Income Support",
+    catCropInsurance: "Crop Insurance",
+    catCreditLoans: "Credit & Loans",
+    catSoilFertilizer: "Soil & Fertilizer",
+    catIrrigation: "Irrigation",
+    catMarketAccess: "Market Access",
+    catOrganicFarming: "Organic Farming",
+    catInfrastructure: "Infrastructure",
+    farmSizePlaceholderScheme: "Farm size (e.g., 2 acres)",
+    statePlaceholder: "State (e.g., Maharashtra)",
+    cropsPlaceholder: "Crops (e.g., Rice, Wheat)",
+    fillAtLeastOne: "Please fill at least one field",
   },
 
   hi: {
@@ -831,6 +857,19 @@ export const translations: Record<Language, Translations> = {
     applyNow: "अभी आवेदन करें",
     noSchemesFound: "कोई योजना नहीं मिली",
     activeFilters: "फ़िल्टर",
+    filters: "फ़िल्टर",
+    catIncomeSupport: "आय सहायता",
+    catCropInsurance: "फसल बीमा",
+    catCreditLoans: "ऋण और कर्ज",
+    catSoilFertilizer: "मिट्टी और उर्वरक",
+    catIrrigation: "सिंचाई",
+    catMarketAccess: "बाज़ार पहुंच",
+    catOrganicFarming: "जैविक खेती",
+    catInfrastructure: "बुनियादी ढांचा",
+    farmSizePlaceholderScheme: "खेत का आकार (जैसे, 2 एकड़)",
+    statePlaceholder: "राज्य (जैसे, महाराष्ट्र)",
+    cropsPlaceholder: "फसलें (जैसे, चावल, गेहूं)",
+    fillAtLeastOne: "कृपया कम से कम एक फ़ील्ड भरें",
   },
 
   ta: {
@@ -1101,6 +1140,19 @@ export const translations: Record<Language, Translations> = {
     applyNow: "இப்போது விண்ணப்பி",
     noSchemesFound: "திட்டங்கள் எதுவும் காணப்படவில்லை",
     activeFilters: "வடிகட்டிகள்",
+    filters: "வடிகட்டிகள்",
+    catIncomeSupport: "வருமான ஆதரவு",
+    catCropInsurance: "பயிர் காப்பீடு",
+    catCreditLoans: "கடன் மற்றும் வாய்ப்புகள்",
+    catSoilFertilizer: "மண் மற்றும் உரம்",
+    catIrrigation: "பாசனம்",
+    catMarketAccess: "சந்தை அணுகல்",
+    catOrganicFarming: "இயற்கை வேளாண்மை",
+    catInfrastructure: "உள்கட்டமைப்பு",
+    farmSizePlaceholderScheme: "பண்ணை அளவு (எ.கா., 2 ஏக்கர்)",
+    statePlaceholder: "மாநிலம் (எ.கா., தமிழ்நாடு)",
+    cropsPlaceholder: "பயிர்கள் (எ.கா., நெல், கோதுமை)",
+    fillAtLeastOne: "குறைந்தது ஒரு புலத்தை நிரப்பவும்",
   },
 
   mr: {
@@ -1358,6 +1410,19 @@ export const translations: Record<Language, Translations> = {
     applyNow: "आता अर्ज करा",
     noSchemesFound: "कोणतीही योजना सापडली नाही",
     activeFilters: "फिल्टर",
+    filters: "फिल्टर",
+    catIncomeSupport: "उत्पन्न सहाय्य",
+    catCropInsurance: "पीक विमा",
+    catCreditLoans: "कर्ज आणि कर्जे",
+    catSoilFertilizer: "माती आणि खत",
+    catIrrigation: "सिंचन",
+    catMarketAccess: "बाजार प्रवेश",
+    catOrganicFarming: "सेंद्रिय शेती",
+    catInfrastructure: "पायाभूत सुविधा",
+    farmSizePlaceholderScheme: "शेत आकार (उदा., 2 एकर)",
+    statePlaceholder: "राज्य (उदा., महाराष्ट्र)",
+    cropsPlaceholder: "पिके (उदा., भात, गहू)",
+    fillAtLeastOne: "कृपया किमान एक फील्ड भरा",
   },
 
   te: {
@@ -1615,6 +1680,19 @@ export const translations: Record<Language, Translations> = {
     applyNow: "ఇప్పుడు దరఖాస్తు చేయండి",
     noSchemesFound: "పథకాలు కనుగొనబడలేదు",
     activeFilters: "ఫిల్టర్‌లు",
+    filters: "ఫిల్టర్‌లు",
+    catIncomeSupport: "ఆదాయ మద్దతు",
+    catCropInsurance: "పంట భీమా",
+    catCreditLoans: "రుణాలు",
+    catSoilFertilizer: "నేల & ఎరువులు",
+    catIrrigation: "నీటిపారుదల",
+    catMarketAccess: "మార్కెట్ యాక్సెస్",
+    catOrganicFarming: "సేంద్రీయ వ్యవసాయం",
+    catInfrastructure: "మౌలిక సదుపాయాలు",
+    farmSizePlaceholderScheme: "పొలం పరిమాణం (ఉదా., 2 ఎకరాలు)",
+    statePlaceholder: "రాష్ట్రం (ఉదా., తెలంగాణ)",
+    cropsPlaceholder: "పంటలు (ఉదా., వరి, గోధుమ)",
+    fillAtLeastOne: "దయచేసి కనీసం ఒక ఫీల్డ్ నింపండి",
   },
 
   ml: {
@@ -1872,6 +1950,19 @@ export const translations: Record<Language, Translations> = {
     applyNow: "ഇപ്പോൾ അപേക്ഷിക്കുക",
     noSchemesFound: "പദ്ധതികൾ കണ്ടെത്തിയില്ല",
     activeFilters: "ഫിൽട്ടറുകൾ",
+    filters: "ഫിൽട്ടറുകൾ",
+    catIncomeSupport: "വരുമാന പിന്തുണ",
+    catCropInsurance: "വിള ഇൻഷുറൻസ്",
+    catCreditLoans: "വായ്പകൾ",
+    catSoilFertilizer: "മണ്ണ് & വളം",
+    catIrrigation: "ജലസേചനം",
+    catMarketAccess: "വിപണി പ്രവേശനം",
+    catOrganicFarming: "ജൈവ കൃഷി",
+    catInfrastructure: "അടിസ്ഥാന സൗകര്യം",
+    farmSizePlaceholderScheme: "ഫാം വലിപ്പം (ഉദാ., 2 ഏക്കർ)",
+    statePlaceholder: "സംസ്ഥാനം (ഉദാ., കേരളം)",
+    cropsPlaceholder: "വിളകൾ (ഉദാ., നെല്ല്, ഗോതമ്പ്)",
+    fillAtLeastOne: "ദയവായി ഒരു ഫീൽഡെങ്കിലും പൂരിപ്പിക്കുക",
   },
 
   kn: {
@@ -2129,5 +2220,18 @@ export const translations: Record<Language, Translations> = {
     applyNow: "ಈಗ ಅರ್ಜಿ ಸಲ್ಲಿಸಿ",
     noSchemesFound: "ಯೋಜನೆಗಳು ಕಂಡುಬಂದಿಲ್ಲ",
     activeFilters: "ಫಿಲ್ಟರ್‌ಗಳು",
+    filters: "ಫಿಲ್ಟರ್‌ಗಳು",
+    catIncomeSupport: "ಆದಾಯ ಬೆಂಬಲ",
+    catCropInsurance: "ಬೆಳೆ ವಿಮೆ",
+    catCreditLoans: "ಸಾಲಗಳು",
+    catSoilFertilizer: "ಮಣ್ಣು ಮತ್ತು ಗೊಬ್ಬರ",
+    catIrrigation: "ನೀರಾವರಿ",
+    catMarketAccess: "ಮಾರುಕಟ್ಟೆ ಪ್ರವೇಶ",
+    catOrganicFarming: "ಸಾವಯವ ಕೃಷಿ",
+    catInfrastructure: "ಮೂಲಸೌಕರ್ಯ",
+    farmSizePlaceholderScheme: "ಹೊಲದ ಗಾತ್ರ (ಉದಾ., 2 ಎಕರೆ)",
+    statePlaceholder: "ರಾಜ್ಯ (ಉದಾ., ಕರ್ನಾಟಕ)",
+    cropsPlaceholder: "ಬೆಳೆಗಳು (ಉದಾ., ಭತ್ತ, ಗೋಧಿ)",
+    fillAtLeastOne: "ದಯವಿಟ್ಟು ಕನಿಷ್ಠ ಒಂದು ಕ್ಷೇತ್ರವನ್ನು ಭರ್ತಿ ಮಾಡಿ",
   },
 };

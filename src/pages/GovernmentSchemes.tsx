@@ -43,6 +43,17 @@ const categoryIcons: Record<string, React.ReactNode> = {
   "Soil & Fertilizer": <Sprout className="h-3.5 w-3.5" />,
 };
 
+const categoryTranslationMap: Record<string, keyof Translations> = {
+  "Income Support": "catIncomeSupport",
+  "Crop Insurance": "catCropInsurance",
+  "Credit & Loans": "catCreditLoans",
+  "Soil & Fertilizer": "catSoilFertilizer",
+  "Irrigation": "catIrrigation",
+  "Market Access": "catMarketAccess",
+  "Organic Farming": "catOrganicFarming",
+  "Infrastructure": "catInfrastructure",
+};
+
 // ── AI Eligibility Result ──
 interface EligibilityResult {
   scheme: string;
@@ -105,7 +116,7 @@ const GovernmentSchemes = () => {
 
   const checkEligibility = async () => {
     if (!farmSize && !state && !crops) {
-      toast.error("Please fill at least one field");
+      toast.error(t.fillAtLeastOne);
       return;
     }
     setEligibilityLoading(true);
@@ -178,7 +189,7 @@ const GovernmentSchemes = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1.5">
               <Filter className="h-3.5 w-3.5 text-primary" />
-              <span className="text-[11px] font-display font-bold text-foreground uppercase tracking-wider">Filters</span>
+              <span className="text-[11px] font-display font-bold text-foreground uppercase tracking-wider">{t.filters}</span>
               {activeFiltersCount > 0 && (
                 <Badge className="h-4 w-4 p-0 flex items-center justify-center text-[9px] bg-accent text-accent-foreground">
                   {activeFiltersCount}
@@ -226,20 +237,23 @@ const GovernmentSchemes = () => {
 
           {/* Category chips */}
           <div className="flex gap-1.5 overflow-x-auto pb-0.5 scrollbar-hide">
-            {schemeCategories.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-display font-bold whitespace-nowrap transition-all ${
-                  activeCategory === cat
-                    ? "bg-primary/15 text-primary border border-primary/25 shadow-sm"
-                    : "bg-muted/50 text-muted-foreground hover:bg-muted border border-transparent"
-                }`}
-              >
-                {cat !== "All" && categoryIcons[cat]}
-                {cat}
-              </button>
-            ))}
+            {schemeCategories.map(cat => {
+              const catLabel = cat === "All" ? t.all : (categoryTranslationMap[cat] ? t[categoryTranslationMap[cat]] : cat);
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-display font-bold whitespace-nowrap transition-all ${
+                    activeCategory === cat
+                      ? "bg-primary/15 text-primary border border-primary/25 shadow-sm"
+                      : "bg-muted/50 text-muted-foreground hover:bg-muted border border-transparent"
+                  }`}
+                >
+                  {cat !== "All" && categoryIcons[cat]}
+                  {catLabel}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -265,9 +279,9 @@ const GovernmentSchemes = () => {
               <motion.div initial={{ height: 0 }} animate={{ height: "auto" }} exit={{ height: 0 }} className="overflow-hidden">
                 <div className="px-4 pb-4 space-y-3 border-t border-border/50">
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-3">
-                    <Input placeholder="Farm size (e.g., 2 acres)" value={farmSize} onChange={e => setFarmSize(e.target.value)} className="h-9 text-xs bg-card" />
-                    <Input placeholder="State (e.g., Maharashtra)" value={state} onChange={e => setState(e.target.value)} className="h-9 text-xs bg-card" />
-                    <Input placeholder="Crops (e.g., Rice, Wheat)" value={crops} onChange={e => setCrops(e.target.value)} className="h-9 text-xs bg-card" />
+                     <Input placeholder={t.farmSizePlaceholderScheme} value={farmSize} onChange={e => setFarmSize(e.target.value)} className="h-9 text-xs bg-card" />
+                     <Input placeholder={t.statePlaceholder} value={state} onChange={e => setState(e.target.value)} className="h-9 text-xs bg-card" />
+                     <Input placeholder={t.cropsPlaceholder} value={crops} onChange={e => setCrops(e.target.value)} className="h-9 text-xs bg-card" />
                   </div>
                   <Button onClick={checkEligibility} disabled={eligibilityLoading} size="sm" className="w-full gradient-hero text-primary-foreground font-display font-bold h-9 rounded-xl">
                     {eligibilityLoading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Sparkles className="h-4 w-4 mr-2" />}
@@ -410,7 +424,7 @@ const SchemeCard = ({ scheme, index, isExpanded, isBookmarked, activeTab, onTogg
                 ? "bg-sky/10 text-sky"
                 : "bg-accent/10 text-accent"
             }`}>
-              {scheme.level === "Central" ? "🇮🇳 Central" : `🏛️ ${scheme.state}`}
+              {scheme.level === "Central" ? `🇮🇳 ${t.central}` : `🏛️ ${scheme.state}`}
             </span>
             {scheme.keyAmount && (
               <span className="text-[10px] font-extrabold text-primary bg-primary/8 px-1.5 py-0.5 rounded-md">
