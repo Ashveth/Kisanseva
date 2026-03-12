@@ -1384,7 +1384,7 @@ export const translations: Record<Language, Translations> = {
   },
 
   kn: {
-    appName: "FarmWise AI",
+    appName: "KisanSeva",
     loading: "ಲೋಡ್ ಆಗುತ್ತಿದೆ...",
     save: "ಉಳಿಸಿ",
     saving: "ಉಳಿಸುತ್ತಿದೆ...",
