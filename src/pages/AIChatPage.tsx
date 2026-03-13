@@ -163,6 +163,7 @@ const AIChatPage = () => {
 
   const clearChat = () => {
     setMessages([{ role: "assistant", content: t.chatWelcome }]);
+    try { localStorage.removeItem(CACHE_KEY); } catch {}
     toast.success("Chat cleared");
   };
 
