@@ -67,6 +67,7 @@ const Dashboard = () => {
 
   const quickActions = [
     { path: "/crop-advisor", icon: Leaf, label: t.cropAdvisor, desc: t.cropAdvisorDesc, gradient: "gradient-hero" },
+    { path: "/yield-predictor", icon: BarChart3, label: t.yieldPredictor, desc: t.predictYieldDesc, gradient: "gradient-harvest" },
     { path: "/disease-detect", icon: Camera, label: t.scanPlant, desc: t.scanPlantDesc, gradient: "gradient-earth" },
     { path: "/weather", icon: CloudSun, label: t.weather, desc: t.weatherDesc, gradient: "gradient-sky" },
     { path: "/market", icon: TrendingUp, label: t.marketPrices, desc: t.marketPricesDesc, gradient: "gradient-harvest" },
