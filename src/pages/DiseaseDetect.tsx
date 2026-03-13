@@ -154,9 +154,6 @@ const DiseaseDetect = () => {
                   <Camera className="h-4 w-4 mr-2" />
                   Take Photo
                 </Button>
-                  <Camera className="h-4 w-4 mr-2" />
-                  Take Photo
-                </Button>
                 <Button
                   onClick={() => {
                     const input = document.createElement("input");
