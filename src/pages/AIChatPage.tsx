@@ -91,11 +91,23 @@ const MessageBubble = ({ msg, onCopy }: { msg: Message; onCopy: (text: string) =
   );
 };
 
+const CACHE_KEY = "kisanseva-chat-history";
+
 const AIChatPage = () => {
   const { t } = useLanguage();
-  const [messages, setMessages] = useState<Message[]>([
-    { role: "assistant", content: t.chatWelcome },
-  ]);
+
+  const loadCachedMessages = (): Message[] => {
+    try {
+      const raw = localStorage.getItem(CACHE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as Message[];
+        if (parsed.length > 0) return parsed;
+      }
+    } catch {}
+    return [{ role: "assistant", content: t.chatWelcome }];
+  };
+
+  const [messages, setMessages] = useState<Message[]>(loadCachedMessages);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [showScrollDown, setShowScrollDown] = useState(false);
