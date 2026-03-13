@@ -125,6 +125,13 @@ const AIChatPage = () => {
 
   const quickQuestions = [t.quickQ1, t.quickQ2, t.quickQ3, t.quickQ4, t.quickQ5];
 
+  // Persist messages to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify(messages));
+    } catch {}
+  }, [messages]);
+
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages]);
