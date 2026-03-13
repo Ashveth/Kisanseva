@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { AIErrorCard, AnalysisSkeleton } from "@/components/ui/ai-loading";
+import CameraCapture from "@/components/disease/CameraCapture";
 
 interface DiseaseResult {
   name: string;
@@ -24,6 +25,7 @@ const DiseaseDetect = () => {
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<{ healthy: boolean; disease: DiseaseResult } | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [showCamera, setShowCamera] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const { t } = useLanguage();
 
