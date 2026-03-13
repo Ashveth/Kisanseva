@@ -1,326 +1,198 @@
-🌾 KisanSeva – AI Powered Smart Farming Assistant
+# 🌾 KisanSeva – AI Powered Smart Farming Assistant
 
-KisanSeva is an AI-driven smart agriculture platform designed to help farmers make data-driven decisions about crops, disease management, expenses, and market trends.
-It combines Artificial Intelligence, weather data, and farm analytics to improve productivity and sustainability.
+KisanSeva is an **AI-powered smart farming platform** designed to help farmers make **better agricultural decisions using AI, weather data, and farm analytics**.
 
-🚀 Features
-🌱 Basic Features
-🔐 User Authentication
+The platform provides tools for **crop recommendations, disease detection, yield prediction, market insights, and farm record management**.
 
-Secure email signup & login
+---
 
-Password reset support
+# 🚀 Key Features
 
-Built with Supabase Auth
+## 🌱 Basic Features
 
-🌍 Multi-language Support
+### 🔐 User Authentication
+Secure login and signup system using email authentication.
 
+### 🌍 Multi-language Support
 Supports multiple Indian languages:
+- English
+- Hindi
+- Marathi
+- Telugu
+- Tamil
+- Kannada
+- Bengali
 
-English
+### 📊 Dashboard
+Central dashboard showing:
+- Weather information
+- Farm statistics
+- Recent farm diary entries
 
-Hindi
+### 📔 Farm Diary
+Farmers can record:
+- Daily farm activities
+- Expenses
+- Income
+- Crop tags
 
-Marathi
+Diary data can also be **exported to PDF**.
 
-Telugu
+### 📈 Monthly Expense Charts
+Interactive charts help farmers analyze their monthly spending.
 
-Tamil
+### 👤 Profile Management
+Farmers can manage their profile including:
+- Farm size
+- Soil type
+- Crops grown
+- Irrigation method
 
-Kannada
+### 🔔 Notifications
+System alerts stored in database with read/unread tracking.
 
-Bengali
+### 📱 PWA Support
+The application can be **installed on mobile devices** and works even with limited internet connectivity.
 
-📊 Dashboard
+---
 
-Central dashboard providing:
+# 🤖 AI Powered Features
 
-Weather widget
+## 🧑‍🌾 AI Chat Assistant
+An AI farming advisor that answers agricultural questions and provides guidance.
 
-Farm statistics
+---
 
-Recent diary entries
+## 🌾 Crop Advisor
+Recommends the **top 3 suitable crops** based on:
+- Soil nutrients (N, P, K)
+- Soil pH
+- Temperature
+- Rainfall
 
-Quick access to tools
+---
 
-📔 Farm Diary
+## 🌿 Disease Detection
+Farmers can upload a **plant photo**, and AI will:
+- Detect the disease
+- Identify severity
+- Suggest treatment
+- Recommend organic solutions
 
-Farmers can log:
+---
 
-Daily activities
-
-Expenses
-
-Income
-
-Crop tags
-
-Export records to PDF for documentation.
-
-📈 Monthly Expense Charts
-
-Visual analytics using Recharts to help farmers understand spending patterns.
-
-👤 Profile Management
-
-Farm profile includes:
-
-Farm size
-
-Soil type
-
-Crops grown
-
-Irrigation method
-
-🔔 Notifications
-
-System alerts
-
-Read / unread tracking
-
-Stored in database
-
-📱 PWA Support
-
-Installable on mobile homescreen
-
-Offline shell caching
-
-Works even with limited internet
-
-🤖 AI Powered Features
-🧑‍🌾 AI Chat Assistant
-
-AI agricultural advisor
-
-Provides farming tips and recommendations
-
-Streaming responses with markdown support
-
-🌾 Crop Advisor
-
-Recommends the top 3 crops based on:
-
-Soil nutrients (N, P, K)
-
-Soil pH
-
-Temperature
-
-Rainfall
-
-🌿 Disease Detection
-
-Farmers can upload plant images and AI will:
-
-Identify plant disease
-
-Detect severity
-
-Suggest treatments
-
-Recommend organic solutions
-
-📊 Crop Yield Predictor
-
-Predicts expected crop production using:
-
-Crop type
-
-Soil nutrients
-
-Farm size
-
-Weather conditions
-
-Irrigation method
+## 📊 Crop Yield Predictor
+Predicts expected crop production based on:
+- Crop type
+- Soil nutrients
+- Weather conditions
+- Farm size
+- Irrigation method
 
 Provides:
+- Estimated yield
+- Risk factors
+- Optimization tips
 
-Estimated yield (tons/acre)
+---
 
-Risk factors
+## 📉 Market Intelligence
+AI provides insights on:
+- Crop prices
+- MSP values
+- Market trends
+- Best mandi to sell crops
+- Ideal selling time
 
-Optimization tips
+---
 
-📉 Market Intelligence
+## 🏛 Government Schemes
+Farmers can explore government schemes and check eligibility using AI.
 
-Provides AI generated insights on:
+---
 
-Crop prices
+## 📚 Knowledge Base
+Offline farming guide including:
+- Pest control
+- Crop diseases
+- Best agricultural practices
 
-MSP values
+---
 
-Market trends
+## 🌦 Weather Integration
+Location-based weather forecasts to help farmers plan their activities.
 
-Best mandi to sell crops
+---
 
-Optimal selling time
+## 🎤 Speech Recognition
+Farmers can interact with the AI assistant using **voice commands**.
 
-🏛 Government Schemes
+---
 
-Searchable database of government schemes with:
+# 🛠 Technology Stack
 
-AI powered eligibility checker
+### Frontend
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- shadcn/ui
+- Framer Motion
 
-Quick farmer guidance
+### Backend
+- Supabase
+- PostgreSQL Database
+- Deno Edge Functions
 
-📚 Knowledge Base
+### Data & Charts
+- TanStack React Query
+- Recharts
 
-Offline farming guide covering:
+### AI Integration
+- Lovable AI Gateway
+- Gemini AI Models
 
-Crop diseases
+---
 
-Pest control
+# ⚙️ System Workflow
 
-Best farming practices
+1. User logs into the platform.
+2. Dashboard displays weather data and farm statistics.
+3. Farmers can log daily activities in the farm diary.
+4. AI features provide crop recommendations, yield predictions, and disease detection.
+5. Market intelligence helps farmers understand price trends.
+6. All farm data is securely stored in the database.
 
-🌦 Weather Integration
+---
 
-Location based weather forecasts using:
-
-OpenWeatherMap API
-
-🎤 Speech Recognition
-
-Voice input support using Web Speech API.
-
-Farmers can talk to the AI assistant instead of typing.
-
-🛠 Tech Stack
-Frontend
-
-React 18
-
-TypeScript
-
-Vite
-
-Tailwind CSS
-
-shadcn/ui
-
-Framer Motion
-
-State Management
-
-TanStack React Query
-
-Routing
-
-React Router v6
-
-Charts
-
-Recharts
-
-PDF Export
-
-jsPDF
-
-jspdf-autotable
-
-Markdown Rendering
-
-react-markdown
-
-remark-gfm
-
-Backend
-
-Supabase (Lovable Cloud)
-
-PostgreSQL Database
-
-Row Level Security (RLS)
-
-Deno Edge Functions
-
-AI Integration
-
-All AI requests are handled using:
-
-Lovable AI Gateway
-
-Models used:
-
-Feature	Model
-AI Chat	Gemini 3 Flash Preview
-Crop Advisor	Gemini 2.5 Flash
-Disease Detection	Gemini 2.5 Flash
-Yield Predictor	Gemini 2.5 Flash
-Market Intelligence	Gemini 2.5 Flash
-Scheme Eligibility	Gemini 2.5 Flash
-🔑 API Keys Used
-Key	Purpose
-LOVABLE_API_KEY	AI Gateway access
-Supabase Anon Key	Frontend database access
-OpenWeatherMap API	Weather data
-
-All secrets are stored securely in Edge Functions.
-
-⚙️ How the System Works
-
-1️⃣ User opens the website
-2️⃣ PWA loads cached application shell instantly
-
-3️⃣ User signs up / logs in via Supabase Auth
-
-4️⃣ Dashboard loads:
-
-Weather data
-
-Farm statistics
-
-Recent activities
-
-5️⃣ AI features work through this flow:
-
-Frontend → Edge Function → Lovable AI Gateway → AI Model → Response
-
-6️⃣ Farm data is stored in PostgreSQL with Row Level Security
-
-7️⃣ Offline support handled using Workbox caching
-📱 PWA Installation
-
-Users can install KisanSeva directly from the browser:
-
-Open the website
-
-Click Install App
-
-App appears on mobile homescreen
-
-🌍 Impact
+# 🌍 Impact
 
 KisanSeva helps farmers by:
 
-Improving crop planning
+- Improving crop planning
+- Detecting plant diseases early
+- Predicting crop yield
+- Tracking farm finances
+- Understanding market trends
+- Accessing government schemes easily
 
-Detecting diseases early
+Our goal is to **empower farmers with AI-driven agricultural technology**.
 
-Predicting crop yield
+---
 
-Tracking farm finances
+# 👨‍💻 Team
 
-Understanding market trends
+**Team Name:** Zero Day
 
-Accessing government schemes
-
-Goal: Empower farmers with AI-driven agriculture tools.
-
-👨‍💻 Team
-
-Team Name: Zero Day
-
-Team Leader
+**Team Leader**
 Ashveth Pawar
 
-Team Members
-Yash Shinde
+**Team Members**
+Yash Shinde  
 Adarsh Mishra
 
-📜 License
+---
 
-This project is built for Hackathon / Educational purposes.
+# 📜 License
+
+This project is created for **educational and hackathon purposes**.
