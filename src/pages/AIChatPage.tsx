@@ -273,7 +273,7 @@ const AIChatPage = () => {
           <div>
             <h1 className="text-lg font-bold font-display text-foreground">{t.aiFarmingAssistant}</h1>
             <div className="flex items-center gap-1.5">
-              <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+              <span className="h-2 w-2 rounded-full bg-primary animate-pulse" />
               <p className="text-xs text-muted-foreground">{t.poweredByAI}</p>
             </div>
           </div>
