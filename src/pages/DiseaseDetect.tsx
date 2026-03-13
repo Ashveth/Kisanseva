@@ -92,6 +92,17 @@ const DiseaseDetect = () => {
 
   return (
     <div className="container py-6 space-y-6">
+      <AnimatePresence>
+        {showCamera && (
+          <CameraCapture
+            onCapture={(dataUrl) => {
+              setImage(dataUrl);
+              setShowCamera(false);
+            }}
+            onClose={() => setShowCamera(false)}
+          />
+        )}
+      </AnimatePresence>
       <div>
         <h1 className="text-2xl font-bold font-display text-foreground flex items-center gap-2">
           <Camera className="h-7 w-7 text-accent" />
