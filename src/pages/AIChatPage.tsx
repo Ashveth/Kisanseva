@@ -91,11 +91,23 @@ const MessageBubble = ({ msg, onCopy }: { msg: Message; onCopy: (text: string) =
   );
 };
 
+const CACHE_KEY = "kisanseva-chat-history";
+
 const AIChatPage = () => {
   const { t } = useLanguage();
-  const [messages, setMessages] = useState<Message[]>([
-    { role: "assistant", content: t.chatWelcome },
-  ]);
+
+  const loadCachedMessages = (): Message[] => {
+    try {
+      const raw = localStorage.getItem(CACHE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as Message[];
+        if (parsed.length > 0) return parsed;
+      }
+    } catch {}
+    return [{ role: "assistant", content: t.chatWelcome }];
+  };
+
+  const [messages, setMessages] = useState<Message[]>(loadCachedMessages);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [showScrollDown, setShowScrollDown] = useState(false);
@@ -112,6 +124,13 @@ const AIChatPage = () => {
   });
 
   const quickQuestions = [t.quickQ1, t.quickQ2, t.quickQ3, t.quickQ4, t.quickQ5];
+
+  // Persist messages to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify(messages));
+    } catch {}
+  }, [messages]);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
@@ -144,6 +163,7 @@ const AIChatPage = () => {
 
   const clearChat = () => {
     setMessages([{ role: "assistant", content: t.chatWelcome }]);
+    try { localStorage.removeItem(CACHE_KEY); } catch {}
     toast.success("Chat cleared");
   };
 
