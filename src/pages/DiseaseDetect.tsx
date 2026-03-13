@@ -100,6 +100,7 @@ const DiseaseDetect = () => {
 
       <input type="file" accept="image/*" capture="environment" ref={fileRef} onChange={handleImage} className="hidden" />
 
+
       {!image ? (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
           {/* Drop zone */}
