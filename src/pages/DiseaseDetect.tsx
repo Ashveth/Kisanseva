@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { AIErrorCard, AnalysisSkeleton } from "@/components/ui/ai-loading";
+import CameraCapture from "@/components/disease/CameraCapture";
 
 interface DiseaseResult {
   name: string;
@@ -24,6 +25,7 @@ const DiseaseDetect = () => {
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<{ healthy: boolean; disease: DiseaseResult } | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [showCamera, setShowCamera] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const { t } = useLanguage();
 
@@ -90,6 +92,17 @@ const DiseaseDetect = () => {
 
   return (
     <div className="container py-6 space-y-6">
+      <AnimatePresence>
+        {showCamera && (
+          <CameraCapture
+            onCapture={(dataUrl) => {
+              setImage(dataUrl);
+              setShowCamera(false);
+            }}
+            onClose={() => setShowCamera(false)}
+          />
+        )}
+      </AnimatePresence>
       <div>
         <h1 className="text-2xl font-bold font-display text-foreground flex items-center gap-2">
           <Camera className="h-7 w-7 text-accent" />
@@ -135,7 +148,7 @@ const DiseaseDetect = () => {
               </div>
               <div className="flex gap-2 w-full">
                 <Button
-                  onClick={() => fileRef.current?.click()}
+                  onClick={() => setShowCamera(true)}
                   className="flex-1 gradient-earth text-earth-foreground font-display font-bold h-11"
                 >
                   <Camera className="h-4 w-4 mr-2" />
