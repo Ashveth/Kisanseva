@@ -148,9 +148,12 @@ const DiseaseDetect = () => {
               </div>
               <div className="flex gap-2 w-full">
                 <Button
-                  onClick={() => fileRef.current?.click()}
+                  onClick={() => setShowCamera(true)}
                   className="flex-1 gradient-earth text-earth-foreground font-display font-bold h-11"
                 >
+                  <Camera className="h-4 w-4 mr-2" />
+                  Take Photo
+                </Button>
                   <Camera className="h-4 w-4 mr-2" />
                   Take Photo
                 </Button>
