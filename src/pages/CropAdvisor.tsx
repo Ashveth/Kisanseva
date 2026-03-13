@@ -55,6 +55,7 @@ const CropAdvisor = () => {
     }
   }, [weatherData, weatherPrefilled]);
 
+
   const applyPreset = (preset: typeof soilPresets[0]) => {
     setActivePreset(preset.key);
     setNitrogen([preset.nitrogen]);
