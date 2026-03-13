@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BarChart3 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -7,6 +7,7 @@ import { YieldSkeleton } from "@/components/ui/ai-loading";
 import { AIErrorCard } from "@/components/ui/ai-loading";
 import YieldInputForm from "@/components/yield/YieldInputForm";
 import YieldResultsDashboard, { type YieldResult } from "@/components/yield/YieldResultsDashboard";
+import { useWeather } from "@/hooks/useWeather";
 
 const YieldPredictor = () => {
   const [crop, setCrop] = useState("");
@@ -23,7 +24,21 @@ const YieldPredictor = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<YieldResult | null>(null);
+  const [climateAutoFilled, setClimateAutoFilled] = useState(false);
   const { t } = useLanguage();
+  const { data: weatherData } = useWeather();
+
+  useEffect(() => {
+    if (weatherData?.current && !climateAutoFilled) {
+      setTemp([weatherData.current.temp]);
+      setHumidity([weatherData.current.humidity]);
+      // Estimate monthly rainfall from rain chance (rough heuristic)
+      const estimatedRainfall = Math.round(weatherData.current.rainChance * 3);
+      setRainfall([Math.max(estimatedRainfall, 50)]);
+      setClimateAutoFilled(true);
+      toast.success("Climate data auto-filled from your location");
+    }
+  }, [weatherData, climateAutoFilled]);
 
   const handlePredict = async () => {
     if (!crop) { toast.error("Please select a crop"); return; }
