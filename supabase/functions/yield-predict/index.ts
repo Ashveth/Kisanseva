@@ -9,7 +9,7 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const { crop, nitrogen, phosphorus, potassium, temperature, rainfall, fertilizer } = await req.json();
+    const { crop, nitrogen, phosphorus, potassium, ph, temperature, rainfall, humidity, area, areaUnit, fertilizer } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("API key not configured");
 
@@ -24,27 +24,65 @@ serve(async (req) => {
         messages: [
           {
             role: "system",
-            content: `You are an expert agronomist specializing in yield prediction. Based on crop type, soil nutrients, climate, and fertilizer data, predict the expected yield. Return ONLY valid JSON:
+            content: `You are an expert agronomist and data scientist specializing in crop yield prediction for Indian farming conditions. Based on the inputs provided, predict crop yield using regression analysis principles.
+
+Return ONLY valid JSON with this exact structure:
 {
-  "yield": 3.5,
+  "yieldPerAcre": 3.5,
   "unit": "tons/acre",
+  "totalYield": 17.5,
+  "totalUnit": "tons",
   "harvestPeriod": "90-120 days",
   "confidence": 82,
   "rating": "Above Average",
+  "regionalAvgYield": 2.8,
+  "regionalAvgUnit": "tons/acre",
   "insights": [
-    "Specific actionable insight about the inputs",
-    "Fertilizer optimization tip",
-    "Irrigation recommendation",
-    "Expected comparison to district average"
+    { "type": "positive", "text": "Nitrogen levels are optimal for this crop" },
+    { "type": "warning", "text": "Phosphorus is slightly below recommended levels" },
+    { "type": "info", "text": "Current temperature is ideal for germination" },
+    { "type": "positive", "text": "Rainfall pattern supports good growth" }
   ],
-  "risks": ["potential risk 1", "potential risk 2"],
-  "optimizations": ["optimization suggestion 1", "optimization suggestion 2"]
+  "nutrientAnalysis": {
+    "nitrogen": { "status": "optimal", "score": 85 },
+    "phosphorus": { "status": "low", "score": 45 },
+    "potassium": { "status": "adequate", "score": 70 },
+    "ph": { "status": "optimal", "score": 90 }
+  },
+  "recommendations": [
+    { "category": "Fertilizer", "text": "Apply 20kg/acre additional DAP to boost phosphorus" },
+    { "category": "Irrigation", "text": "Maintain 3-4 irrigation cycles during flowering stage" },
+    { "category": "Soil", "text": "Add organic matter to improve water retention" },
+    { "category": "Pest Control", "text": "Monitor for aphids during vegetative growth phase" }
+  ],
+  "risks": [
+    { "level": "high", "text": "Low rainfall may cause water stress during critical growth phase" },
+    { "level": "medium", "text": "High temperature may affect grain filling" },
+    { "level": "low", "text": "Minor potassium deficiency could affect root development" }
+  ],
+  "yieldFactors": [
+    { "factor": "Soil Nutrients", "impact": 75, "maxImpact": 100 },
+    { "factor": "Water Availability", "impact": 60, "maxImpact": 100 },
+    { "factor": "Temperature", "impact": 85, "maxImpact": 100 },
+    { "factor": "Fertilizer", "impact": 70, "maxImpact": 100 },
+    { "factor": "Soil pH", "impact": 90, "maxImpact": 100 }
+  ],
+  "finalAdvice": "A brief 2-3 sentence summary with the most important action items for the farmer."
 }
-Give realistic yield numbers for Indian farming conditions. Be specific and practical.`,
+
+Important rules:
+- Calculate totalYield = yieldPerAcre * area provided
+- Use realistic yield numbers for Indian farming conditions
+- regionalAvgYield should reflect actual Indian district averages for the crop
+- nutrientAnalysis status can be: "deficient", "low", "adequate", "optimal", "excessive"
+- risk levels: "high", "medium", "low"
+- insight types: "positive", "warning", "info", "critical"
+- Be specific, practical, and actionable in all text fields
+- Consider interactions between all inputs (e.g., high N with low water = risk)`
           },
           {
             role: "user",
-            content: `Predict yield for: Crop=${crop}, Nitrogen=${nitrogen} kg/ha, Phosphorus=${phosphorus} kg/ha, Potassium=${potassium} kg/ha, Temperature=${temperature}°C, Rainfall=${rainfall}mm, Fertilizer=${fertilizer}.`,
+            content: `Predict yield for: Crop=${crop}, Nitrogen=${nitrogen} kg/ha, Phosphorus=${phosphorus} kg/ha, Potassium=${potassium} kg/ha, pH=${ph}, Temperature=${temperature}°C, Rainfall=${rainfall}mm, Humidity=${humidity}%, Land Area=${area} ${areaUnit}, Fertilizer=${fertilizer}.`,
           },
         ],
       }),
